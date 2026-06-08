@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
-        /* [조건 유지] 1. 우주 배경 및 기본 스타일 */
+        /* 1. 우주 배경 및 기본 스타일 */
         body {
             font-family: 'Pretendard', sans-serif;
             background-color: #000;
@@ -22,7 +22,7 @@
 
         .font-future { font-family: 'Orbitron', sans-serif; }
 
-        /* [조건 유지] 2. 애니메이션: 배경 잔별 효과 (밀도 증가 유지) */
+        /* 2. 애니메이션: 배경 잔별 효과 (450개 고밀도 유지) */
         .star-field {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -43,7 +43,7 @@
             50% { opacity: 1; transform: scale(1.2); }
         }
 
-        /* [수정] 3. 애니메이션: 경로 및 머리 방향 수정된 네온 우주선 */
+        /* 3. 애니메이션: 왼쪽 아래 -> 오른쪽 위로 작아지며 날아가는 우주선 */
         .spaceship-container {
             position: fixed;
             width: 40px; 
@@ -53,7 +53,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            /* [새로운 경로 설정] 왼쪽 아래에서 오른쪽 위로, 크기 줄어듦, 머리 방향 조절 */
+            /* 대각선 비행 애니메이션 적용 */
             animation: soar-diagonal 20s ease-in-out infinite;
         }
 
@@ -61,10 +61,54 @@
             width: 100%;
             height: 100%;
             background: linear-gradient(135deg, #22d3ee 0%, #818cf8 50%, #312e81 100%);
-            /* 현재 디자인의 위쪽이 머리(노즈) 부분입니다. */
-            border-radius: 50% 50% 10% 10%;
+            border-radius: 50% 50% 10% 10%; /* 위쪽이 머리 방향 */
             filter: drop-shadow(0 0 8px #22d3ee) drop-shadow(0 0 15px #818cf8);
             position: relative;
-            /* [머리방향 수정] 기본 머리(위쪽)를 경로 방향(오른쪽 위)으로 맞추기 위해 미리 회전시킵니다. */
+            /* 오른쪽 위 목적지를 향하도록 머리 방향을 45도 회전 */
             transform: rotate(45deg); 
         }
+
+        .spaceship-visual::after {
+            content: '';
+            position: absolute;
+            bottom: -5px; 
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px; 
+            height: 10px; 
+            background: #f59e0b;
+            border-radius: 50%;
+            filter: blur(3px) drop-shadow(0 0 5px #f59e0b);
+            animation: engineFire 0.2s infinite alternate;
+        }
+
+        @keyframes engineFire {
+            from { transform: translateX(-50%) scale(1); opacity: 0.8; }
+            to { transform: translateX(-50%) scale(1.2); opacity: 1; }
+        }
+
+        /* 대각선 이동 및 크기 축소 스크립트 */
+        @keyframes soar-diagonal {
+            0% { 
+                top: 110%; /* 화면 아래 바깥 출발 */
+                left: -10%; /* 화면 왼쪽 바깥 출발 */
+                transform: scale(1.2); /* 출발할 때는 크게 */
+            }
+            80%, 100% { 
+                top: -10%; /* 화면 위 바깥 도착 */
+                left: 110%; /* 화면 오른쪽 바깥 도착 */
+                transform: scale(0.1); /* 별을 향해 멀어지며 아주 작게 축소 */
+            }
+        }
+
+        /* 4. 진짜 밤하늘의 원형 반짝임 별 효과 (크기 축소 및 고광도) */
+        .special-circle-star {
+            position: absolute;
+            border-radius: 50%;
+            animation: super-glow-pure 2.5s infinite ease-in-out;
+            pointer-events: none;
+            background: white;
+        }
+        @keyframes super-glow-pure {
+            0%, 100% { 
+                opacity: 0.
