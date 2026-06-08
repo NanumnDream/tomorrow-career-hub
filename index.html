@@ -22,7 +22,7 @@
 
         .font-future { font-family: 'Orbitron', sans-serif; }
 
-        /* 2. 애니메이션: 반짝이는 별 */
+        /* 2. 애니메이션: 반짝이는 실제 별 효과 */
         .star-field {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -34,49 +34,81 @@
             position: absolute;
             background: white;
             border-radius: 50%;
-            opacity: 0.5;
+            /* 크기와 투명도가 동시에 변하며 반짝임 */
             animation: twinkle var(--duration) infinite ease-in-out;
+            filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.8));
         }
 
         @keyframes twinkle {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
+            0%, 100% { opacity: 0.1; transform: scale(0.5); }
             50% { opacity: 1; transform: scale(1.2); }
         }
 
-        /* 3. 애니메이션: 유영하는 우주선 */
-        .spaceship {
+        /* 3. 애니메이션: 더 빛나고 예쁜 네온 우주선 */
+        .spaceship-container {
             position: fixed;
-            width: 40px;
-            height: 40px;
-            color: #22d3ee;
-            font-size: 2rem;
+            width: 80px; /* 크기를 조금 키움 */
+            height: 80px;
             z-index: 10;
             pointer-events: none;
-            animation: roam 20s linear infinite;
-            filter: drop-shadow(0 0 10px #22d3ee);
+            animation: roam 25s linear infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
+        /* [⭐ 필수 수정 부뷴] 캔바 이미지가 없다면 그라디언트로 예쁜 형체를 만듭니다 */
+        .spaceship-visual {
+            width: 100%;
+            height: 100%;
+            /* 그라디언트 + 강한 네온 글로우 효과 */
+            background: linear-gradient(135deg, #22d3ee 0%, #818cf8 50%, #312e81 100%);
+            border-radius: 50% 50% 10% 10%; /* 우주선 같은 형태 */
+            filter: drop-shadow(0 0 15px #22d3ee) drop-shadow(0 0 30px #818cf8);
+            position: relative;
+        }
+        /* 우주선 엔진 불꽃 */
+        .spaceship-visual::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: #f59e0b;
+            border-radius: 50%;
+            filter: blur(5px) drop-shadow(0 0 10px #f59e0b);
+            animation: engineFire 0.2s infinite alternate;
+        }
+
+        @keyframes engineFire {
+            from { transform: translateX(-50%) scale(1); opacity: 0.8; }
+            to { transform: translateX(-50%) scale(1.2); opacity: 1; }
+        }
+
+        /* 우주선 이동 경로 (더 부드럽게) */
         @keyframes roam {
-            0% { top: 10%; left: -50px; transform: rotate(90deg); }
-            25% { top: 40%; left: 30%; transform: rotate(110deg); }
-            50% { top: 70%; left: 60%; transform: rotate(70deg); }
-            75% { top: 30%; left: 90%; transform: rotate(130deg); }
-            100% { top: 10%; left: calc(100% + 50px); transform: rotate(90deg); }
+            0% { top: 10%; left: -100px; transform: rotate(90deg); }
+            25% { top: 40%; left: 30%; transform: rotate(100deg); }
+            50% { top: 70%; left: 60%; transform: rotate(80deg); }
+            75% { top: 30%; left: 90%; transform: rotate(110deg); }
+            100% { top: 10%; left: calc(100% + 100px); transform: rotate(90deg); }
         }
 
         /* 4. 박스 디자인 (Glassmorphism) */
         .glass-box {
-            background: rgba(15, 23, 42, 0.7);
-            border: 1px solid rgba(34, 211, 238, 0.3);
-            backdrop-filter: blur(12px);
+            background: rgba(8, 15, 30, 0.7);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            backdrop-filter: blur(15px);
             border-radius: 24px;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .glass-box:hover {
             border-color: #22d3ee;
-            box-shadow: 0 0 30px rgba(34, 211, 238, 0.2);
-            transform: translateY(-10px);
+            box-shadow: 0 0 40px rgba(34, 211, 238, 0.15);
+            transform: translateY(-10px) scale(1.02);
         }
 
         .neon-text {
@@ -88,8 +120,8 @@
 
     <div class="star-field" id="starField"></div>
 
-    <div class="spaceship">
-        <i class="fa-solid fa-shuttle-space"></i>
+    <div class="spaceship-container">
+        <div class="spaceship-visual"></div>
     </div>
 
     <header class="fixed top-0 w-full z-50 border-b border-white/10 bg-black/60 backdrop-blur-md">
@@ -110,116 +142,128 @@
 
     <main class="relative z-10">
         <section class="min-h-screen flex flex-col items-center justify-center text-center px-6 pt-20">
-            <div class="inline-block px-4 py-1 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 text-[10px] font-bold tracking-[0.3em] mb-6 uppercase font-future">
+            <div class="inline-block px-4 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 text-[10px] font-bold tracking-[0.3em] mb-6 uppercase font-future">
                 Deep Space Major Exploration
             </div>
-            <h1 class="text-5xl md:text-8xl font-black mb-8 leading-tight">
+            <h1 class="text-5xl md:text-8xl font-black mb-8 leading-tight selection:bg-cyan-500/30">
                 전지적<br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600 neon-text">전공시점</span>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-500 neon-text">전공시점</span>
             </h1>
             <p class="text-slate-400 max-w-2xl text-lg md:text-xl leading-relaxed font-light">
                 우주를 탐험하듯, 내일의 전공을 탐색하세요.<br>
                 중학생들의 소질과 적성을 신산업 트렌드와 연결하는 완벽한 가이드.
             </p>
             <div class="mt-12">
-                <a href="#section1" class="bg-cyan-500 hover:bg-cyan-400 text-black font-black px-10 py-4 rounded-full transition-all hover:scale-110 shadow-lg shadow-cyan-500/30">
-                    탐사 시작하기
+                <a href="#section1" class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:scale-110 text-black font-black px-10 py-4 rounded-full transition-all shadow-lg shadow-cyan-500/30 text-sm">
+                    탐사 시작하기 <i class="fa-solid fa-arrow-right ml-2"></i>
                 </a>
             </div>
         </section>
 
-        <section class="max-w-7xl mx-auto px-6 py-32">
+        <section class="max-w-7xl mx-auto px-6 py-32 selection:bg-purple-500/30">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 
-                <div id="section1" class="glass-box p-10 flex flex-col gap-6">
-                    <div class="w-14 h-14 bg-cyan-500/20 rounded-2xl flex items-center justify-center text-cyan-400 text-2xl">
+                <div id="section1" class="glass-box p-10 flex flex-col gap-6 group">
+                    <div class="w-14 h-14 bg-cyan-500/20 rounded-2xl flex items-center justify-center text-cyan-400 text-2xl group-hover:scale-110 transition shadow-lg shadow-cyan-500/10">
                         <i class="fa-solid fa-door-open"></i>
                     </div>
-                    <h3 class="text-2xl font-bold font-future">1. 신산업 세계로<br>로그인</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">
+                    <h3 class="text-2xl font-bold font-future tracking-tight group-hover:text-cyan-400 transition">1. 신산업 세계로<br>로그인</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed font-light">
                         미래 모빌리티, AI 반도체, 바이오헬스 등 글로벌 기술 트렌드를 이끄는 핵심 산업군과 전공 학과를 탐색하고 발견합니다.
                     </p>
-                    <div class="mt-auto pt-6 border-t border-white/10 text-cyan-500 text-xs font-bold tracking-widest">STAGE: DISCOVERY</div>
+                    <div class="mt-auto pt-6 border-t border-white/5 text-cyan-500 text-xs font-bold tracking-widest font-future">STAGE: DISCOVERY</div>
                 </div>
 
-                <div id="section2" class="glass-box p-10 flex flex-col gap-6">
-                    <div class="w-14 h-14 bg-purple-500/20 rounded-2xl flex items-center justify-center text-purple-400 text-2xl">
+                <div id="section2" class="glass-box p-10 flex flex-col gap-6 group">
+                    <div class="w-14 h-14 bg-purple-500/20 rounded-2xl flex items-center justify-center text-purple-400 text-2xl group-hover:scale-110 transition shadow-lg shadow-purple-500/10">
                         <i class="fa-solid fa-fingerprint"></i>
                     </div>
-                    <h3 class="text-2xl font-bold font-future">2. 자기 이해<br>체크인</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">
+                    <h3 class="text-2xl font-bold font-future tracking-tight group-hover:text-purple-400 transition">2. 자기 이해<br>체크인</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed font-light">
                         나의 소질과 적성이 미래 산업에서 어떤 역량으로 발휘될 수 있는지 정밀하게 체크하고 내재된 가능성을 분석합니다.
                     </p>
-                    <div class="mt-auto pt-6 border-t border-white/10 text-purple-500 text-xs font-bold tracking-widest">STAGE: ANALYSIS</div>
+                    <div class="mt-auto pt-6 border-t border-white/5 text-purple-500 text-xs font-bold tracking-widest font-future">STAGE: ANALYSIS</div>
                 </div>
 
-                <div id="section3" class="glass-box p-10 flex flex-col gap-6">
-                    <div class="w-14 h-14 bg-blue-500/20 rounded-2xl flex items-center justify-center text-blue-400 text-2xl">
+                <div id="section3" class="glass-box p-10 flex flex-col gap-6 group">
+                    <div class="w-14 h-14 bg-blue-500/20 rounded-2xl flex items-center justify-center text-blue-400 text-2xl group-hover:scale-110 transition shadow-lg shadow-blue-500/10">
                         <i class="fa-solid fa-water"></i>
                     </div>
-                    <h3 class="text-2xl font-bold font-future">3. 미래 직무 속으로<br>다이빙</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">
+                    <h3 class="text-2xl font-bold font-future tracking-tight group-hover:text-blue-400 transition">3. 미래 직무 속으로<br>다이빙</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed font-light">
                         박제된 직무가 아닌, 신산업 트렌드 파도 위에서 새롭게 탄생하는 융합 직무와 커리어 패스를 전공자의 시점에서 탐구합니다.
                     </p>
-                    <div class="mt-auto pt-6 border-t border-white/10 text-blue-500 text-xs font-bold tracking-widest">STAGE: DIVING</div>
+                    <div class="mt-auto pt-6 border-t border-white/5 text-blue-500 text-xs font-bold tracking-widest font-future">STAGE: DIVING</div>
                 </div>
 
-                <div id="section4" class="glass-box p-10 flex flex-col gap-6 lg:col-span-2">
+                <div id="section4" class="glass-box p-10 flex flex-col gap-6 lg:col-span-2 group border-indigo-500/30 selection:bg-indigo-500/30 hover:border-indigo-500/50">
                     <div class="flex flex-col md:flex-row gap-8 items-start">
-                        <div class="w-14 h-14 bg-indigo-500/20 rounded-2xl flex items-center justify-center text-indigo-400 text-2xl shrink-0">
+                        <div class="w-14 h-14 bg-indigo-500/20 rounded-2xl flex items-center justify-center text-indigo-400 text-2xl shrink-0 group-hover:scale-110 transition shadow-lg shadow-indigo-500/10">
                             <i class="fa-solid fa-pen-nib"></i>
                         </div>
-                        <div>
-                            <h3 class="text-2xl font-bold font-future mb-4">4. 진로 포트폴리오 작성</h3>
-                            <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                        <div class="flex-grow">
+                            <h3 class="text-2xl font-bold font-future mb-4 tracking-tight group-hover:text-indigo-400 transition">4. 진로 포트폴리오 작성</h3>
+                            <p class="text-slate-400 text-sm leading-relaxed mb-6 font-light">
                                 탐험을 통해 얻은 데이터와 나만의 시나리오를 결합하여 실질적인 진로 계획을 수립합니다.<br>
                                 미래 전공자로서 해결하고 싶은 사회 문제와 프로토타입 기획서를 완성하는 단계입니다.
                             </p>
-                            <button onclick="alert('포트폴리오 작성 모듈을 로딩합니다...')" class="bg-indigo-500 text-white font-bold px-6 py-2 rounded-full text-xs">작성 시작하기</button>
+                            <button onclick="alert('포트폴리오 작성 모듈을 로딩합니다...')" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-6 py-2.5 rounded-full text-xs transition-all hover:shadow-lg hover:shadow-indigo-500/20">작성 시작하기 <i class="fa-solid fa-angle-right ml-1"></i></button>
                         </div>
                     </div>
                 </div>
 
-                <div id="section5" class="glass-box p-10 flex flex-col gap-6">
-                    <div class="w-14 h-14 bg-teal-500/20 rounded-2xl flex items-center justify-center text-teal-400 text-2xl">
+                <div id="section5" class="glass-box p-10 flex flex-col gap-6 group border-teal-500/30 hover:border-teal-500/50">
+                    <div class="w-14 h-14 bg-teal-500/20 rounded-2xl flex items-center justify-center text-teal-400 text-2xl group-hover:scale-110 transition shadow-lg shadow-teal-500/10">
                         <i class="fa-solid fa-box-archive"></i>
                     </div>
-                    <h3 class="text-2xl font-bold font-future">5. 진로 교육<br>자료실</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">
+                    <h3 class="text-2xl font-bold font-future tracking-tight group-hover:text-teal-400 transition">5. 진로 교육<br>자료실</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed font-light">
                         교사 및 학생들을 위한 고교 학점제 매핑 구조도, 학과 가이드북 PDF 등 최신 교육 자료를 제공합니다.
                     </p>
-                    <div class="mt-auto pt-6 border-t border-white/10 text-teal-500 text-xs font-bold tracking-widest">STAGE: ARCHIVE</div>
+                    <div class="mt-auto pt-6 border-t border-white/5 text-teal-500 text-xs font-bold tracking-widest font-future">STAGE: ARCHIVE</div>
                 </div>
 
             </div>
         </section>
     </main>
 
-    <footer class="py-20 border-t border-white/5 text-center px-6">
-        <p class="font-future font-bold text-slate-500 text-xs tracking-[0.5em] mb-4 uppercase">Next Industry Major Hub</p>
-        <p class="text-slate-600 text-[10px] max-w-xl mx-auto leading-relaxed">
+    <footer class="py-20 border-t border-white/5 text-center px-6 bg-black relative z-10">
+        <p class="font-future font-bold text-slate-500 text-xs tracking-[0.5em] mb-4 uppercase selection:bg-slate-500/20">Next Industry Major Hub</p>
+        <p class="text-slate-600 text-[10px] max-w-xl mx-auto leading-relaxed selection:bg-slate-600/20">
             본 플랫폼은 대구 미래역량 교육과정을 뒷받침하며, 중학생들이 주도적으로 자신의 진로를 설계하고 신산업의 주인공으로 성장할 수 있도록 지원합니다.
         </p>
     </footer>
 
     <script>
-        // 별 생성 로직
+        // 🌌 별 생성 자바스크립트 로직 (반짝임 강화)
         const starField = document.getElementById('starField');
-        const starCount = 150;
+        const starCount = 200; // 별 개수를 조금 더 늘림
 
         for (let i = 0; i < starCount; i++) {
             const star = document.createElement('div');
             star.className = 'star';
             
-            const size = Math.random() * 3 + 'px';
+            // 크기 다양화 (0.5px ~ 3.5px)
+            const size = Math.random() * 3 + 0.5 + 'px';
             star.style.width = size;
             star.style.height = size;
             
+            // 위치 랜덤
             star.style.top = Math.random() * 100 + '%';
             star.style.left = Math.random() * 100 + '%';
             
-            star.style.setProperty('--duration', Math.random() * 3 + 2 + 's');
+            // 반짝임 속도 랜덤 (2초 ~ 6초) - 랜덤성이 강해야 예쁩니다
+            star.style.setProperty('--duration', Math.random() * 4 + 2 + 's');
+            
+            // 반짝임 시작 시점 랜덤 (바로 시작하지 않게)
             star.style.animationDelay = Math.random() * 5 + 's';
+            
+            // 아주 약간의 푸른빛/노란빛 틴트 랜덤 추가
+            if (Math.random() > 0.8) {
+                star.style.background = 'rgba(167, 243, 255, 0.9)'; // 푸른 별
+            } else if (Math.random() > 0.95) {
+                star.style.background = 'rgba(255, 253, 214, 0.9)'; // 노란 별
+            }
             
             starField.appendChild(star);
         }
