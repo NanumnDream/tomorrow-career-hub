@@ -43,7 +43,7 @@
             50% { opacity: 1; transform: scale(1.2); }
         }
 
-        /* [수정] 3. 애니메이션: 더 천천히 비행하며 가운데를 한 바퀴 도는 우주선 */
+        /* [수정] 3. 애니메이션: 왼쪽에서 나타나 가운데서 한바퀴 돌고 오른쪽 위로 사라지는 우주선 */
         .spaceship-container {
             position: fixed;
             width: 40px; 
@@ -53,7 +53,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            /* 20s -> 35s로 변경하여 훨씬 더 부드럽고 천천히 이동 */
+            /* 35초 동안 부드럽게 전체 궤도를 비행합니다 */
             animation: soar-and-loop 35s ease-in-out infinite;
         }
 
@@ -64,7 +64,6 @@
             border-radius: 50% 50% 10% 10%; /* 위쪽이 머리 방향 */
             filter: drop-shadow(0 0 8px #22d3ee) drop-shadow(0 0 15px #818cf8);
             position: relative;
-            /* 회전 각도는 실시간 궤도에 맞춰 컨테이너 애니메이션에서 통합 제어합니다 */
         }
 
         .spaceship-visual::after {
@@ -86,41 +85,41 @@
             to { transform: translateX(-50%) scale(1.2); opacity: 1; }
         }
 
-        /* [새로운 궤도] 왼쪽 아래 -> 중앙 도달 후 시계방향 회전 루프 -> 오른쪽 위 소멸 */
+        /* [새로운 궤도 수정] 왼쪽 출발 -> 중앙 360도 회전 루프 -> 오른쪽 위 소멸 */
         @keyframes soar-and-loop {
             0% { 
-                top: 110%; left: -10%; 
-                transform: scale(1.3) rotate(45deg); /* 출발 (오른쪽 위 조준) */
+                top: 50%; left: -10%; 
+                transform: scale(1.3) rotate(90deg); /* 왼쪽 바깥에서 정면(오른쪽) 바라보며 출발 */
             }
-            25% { 
-                top: 60%; left: 35%; 
-                transform: scale(1.0) rotate(45deg); /* 중앙 진입 직전 수평 유지 */
+            30% { 
+                top: 50%; left: 40%; 
+                transform: scale(1.0) rotate(90deg); /* 가운데 부근까지 직선 진입 */
             }
-            /* --- 화면 가운데(타이틀 주변)에서 360도 회전 회오리 루프 구간 --- */
-            35% { 
+            /* --- 가운데 구간에서 머리 방향을 틀며 360도 회전 곡선 비행 --- */
+            40% { 
                 top: 35%; left: 50%; 
-                transform: scale(0.85) rotate(90deg); /* 1시 방향 비행 (우측 이동) */
+                transform: scale(0.85) rotate(30deg); /* 위쪽으로 곡선을 그리며 회전 시작 */
             }
-            45% { 
-                top: 50%; left: 65%; 
-                transform: scale(0.75) rotate(180deg); /* 5시 방향 비행 (하강) */
+            50% { 
+                top: 50%; left: 60%; 
+                transform: scale(0.75) rotate(-60deg); /* 오른쪽 아래로 하강 유턴 */
             }
-            55% { 
+            60% { 
                 top: 65%; left: 50%; 
-                transform: scale(0.65) rotate(270deg); /* 7시 방향 비행 (좌측 이동) */
+                transform: scale(0.65) rotate(-150deg); /* 왼쪽 아래로 돌아오며 바닥 회전 */
             }
-            65% { 
-                top: 50%; left: 35%; 
-                transform: scale(0.55) rotate(360deg); /* 11시 방향 비행 (상승하며 루프 완료) */
+            70% { 
+                top: 50%; left: 40%; 
+                transform: scale(0.55) rotate(-240deg); /* 왼쪽 위로 치솟으며 회전 거의 완료 */
             }
-            /* --- 루프 탈출 후 다시 최종 목적지인 우측 상단 별을 향해 비행 --- */
-            75% { 
-                top: 30%; left: 55%; 
-                transform: scale(0.4) rotate(405deg); /* 다시 대각선 방향 정렬 (405도 = 45도) */
+            /* --- 루프 완료 후 오른쪽 위 목적지 별을 향해 조준 및 탈출 --- */
+            80% { 
+                top: 35%; left: 52%; 
+                transform: scale(0.45) rotate(-315deg); /* 오른쪽 위 대각선 방향으로 정렬 (-315도 = 45도) */
             }
             100% { 
                 top: -10%; left: 110%; 
-                transform: scale(0.1) rotate(405deg); /* 원근감과 함께 작아지며 소멸 */
+                transform: scale(0.1) rotate(-315deg); /* 원근감과 함께 작아지며 우측 상단 소멸 */
             }
         }
 
@@ -183,14 +182,4 @@
                 <a href="#section1" class="hover:text-cyan-400 transition">1. 신산업 로그인</a>
                 <a href="#section2" class="hover:text-cyan-400 transition">2. 자기이해 체크인</a>
                 <a href="#section3" class="hover:text-cyan-400 transition">3. 미래직무 다이빙</a>
-                <a href="#section4" class="hover:text-cyan-400 transition">4. 포트폴리오</a>
-                <a href="#section5" class="hover:text-cyan-400 transition">5. 교육 자료실</a>
-            </nav>
-        </div>
-    </header>
-
-    <main class="relative z-10">
-        <section class="min-h-screen flex flex-col items-center justify-center text-center px-6 pt-20">
-            <div class="inline-block px-4 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 text-[10px] font-bold tracking-[0.3em] mb-6 uppercase font-future">
-                Deep Space Major Exploration
-            </div>
+                <a href="#section4" class="hover:text-cyan-400 transition">4. 포
