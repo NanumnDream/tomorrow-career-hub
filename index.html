@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
-        /* 1. 우주 배경 및 기본 스타일 */
+        /* [조건 유지] 1. 우주 배경 및 기본 스타일 */
         body {
             font-family: 'Pretendard', sans-serif;
             background-color: #000;
@@ -22,7 +22,7 @@
 
         .font-future { font-family: 'Orbitron', sans-serif; }
 
-        /* 2. 애니메이션: 반짝이는 실제 별 효과 */
+        /* [조건 유지] 2. 애니메이션: 배경 잔별 효과 (밀도 증가 유지) */
         .star-field {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -43,101 +43,28 @@
             50% { opacity: 1; transform: scale(1.2); }
         }
 
-        /* 3. 애니메이션: 크기를 1/2로 줄인 네온 우주선 */
+        /* [수정] 3. 애니메이션: 경로 및 머리 방향 수정된 네온 우주선 */
         .spaceship-container {
             position: fixed;
             width: 40px; 
             height: 40px; 
             z-index: 10;
             pointer-events: none;
-            animation: roam 25s linear infinite;
             display: flex;
             align-items: center;
             justify-content: center;
+            /* [새로운 경로 설정] 왼쪽 아래에서 오른쪽 위로, 크기 줄어듦, 머리 방향 조절 */
+            animation: soar-diagonal 20s ease-in-out infinite;
         }
 
         .spaceship-visual {
             width: 100%;
             height: 100%;
             background: linear-gradient(135deg, #22d3ee 0%, #818cf8 50%, #312e81 100%);
+            /* 현재 디자인의 위쪽이 머리(노즈) 부분입니다. */
             border-radius: 50% 50% 10% 10%;
             filter: drop-shadow(0 0 8px #22d3ee) drop-shadow(0 0 15px #818cf8);
             position: relative;
+            /* [머리방향 수정] 기본 머리(위쪽)를 경로 방향(오른쪽 위)으로 맞추기 위해 미리 회전시킵니다. */
+            transform: rotate(45deg); 
         }
-
-        .spaceship-visual::after {
-            content: '';
-            position: absolute;
-            bottom: -5px; 
-            left: 50%;
-            transform: translateX(-50%);
-            width: 10px; 
-            height: 10px; 
-            background: #f59e0b;
-            border-radius: 50%;
-            filter: blur(3px) drop-shadow(0 0 5px #f59e0b);
-            animation: engineFire 0.2s infinite alternate;
-        }
-
-        @keyframes engineFire {
-            from { transform: translateX(-50%) scale(1); opacity: 0.8; }
-            to { transform: translateX(-50%) scale(1.2); opacity: 1; }
-        }
-
-        @keyframes roam {
-            0% { top: 10%; left: -100px; transform: rotate(90deg); }
-            25% { top: 40%; left: 30%; transform: rotate(100deg); }
-            50% { top: 70%; left: 60%; transform: rotate(80deg); }
-            75% { top: 30%; left: 90%; transform: rotate(110deg); }
-            100% { top: 10%; left: calc(100% + 100px); transform: rotate(90deg); }
-        }
-
-        /* 4. 수정: 원형으로 변경하고 주변 빛이 번지는 특별한 별 효과 */
-        .special-circle-star {
-            position: absolute;
-            border-radius: 50%;
-            animation: super-glow 3s infinite ease-in-out;
-            pointer-events: none;
-        }
-        @keyframes super-glow {
-            0%, 100% { 
-                opacity: 0.4; 
-                transform: scale(0.8); 
-                box-shadow: 0 0 10px var(--glow-color), 0 0 20px var(--glow-color); 
-            }
-            50% { 
-                opacity: 1; 
-                transform: scale(1.3); 
-                box-shadow: 0 0 25px var(--glow-color), 0 0 50px var(--glow-color), 0 0 70px var(--glow-color); 
-            }
-        }
-
-        /* 5. 박스 디자인 (Glassmorphism) */
-        .glass-box {
-            background: rgba(8, 15, 30, 0.7);
-            border: 1px solid rgba(34, 211, 238, 0.2);
-            backdrop-filter: blur(15px);
-            border-radius: 24px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .glass-box:hover {
-            border-color: #22d3ee;
-            box-shadow: 0 0 40px rgba(34, 211, 238, 0.15);
-            transform: translateY(-10px) scale(1.02);
-        }
-
-        .neon-text {
-            text-shadow: 0 0 15px rgba(34, 211, 238, 0.7);
-        }
-    </style>
-</head>
-<body>
-
-    <div class="star-field" id="starField"></div>
-
-    <div class="spaceship-container">
-        <div class="spaceship-visual"></div>
-    </div>
-
-    <header class="fixed top-0 w-full z-50 border-b border-white/10 bg-black/60
