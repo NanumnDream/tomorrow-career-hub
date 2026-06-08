@@ -6,7 +6,7 @@
     <title>우주선 유영 시뮬레이션</title>
     <style>
         :root {
-            --bg-color: #0b0f19;
+            --bg-color: #050811; /* 별이 더 잘 보이도록 배경을 조금 더 어둡게 조정 */
             --title-color: #ffffff;
         }
 
@@ -27,7 +27,7 @@
 
         h1 {
             color: var(--title-color);
-            font-size: 1.66rem; /* 기존 2.5rem 기준에서 2/3 크기인 약 1.66rem으로 조절 */
+            font-size: 1.66rem;
             font-weight: 600;
             letter-spacing: 2px;
             margin: 0;
@@ -48,7 +48,7 @@
             padding: 10px 24px;
             font-weight: bold;
             font-size: 1rem;
-            color: #000000; /* 형광 배경 대비 가독성을 위해 검은색 글씨 */
+            color: #000000;
             border-radius: 8px;
             box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
             transition: transform 0.2s, box-shadow 0.2s;
@@ -59,20 +59,19 @@
             transform: scale(1.05);
         }
 
-        /* 각기 다른 형광색 (Neon Color) 정의 */
-        .menu-1 { background-color: #39FF14; box-shadow: 0 0 15px #39FF14; } /* 형광 연두 */
-        .menu-2 { background-color: #FF073A; box-shadow: 0 0 15px #FF073A; } /* 형광 레드/핑크 */
-        .menu-3 { background-color: #00E5FF; box-shadow: 0 0 15px #00E5FF; } /* 형광 시안 블루 */
-        .menu-4 { background-color: #FFEF00; box-shadow: 0 0 15px #FFEF00; } /* 형광 옐로우 */
+        .menu-1 { background-color: #39FF14; box-shadow: 0 0 15px #39FF14; }
+        .menu-2 { background-color: #FF073A; box-shadow: 0 0 15px #FF073A; }
+        .menu-3 { background-color: #00E5FF; box-shadow: 0 0 15px #00E5FF; }
+        .menu-4 { background-color: #FFEF00; box-shadow: 0 0 15px #FFEF00; }
 
-        /* [조건 3] 우주선이 유영할 Canvas 배경 */
+        /* [조건 3] 우주선과 별이 유영할 Canvas 배경 */
         #spaceCanvas {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none; /* 메뉴 클릭 방해 금지 */
+            pointer-events: none;
             z-index: 1;
         }
     </style>
@@ -93,4 +92,150 @@
     <canvas id="spaceCanvas"></canvas>
 
     <script>
-        const canvas = document.
+        const canvas = document.getElementById('spaceCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // 화면 크기 맞춤 및 별 재배치
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initStars(); // 화면 크기가 바뀔 때 별들을 다시 생성
+        }
+        window.addEventListener('resize', resizeCanvas);
+
+        // --- 별(Stars) 시스템 추가 ---
+        const stars = [];
+        const numStars = 80; // 화면에 뿌려질 별의 개수
+
+        function initStars() {
+            stars.length = 0; // 배열 초기화
+            for (let i = 0; i < numStars; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 1.5 + 0.5, // 0.5px ~ 2px 크기
+                    alpha: Math.random(),            // 초기 투명도 (밝기)
+                    twinkleSpeed: Math.random() * 0.03 + 0.01 // 반짝이는 속도 랜덤
+                });
+            }
+        }
+
+        function updateAndDrawStars() {
+            for (let i = 0; i < stars.length; i++) {
+                let star = stars[i];
+                
+                // 별의 투명도를 변화시켜 반짝이는 효과 주기
+                star.alpha += star.twinkleSpeed;
+                
+                // 투명도가 1을 넘거나 0보다 작아지면 반짝임 방향 반전
+                if (star.alpha > 1 || star.alpha < 0.2) {
+                    star.twinkleSpeed = -star.twinkleSpeed;
+                }
+
+                // 별 그리기
+                ctx.fillStyle = `rgba(255, 255, 255, ${Math.abs(star.alpha)})`;
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        // [조건 3] 우주선 객체 설정
+        const spaceship = {
+            x: -100,
+            y: 0,
+            targetX: 0,
+            targetY: -100,
+            speed: 1.5,
+            baseSize: 40,
+            currentSize: 40,
+            angle: 0,
+
+            init() {
+                this.x = -60;
+                this.y = canvas.height + 60;
+                this.targetX = canvas.width + 100;
+                this.targetY = -100;
+                this.currentSize = this.baseSize;
+                
+                const dx = this.targetX - this.x;
+                const dy = this.targetY - this.y;
+                this.angle = Math.atan2(dy, dx);
+            },
+
+            update() {
+                this.x += Math.cos(this.angle) * this.speed;
+                this.y += Math.sin(this.angle) * this.speed;
+
+                // 대각선 이동 거리에 맞춘 자연스러운 크기 감소 연산
+                const currentDist = Math.hypot(this.targetX - this.x, this.targetY - this.y);
+                const totalDist = Math.hypot(this.targetX - (-60), this.targetY - (canvas.height + 60));
+                const progress = 1 - (currentDist / totalDist);
+                
+                this.currentSize = Math.max(5, this.baseSize * (1 - progress * 0.8));
+
+                if (this.x > canvas.width + 100 || this.y < -100) {
+                    this.init();
+                }
+            },
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.angle);
+
+                // 우주선 몸체
+                ctx.fillStyle = '#E0E0E0';
+                ctx.beginPath();
+                ctx.moveTo(this.currentSize, 0);
+                ctx.lineTo(-this.currentSize / 2, -this.currentSize / 3);
+                ctx.lineTo(-this.currentSize / 4, 0);
+                ctx.lineTo(-this.currentSize / 2, this.currentSize / 3);
+                ctx.closePath();
+                ctx.fill();
+
+                // 우주선 창문
+                ctx.fillStyle = '#00E5FF';
+                ctx.beginPath();
+                ctx.arc(this.currentSize / 4, 0, this.currentSize / 8, 0, Math.PI * 2);
+                ctx.fill();
+
+                // 부스터 화염
+                ctx.fillStyle = '#FF5722';
+                ctx.beginPath();
+                ctx.moveTo(-this.currentSize / 4, 0);
+                ctx.lineTo(-this.currentSize * 0.8, -this.currentSize / 6);
+                ctx.lineTo(-this.currentSize * 1.1, 0);
+                ctx.lineTo(-this.currentSize * 0.8, this.currentSize / 6);
+                ctx.closePath();
+                ctx.fill();
+
+                ctx.restore();
+            }
+        };
+
+        // 초기 실행
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        initStars();
+        spaceship.init();
+
+        function animate() {
+            // 잔상이 살짝 남는 어두운 우주 배경 그리기
+            ctx.fillStyle = 'rgba(5, 8, 17, 0.4)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // 별 업데이트 및 그리기 (우주선보다 뒤에 위치하도록 먼저 호출)
+            updateAndDrawStars();
+
+            // 우주선 업데이트 및 그리기
+            spaceship.update();
+            spaceship.draw();
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+</html>
