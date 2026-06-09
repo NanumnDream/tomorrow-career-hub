@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>내일의 내 일(Job) 탐색</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -19,7 +22,8 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* 손글씨 폰트 적용 */
+            font-family: 'Nanum Pen Script', cursive;
             overflow: hidden;
             position: relative;
         }
@@ -44,214 +48,133 @@
             text-align: center;
             background: transparent;
             padding: 50px 40px 20px 40px;
-            border-radius: 10px;
             max-width: 900px;
             margin: -100px auto 0 auto;
-            overflow: visible;
-        }
-
-        .container::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            width: 380px;
-            height: 300px;
-            transform: translate(-50%, -50%);
-            background: radial-gradient(circle at center, rgba(168, 244, 255, 0.22), rgba(96, 193, 255, 0.08) 50%, transparent 70%);
-            filter: blur(32px);
-            opacity: 1;
-            pointer-events: none;
-            z-index: -1;
         }
 
         h1 {
             width: 100%;
-            font-size: 2.25em;
+            font-size: 4em;
             color: #a8f4ff;
             margin-bottom: 0;
             margin-top: 0;
-            text-shadow: 0 0 18px rgba(138, 244, 255, 0.8), 0 0 40px rgba(96, 193, 255, 0.35);
-            font-weight: bold;
-            letter-spacing: 1px;
-            line-height: 1.3;
+            text-shadow: 0 0 20px rgba(138, 244, 255, 0.9), 0 0 40px rgba(96, 193, 255, 0.6);
+            letter-spacing: 2px;
+            line-height: 1.2;
         }
 
         .subtitle {
-            font-size: 1.3em;
+            font-size: 2em;
             color: #00ff88;
-            margin-bottom: 0;
-            margin-top: 8px;
-            font-weight: 300;
+            margin-top: 15px;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
             letter-spacing: 1px;
         }
 
+        /* 상단 메뉴 영역 */
         .content {
             position: fixed;
-            top: 12px;
+            top: 25px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
             flex-wrap: nowrap;
             justify-content: center;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
             width: auto;
-            max-width: calc(100vw - 24px);
-            padding: 0 8px;
-            overflow-x: auto;
+            max-width: 95vw;
+            padding: 10px;
             z-index: 12;
         }
 
-        .content::-webkit-scrollbar {
-            height: 6px;
-        }
-
-        .content::-webkit-scrollbar-thumb {
-            background: rgba(0, 255, 136, 0.4);
-            border-radius: 10px;
-        }
-
+        /* 형광빛 네온 메뉴 박스 디자인 */
         .button {
             position: relative;
-            font-family: 'TDTD', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #00ff88 0%, #00ccff 100%);
-            border: 1.5px solid #00ff88;
-            color: #000;
-            padding: 10px 12px;
-            font-size: 0.85em;
-            font-weight: bold;
+            font-family: 'Nanum Pen Script', cursive;
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            padding: 12px 20px;
+            font-size: 1.5em;
             cursor: pointer;
-            border-radius: 8px;
-            transition: all 0.25s ease;
-            box-shadow: 0 0 10px rgba(0, 255, 136, 0.35);
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            min-width: 130px;
-            max-width: 170px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
             white-space: nowrap;
             text-align: center;
-            overflow: visible;
+            backdrop-filter: blur(5px);
         }
 
-        .button::before {
-            content: '';
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            width: 24px;
-            height: 8px;
-            transform: translateX(-50%);
-            background: radial-gradient(circle at center, rgba(129, 255, 213, 0.95), rgba(255, 255, 255, 0.65), transparent 65%);
-            filter: blur(6px);
-            opacity: 0.88;
-            pointer-events: none;
-            border-radius: 50%;
-        }
-
-        .button::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            z-index: -1;
-            background: radial-gradient(circle at 50% 40%, rgba(255, 255, 230, 0.35), rgba(255, 255, 255, 0) 55%);
-            filter: blur(10px);
-            opacity: 0.75;
-            border-radius: 10px;
-        }
-
-        .button:hover {
-            box-shadow: 0 0 30px rgba(0, 255, 136, 0.8);
-            transform: translateY(-2px) scale(1.02);
-            background: linear-gradient(135deg, #00ff88 0%, #00ffff 100%);
-        }
-
+        /* 버튼별 형광 색상 지정 (테두리와 빛번짐 강화) */
         .button.btn1 {
-            border-color: #ffff44;
-            background: linear-gradient(135deg, #ffff44 0%, #ffff88 100%);
-            box-shadow: 0 0 15px rgba(255, 255, 68, 0.5), inset 0 1px 0 rgba(255,255,255,0.3);
+            border: 2px solid #00ffff;
+            box-shadow: 0 0 15px 2px rgba(0, 255, 255, 0.6), inset 0 0 10px rgba(0, 255, 255, 0.4);
+            color: #e0ffff;
         }
-
-        .button.btn1:hover {
-            box-shadow: 0 0 30px rgba(255, 255, 68, 0.95);
-        }
+        .button.btn1:hover { box-shadow: 0 0 25px 5px rgba(0, 255, 255, 0.9), inset 0 0 15px rgba(0, 255, 255, 0.6); background: rgba(0, 255, 255, 0.1); }
 
         .button.btn2 {
-            border-color: #dd00ff;
-            background: linear-gradient(135deg, #dd00ff 0%, #ff00ff 100%);
-            box-shadow: 0 0 15px rgba(221, 0, 255, 0.5), inset 0 1px 0 rgba(255,255,255,0.2);
+            border: 2px solid #ff00ff;
+            box-shadow: 0 0 15px 2px rgba(255, 0, 255, 0.6), inset 0 0 10px rgba(255, 0, 255, 0.4);
+            color: #ffe0ff;
         }
-
-        .button.btn2:hover {
-            box-shadow: 0 0 30px rgba(221, 0, 255, 0.95);
-        }
+        .button.btn2:hover { box-shadow: 0 0 25px 5px rgba(255, 0, 255, 0.9), inset 0 0 15px rgba(255, 0, 255, 0.6); background: rgba(255, 0, 255, 0.1); }
 
         .button.btn3 {
-            border-color: #00ff88;
-            background: linear-gradient(135deg, #00ff88 0%, #00ff66 100%);
-            box-shadow: 0 0 15px rgba(0, 255, 136, 0.5), inset 0 1px 0 rgba(255,255,255,0.2);
+            border: 2px solid #00ff88;
+            box-shadow: 0 0 15px 2px rgba(0, 255, 136, 0.6), inset 0 0 10px rgba(0, 255, 136, 0.4);
+            color: #e0ffef;
         }
-
-        .button.btn3:hover {
-            box-shadow: 0 0 30px rgba(0, 255, 136, 0.95);
-        }
+        .button.btn3:hover { box-shadow: 0 0 25px 5px rgba(0, 255, 136, 0.9), inset 0 0 15px rgba(0, 255, 136, 0.6); background: rgba(0, 255, 136, 0.1); }
 
         .button.btn4 {
-            border-color: #ff3333;
-            background: linear-gradient(135deg, #ff3333 0%, #ff5555 100%);
-            box-shadow: 0 0 15px rgba(255, 51, 51, 0.5), inset 0 1px 0 rgba(255,255,255,0.2);
+            border: 2px solid #ffaa00;
+            box-shadow: 0 0 15px 2px rgba(255, 170, 0, 0.6), inset 0 0 10px rgba(255, 170, 0, 0.4);
+            color: #fffae0;
         }
-
-        .button.btn4:hover {
-            box-shadow: 0 0 30px rgba(255, 51, 51, 0.95);
-        }
+        .button.btn4:hover { box-shadow: 0 0 25px 5px rgba(255, 170, 0, 0.9), inset 0 0 15px rgba(255, 170, 0, 0.6); background: rgba(255, 170, 0, 0.1); }
 
         .button.btn5 {
-            border-color: #bbbbbb;
-            background: linear-gradient(135deg, #cccccc 0%, #dddddd 100%);
-            color: #000;
-            box-shadow: 0 0 15px rgba(187, 187, 187, 0.5), inset 0 1px 0 rgba(255,255,255,0.4);
+            border: 2px solid #ff3366;
+            box-shadow: 0 0 15px 2px rgba(255, 51, 102, 0.6), inset 0 0 10px rgba(255, 51, 102, 0.4);
+            color: #ffe0e6;
         }
+        .button.btn5:hover { box-shadow: 0 0 25px 5px rgba(255, 51, 102, 0.9), inset 0 0 15px rgba(255, 51, 102, 0.6); background: rgba(255, 51, 102, 0.1); }
 
-        .button.btn5:hover {
-            box-shadow: 0 0 30px rgba(187, 187, 187, 0.95);
-        }
-
-        /* 우주선 */
+        /* 진한 네이비 골무형 우주선 */
         .spaceship {
             position: fixed;
-            width: 36px;
-            height: 44px;
+            width: 45px;
+            height: 55px;
             z-index: 5;
             pointer-events: none;
             transform-origin: center center;
-            overflow: visible;
         }
 
         .spaceship svg {
             width: 100%;
             height: 100%;
             display: block;
+            filter: drop-shadow(0 0 8px rgba(11, 37, 89, 0.8));
         }
 
+        /* 발사체 불빛 대폭 축소 */
         .launch-glow {
             position: absolute;
             left: 50%;
-            bottom: -18px;
-            width: 22px;
-            height: 50px;
+            bottom: -5px;
+            width: 12px;
+            height: 18px;
             transform: translateX(-50%);
-            border-radius: 50% 50% 65% 65% / 35% 35% 75% 75%;
-            background: radial-gradient(circle at 50% 8%, #ffdb3f 0%, #ffb800 25%, rgba(255, 160, 0, 0.95) 50%, rgba(255, 100, 0, 0.4) 75%, transparent 100%);
-            filter: blur(3px);
-            box-shadow: 0 0 35px 14px rgba(255, 140, 0, 0.65), inset -2px -2px 8px rgba(255, 180, 0, 0.4);
-            opacity: 0.98;
-            animation: shimmer 0.8s ease-in-out infinite;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(100, 200, 255, 0.9) 0%, rgba(0, 150, 255, 0.4) 60%, transparent 100%);
+            filter: blur(2px);
+            box-shadow: 0 0 10px 2px rgba(0, 150, 255, 0.4);
+            animation: shimmer 0.5s ease-in-out infinite alternate;
         }
 
         @keyframes shimmer {
-            0%, 100% { opacity: 0.95; box-shadow: 0 0 35px 14px rgba(255, 140, 0, 0.65), inset -2px -2px 8px rgba(255, 180, 0, 0.4); }
-            50% { opacity: 1; box-shadow: 0 0 45px 18px rgba(255, 150, 0, 0.8), inset -2px -2px 12px rgba(255, 200, 0, 0.5); }
+            from { opacity: 0.6; transform: translateX(-50%) scaleY(0.8); }
+            to { opacity: 1; transform: translateX(-50%) scaleY(1.2); }
         }
     </style>
 </head>
@@ -259,19 +182,22 @@
     <canvas id="starsCanvas"></canvas>
     
     <div class="spaceship" id="spaceship" aria-label="우주선">
-        <svg viewBox="0 0 60 70" xmlns="http://www.w3.org/2000/svg" role="img">
+        <svg viewBox="0 0 60 70" xmlns="http://www.w3.org/2000/svg">
             <defs>
-                <radialGradient id="thimbleGradient" cx="35%" cy="30%" r="60%">
-                    <stop offset="0%" stop-color="#1a3a5c" />
-                    <stop offset="70%" stop-color="#0a1928" />
-                    <stop offset="100%" stop-color="#050d1a" />
-                </radialGradient>
+                <linearGradient id="navyGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#0a1526" />
+                    <stop offset="50%" stop-color="#162e54" />
+                    <stop offset="100%" stop-color="#0a1526" />
+                </linearGradient>
             </defs>
-            <path d="M12 8 L48 8 L52 20 L52 55 C52 62 46 68 30 68 C14 68 8 62 8 55 L8 20 Z" fill="url(#thimbleGradient)" stroke="#1f4a7f" stroke-width="1.2" />
-            <ellipse cx="30" cy="12" rx="14" ry="6" fill="#0f2549" opacity="0.7" />
-            <ellipse cx="30" cy="35" rx="10" ry="8" fill="#2a5a9f" opacity="0.6" />
-            <path d="M20 25 Q30 28 40 25" fill="none" stroke="#3a7fbf" stroke-width="1" opacity="0.5" />
-            <path d="M18 45 Q30 48 42 45" fill="none" stroke="#3a7fbf" stroke-width="1" opacity="0.4" />
+            <path d="M 15 55 L 15 25 C 15 5 45 5 45 25 L 45 55 C 45 65 15 65 15 55 Z" fill="url(#navyGradient)" stroke="#2a4d82" stroke-width="2"/>
+            <path d="M 12 55 Q 30 65 48 55 L 48 60 Q 30 70 12 60 Z" fill="#050a12" />
+            <circle cx="30" cy="25" r="6" fill="#88ccff" opacity="0.8" stroke="#ffffff" stroke-width="1"/>
+            <circle cx="22" cy="40" r="1.5" fill="#050a12" opacity="0.6"/>
+            <circle cx="30" cy="40" r="1.5" fill="#050a12" opacity="0.6"/>
+            <circle cx="38" cy="40" r="1.5" fill="#050a12" opacity="0.6"/>
+            <circle cx="26" cy="48" r="1.5" fill="#050a12" opacity="0.6"/>
+            <circle cx="34" cy="48" r="1.5" fill="#050a12" opacity="0.6"/>
         </svg>
         <div class="launch-glow"></div>
     </div>
@@ -290,7 +216,7 @@
     </div>
 
     <script>
-        // 별 애니메이션
+        // 별 배경 애니메이션
         const canvas = document.getElementById('starsCanvas');
         const ctx = canvas.getContext('2d');
 
@@ -298,156 +224,109 @@
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         }
-
+        window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
         const stars = [];
-        const starCount = 280;
-
-        class Star {
-            constructor() {
-                this.reset();
-            }
-
-            reset() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.radius = Math.random() * 2.3 + 0.3;
-                this.baseOpacity = Math.random() * 0.6 + 0.2;
-                this.opacity = this.baseOpacity;
-                this.twinkleSpeed = Math.random() * 0.014 + 0.003;
-                this.opacityDirection = Math.random() > 0.5 ? 1 : -1;
-                this.color = ['#ffffff', '#f8f8ff', '#ffeedd', '#d6f7ff'][Math.floor(Math.random() * 4)];
-            }
-
-            update() {
-                this.opacity += this.twinkleSpeed * this.opacityDirection;
-                if (this.opacity >= 1) {
-                    this.opacityDirection = -1;
-                } else if (this.opacity <= 0.1) {
-                    this.opacityDirection = 1;
-                }
-            }
-
-            draw() {
-                const glow = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius * 4);
-                glow.addColorStop(0, `rgba(255,255,255,${this.opacity})`);
-                glow.addColorStop(0.4, `rgba(255,255,255,${this.opacity * 0.35})`);
-                glow.addColorStop(1, 'rgba(255,255,255,0)');
-                ctx.fillStyle = glow;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius * 4, 0, Math.PI * 2);
-                ctx.fill();
-
-                ctx.fillStyle = `rgba(255,255,255,${this.opacity})`;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fill();
-            }
+        for (let i = 0; i < 200; i++) {
+            stars.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 1.5 + 0.5,
+                opacity: Math.random(),
+                speed: Math.random() * 0.02 + 0.005,
+                dir: Math.random() > 0.5 ? 1 : -1
+            });
         }
 
-        function createStars() {
-            stars.length = 0;
-            for (let i = 0; i < starCount; i++) {
-                stars.push(new Star());
-            }
-        }
-
-        createStars();
-
-        function animateStars() {
+        function drawStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.fillStyle = '#000';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
             stars.forEach(star => {
-                star.update();
-                star.draw();
+                star.opacity += star.speed * star.dir;
+                if (star.opacity >= 1 || star.opacity <= 0.1) star.dir *= -1;
+                
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+                ctx.fill();
             });
-            requestAnimationFrame(animateStars);
+            requestAnimationFrame(drawStars);
         }
+        drawStars();
 
-        animateStars();
-
-        // 우주선 애니메이션
+        // 자연스러운 궤도 애니메이션 (가운데 한 바퀴 회전 후 퇴장)
         const spaceship = document.getElementById('spaceship');
-        const flightDuration = 38000;
-        let flightStart = performance.now();
-
-        function easeInOut(t) {
-            return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-        }
-
-        function smoothEase(t) {
-            return t * t * (3 - 2 * t);
-        }
+        const flightDuration = 15000; // 15초 사이클
+        let startTime = performance.now();
 
         function animateSpaceship(timestamp) {
-            const elapsed = timestamp - flightStart;
-            let progress = elapsed / flightDuration;
-            if (progress > 1) {
-                flightStart = timestamp + 2500;
-                progress = 0;
-            }
+            let elapsed = timestamp - startTime;
+            let progress = (elapsed % flightDuration) / flightDuration; // 0 ~ 1 반복
 
-            const smoothProg = smoothEase(progress);
-            const centerX = canvas.width * 0.5;
-            const centerY = canvas.height * 0.45;
-            const entryEnd = 0.2;
-            const exitStart = 0.55;
-            const startX = -80;
-            const startY = canvas.height + 80;
-            const midX = centerX;
-            const midY = centerY - 50;
-            const exitX = canvas.width + 80;
-            const exitY = canvas.height * 0.2;
-            let x, y, rotation, scale, opacity;
+            const cx = window.innerWidth / 2;
+            const cy = window.innerHeight / 2;
+            const orbitRadius = Math.min(cx, cy) * 0.5; // 화면 중앙 궤도 크기
 
-            if (progress <= entryEnd) {
-                const t = smoothEase(progress / entryEnd);
-                x = startX + (midX - startX) * t;
-                y = startY + (midY - startY) * t;
-                rotation = -50 + t * 75;
-                scale = 0.68 + t * 0.24;
-                opacity = 0.55 + t * 0.45;
-            } else if (progress <= exitStart) {
-                const midProgress = (progress - entryEnd) / (exitStart - entryEnd);
-                const midWave = Math.sin(midProgress * Math.PI) * 0.05;
-                x = midX + Math.sin(midProgress * Math.PI * 1.5) * 25 + midWave * 15;
-                y = midY + midProgress * 40 - midWave * 50;
-                rotation = 25 + midProgress * 55;
-                scale = 0.92 + Math.sin(midProgress * Math.PI) * 0.05;
-                opacity = 1;
+            let x, y, angle;
+
+            if (progress < 0.3) {
+                // 1단계: 좌측 하단에서 중앙으로 진입 (0.0 ~ 0.3)
+                let t = progress / 0.3; // 0 ~ 1
+                let easeT = t * (2 - t); // easeOut
+                x = -100 + (cx - -100) * easeT;
+                y = window.innerHeight + 100 + ((cy + orbitRadius) - (window.innerHeight + 100)) * easeT;
+                // 목표 지점(cx, cy+radius)으로 향하는 각도 계산
+                let dx = cx - -100;
+                let dy = (cy + orbitRadius) - (window.innerHeight + 100);
+                angle = Math.atan2(dy, dx) * (180 / Math.PI) + 90;
+                
+                if (t > 0.8) {
+                    // 궤도 진입 전 부드럽게 각도 회전
+                    let targetAngle = 90; // 궤도 시작 각도 (수평)
+                    angle = angle + (targetAngle - angle) * ((t - 0.8) / 0.2);
+                }
+
+            } else if (progress < 0.7) {
+                // 2단계: 중앙에서 한 바퀴 원운동 (0.3 ~ 0.7)
+                let t = (progress - 0.3) / 0.4; // 0 ~ 1
+                let rad = (Math.PI / 2) - (t * Math.PI * 2); // 90도에서 시계방향으로 360도 회전
+                
+                x = cx + Math.cos(rad) * orbitRadius;
+                y = cy + Math.sin(rad) * orbitRadius;
+                
+                // 접선 방향 계산 (우주선 머리가 진행방향을 향하도록)
+                angle = (rad * (180 / Math.PI)) + 180; 
+
             } else {
-                const t = (progress - exitStart) / (1 - exitStart);
-                const tSmooth = smoothEase(t);
-                x = midX + (exitX - midX) * tSmooth;
-                y = midY + 40 + (exitY - midY - 40) * tSmooth;
-                rotation = 80 + tSmooth * 75;
-                scale = 0.97 - tSmooth * 0.42;
-                opacity = Math.max(0, 1 - tSmooth * 1.2);
+                // 3단계: 중앙에서 우측 상단으로 퇴장 (0.7 ~ 1.0)
+                let t = (progress - 0.7) / 0.3; // 0 ~ 1
+                let easeT = t * t; // easeIn
+                let startX = cx;
+                let startY = cy - orbitRadius; // 궤도 종료 지점
+                let endX = window.innerWidth + 100;
+                let endY = -100;
+
+                x = startX + (endX - startX) * easeT;
+                y = startY + (endY - startY) * easeT;
+                
+                let dx = endX - startX;
+                let dy = endY - startY;
+                angle = Math.atan2(dy, dx) * (180 / Math.PI) + 90;
             }
 
-            spaceship.style.left = x + 'px';
-            spaceship.style.top = y + 'px';
-            spaceship.style.transform = `translate(-50%, -50%) scale(${scale}) rotate(${rotation}deg)`;
-            spaceship.style.opacity = opacity;
+            // 우주선 위치 및 회전 적용 (크기도 궤도에서는 약간 작아지게 연출)
+            let scale = progress > 0.3 && progress < 0.7 ? 0.85 : 1;
+            spaceship.style.transform = `translate(-50%, -50%) rotate(${angle}deg) scale(${scale})`;
+            spaceship.style.left = `${x}px`;
+            spaceship.style.top = `${y}px`;
 
             requestAnimationFrame(animateSpaceship);
         }
-
+        
         requestAnimationFrame(animateSpaceship);
-
-        // 창 크기 변경 시
-        window.addEventListener('resize', () => {
-            resizeCanvas();
-            createStars();
-        });
-
-        // 버튼 클릭 효과
-        document.querySelectorAll('.button').forEach(button => {
-            button.addEventListener('click', function() {
-                alert('상담으로 이동합니다!');
-            });
-        });
     </script>
 </body>
 </html>
