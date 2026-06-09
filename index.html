@@ -6,7 +6,7 @@
     <title>미래 신산업 연계 진로 탐색 시스템</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         /* 기본 설정 */
@@ -38,14 +38,13 @@
             padding: 40px 60px;
         }
 
-        /* [수정] 캔버스 우주선 애니메이션: 왼쪽 -> 중앙 루프 -> 오른쪽 위로 점진적 축소 */
+        /* 캔버스 우주선 애니메이션 */
         .spaceship-canvas {
             position: absolute;
-            width: 120px;
-            height: 120px;
+            width: 240px;
+            height: 240px;
             z-index: 15;
             pointer-events: none;
-            /* offset-path를 이용해 지정된 곡선 경로(M:시작, Q/C:곡선)를 따라가며 자동 회전 */
             offset-path: path('M -200 550 Q 200 500 450 450 C 750 150, 650 50, 550 150 C 350 300, 500 650, 750 400 Q 1050 200 1400 -200');
             offset-rotate: auto;
             animation: flyLoop 10s linear infinite;
@@ -58,7 +57,7 @@
             100% { offset-distance: 100%; transform: scale(0.1); opacity: 0; }
         }
 
-        /* [수정] 밤하늘 별 효과를 위한 캔버스 */
+        /* 밤하늘 별 효과를 위한 캔버스 */
         .stars-canvas {
             position: absolute;
             top: 0;
@@ -69,13 +68,13 @@
             pointer-events: none;
         }
 
-        /* 상단 메뉴: 번호 제외, 각기 다른 형광색 박스 */
+        /* 상단 메뉴 */
         .neon-header {
             display: flex;
             justify-content: center;
             gap: 15px;
             width: 100%;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
             z-index: 10;
         }
 
@@ -95,168 +94,269 @@
         .neon-box.yellow { background-color: #FFEF00; box-shadow: 0 0 15px #FFEF00; }
         .neon-box.orange { background-color: #FF8A00; box-shadow: 0 0 15px #FF8A00; }
 
-        /* 타이틀 크기 축소 (기존 절반 수준) */
-        .slide-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 40px; 
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: #ffffff;
-            text-align: center;
-            letter-spacing: 2px;
-            width: 100%;
-            z-index: 10;
-        }
-
-        .subtitle {
-            font-size: 18px;
-            color: #a0aec0;
-            text-align: center;
-            margin-bottom: 50px;
-            line-height: 1.6;
-            z-index: 10;
-        }
-
-        /* 레이아웃 공통 설정 */
+        /* 타이틀 영역 */
         .content-area {
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
             width: 100%;
             z-index: 10;
         }
 
-        .section-title-layout h2 {
-            font-size: 60px;
+        .slide-title {
             font-family: 'Orbitron', sans-serif;
-            background: linear-gradient(90deg, #00E5FF, #39FF14);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: 38px; 
+            font-weight: 700;
             margin-bottom: 10px;
-        }
-        .section-title-layout hr {
-            width: 150px;
-            height: 4px;
-            background: #00E5FF;
-            border: none;
-            margin: 20px auto;
+            color: #ffffff;
+            text-align: center;
+            letter-spacing: 2px;
+            width: 100%;
         }
 
-        .tiled-content { display: flex; gap: 30px; width: 100%; }
-        .tile {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(0, 229, 255, 0.3);
-            border-radius: 12px;
-            padding: 30px;
+        .subtitle {
+            font-size: 15px;
+            color: #a0aec0;
             text-align: center;
-            backdrop-filter: blur(10px);
+            line-height: 1.5;
+            margin-bottom: 30px; 
+        }
+
+        /* -------------------------------------------
+           새로 추가된 Glassmorphism 퀴즈 카드 디자인 
+        ---------------------------------------------- */
+        
+        /* 여러 카드 배치를 위한 그리드 컨테이너 */
+        .card-grid {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        /* 퀴즈 카드 본체 */
+        .quiz-card {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 20px 2px rgba(99, 102, 241, 0.25);
+            border-radius: 24px;
+            padding: 24px;
+            width: 100%;
+            max-width: 380px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
             transition: transform 0.3s ease;
         }
-        .tile:hover { transform: translateY(-10px); border-color: #00E5FF; }
-        .tile i { font-size: 40px; color: #00E5FF; margin-bottom: 20px; }
-        .tile h3 { font-size: 24px; margin-bottom: 15px; color: #fff; }
-        .tile p { font-size: 16px; color: #cbd5e0; line-height: 1.5; }
 
-        .chart-container { width: 100%; display: flex; flex-direction: column; gap: 20px; }
-        .bar { display: flex; align-items: center; gap: 20px; width: 100%; }
-        .bar .label { flex: 0 0 150px; text-align: right; font-weight: 700; color: #00E5FF; }
-        .bar .bar-inner { flex-grow: 1; height: 30px; background: rgba(255,255,255,0.1); border-radius: 15px; overflow: hidden; }
-        .bar .bar-fill { height: 100%; background: linear-gradient(90deg, #00E5FF, #39FF14); display: flex; align-items: center; justify-content: flex-end; padding-right: 15px; font-weight: 700; font-size: 14px; }
+        .quiz-card:hover {
+            transform: translateY(-5px);
+        }
 
-        .table-layout table { width: 100%; border-collapse: collapse; }
-        .table-layout th { background: rgba(0, 229, 255, 0.2); padding: 15px; text-align: left; border-bottom: 2px solid #00E5FF; }
-        .table-layout td { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        /* 카드 헤더 */
+        .quiz-card-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
 
-        .highlight-numbers { display: flex; align-items: center; gap: 40px; }
-        .highlight-numbers .number { font-size: 120px; font-weight: 700; font-family: 'Orbitron', sans-serif; color: #39FF14; line-height: 1; }
-        .highlight-numbers .desc { font-size: 24px; color: #fff; }
+        .quiz-card-title {
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            background: linear-gradient(to right, #818cf8, #22d3ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* 중앙 플로팅 아이콘 */
+        .quiz-icon-wrapper {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(to top right, #4f46e5, #06b6d4);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 38px;
+            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.4);
+            position: relative;
+            animation: float 4s infinite ease-in-out;
+            margin-bottom: 20px;
+        }
+
+        .quiz-badge {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: #10b981;
+            color: #0f172a;
+            font-size: 10px;
+            font-weight: 900;
+            padding: 3px 8px;
+            border-radius: 999px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        /* 메인 텍스트 */
+        .quiz-main-heading {
+            font-size: 24px;
+            font-weight: 800;
+            line-height: 1.3;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+
+        .quiz-gradient-text {
+            background: linear-gradient(to right, #22d3ee, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .quiz-desc {
+            font-size: 13px;
+            color: #94a3b8;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            word-break: keep-all;
+        }
+
+        /* 혜택/기능 리스트 */
+        .quiz-features {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 14px;
+            text-align: left;
+            margin-bottom: 24px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .quiz-feature-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #cbd5e1;
+        }
+
+        .quiz-feature-icon {
+            color: #34d399;
+            font-size: 11px;
+        }
+
+        /* 시작 버튼 */
+        .quiz-btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 14px;
+            background: linear-gradient(to right, #6366f1, #a855f7, #ec4899);
+            color: white;
+            font-weight: 800;
+            font-size: 15px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transition: all 0.2s;
+            animation: pulse-slow 3s infinite ease-in-out;
+        }
+
+        .quiz-btn:hover {
+            filter: brightness(1.1);
+            transform: scale(1.02);
+        }
+
+        /* 퀴즈 카드용 애니메이션 정의 */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+        @keyframes pulse-slow {
+            0%, 100% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.03); opacity: 1; }
+        }
     </style>
 </head>
 <body>
 
 <div class="slide-container" id="slide1">
     <canvas class="stars-canvas" id="starsCanvas"></canvas>
-    
-    <canvas class="spaceship-canvas" id="shipCanvas" width="120" height="120"></canvas>
+    <canvas class="spaceship-canvas" id="shipCanvas" width="240" height="240"></canvas>
     
     <div class="neon-header">
-        <div class="neon-box cyan">신입생 로그인</div>
-        <div class="neon-box green">자기이해 워크북</div>
-        <div class="neon-box magenta">미래직무 다이빙</div>
+        <div class="neon-box cyan">신산업 로그인</div>
+        <div class="neon-box green">자기 이해 체크인</div>
+        <div class="neon-box magenta">미래 설계 다이빙</div>
         <div class="neon-box yellow">포트폴리오</div>
         <div class="neon-box orange">교육 자료실</div>
     </div>
 
     <div class="content-area">
-        <p style="color: #00E5FF; font-family: 'Orbitron', sans-serif; letter-spacing: 5px; margin-bottom: 10px;">FUTURE COMPETENCY EXPLORATION SYSTEM</p>
+        <p style="color: #00E5FF; font-family: 'Orbitron', sans-serif; letter-spacing: 5px; margin-bottom: 5px; font-size: 13px;">FUTURE COMPETENCY EXPLORATION SYSTEM</p>
         <h1 class="slide-title">내일(Tomorrow)의<br>내 일(Job) 탐색</h1>
-        <p class="subtitle">학생 개인별 적성 및 소질을 신산업 트렌드와 연계하는 진로 탐색 시스템입니다.<br>중학생 맞춤형 데이터 기반 진로 설계 로드맵.</p>
-        <div style="padding: 15px 40px; border: 2px solid #00E5FF; border-radius: 30px; color: #00E5FF; font-weight: 700; cursor: pointer; z-index: 10;">시스템 시작하기 →</div>
-    </div>
-</div>
+        <p class="subtitle">학생 개인별 적성 및 소질을 신산업 트렌드와 연계하는 진로 탐색 시스템<br>중학생 맞춤형 데이터 기반 진로 설계 로드맵</p>
+        
+        <div class="card-grid">
+            
+            <div class="quiz-card">
+                <div class="quiz-card-header">
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <span style="font-size: 16px;">🚀</span>
+                        <span class="quiz-card-title">FUTURE TECH QUIZ</span>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); padding: 5px 8px; border-radius: 8px; font-size: 12px; cursor: pointer;">🔊</div>
+                </div>
 
-<div class="slide-container" id="slide2">
-    <div class="neon-header">
-        <div class="neon-box cyan">신입생 로그인</div>
-        <div class="neon-box green">자기이해 워크북</div>
-        <div class="neon-box magenta">미래직무 다이빙</div>
-        <div class="neon-box yellow">포트폴리오</div>
-        <div class="neon-box orange">교육 자료실</div>
-    </div>
-    <div class="content-area section-title-layout">
-        <hr>
-        <h2>01. Exploration</h2>
-        <p class="subtitle">신산업 연계 진로 탐색 프로세스 개요</p>
-    </div>
-</div>
+                <div class="quiz-icon-wrapper">
+                    🔮
+                    <div class="quiz-badge">NEW</div>
+                </div>
 
-<div class="slide-container" id="slide3">
-    <div class="neon-header">
-        <div class="neon-box cyan">신입생 로그인</div>
-        <div class="neon-box green">자기이해 워크북</div>
-        <div class="neon-box magenta">미래직무 다이빙</div>
-        <div class="neon-box yellow">포트폴리오</div>
-        <div class="neon-box orange">교육 자료실</div>
-    </div>
-    <h2 class="slide-title">핵심 탐색 서비스</h2>
-    <div class="content-area">
-        <div class="tiled-content">
-            <div class="tile">
-                <i class="fa-solid fa-user-astronaut"></i>
-                <h3>자기이해</h3>
-                <p>학생 기초 데이터(강점, 가치관) 기반 진로 목표 설정 및 분석 리포트 산출.</p>
-            </div>
-            <div class="tile">
-                <i class="fa-solid fa-rocket"></i>
-                <h3>미래직무</h3>
-                <p>신산업 트렌드에 발맞춘 미래 유망 직무 연계 가상 실무 체험.</p>
-            </div>
-            <div class="tile">
-                <i class="fa-solid fa-folder-open"></i>
-                <h3>포트폴리오</h3>
-                <p>탐색 단계별 데이터를 기록 및 관리하여 개별 맞춤형 진로 포트폴리오 구축.</p>
-            </div>
-        </div>
-    </div>
-</div>
+                <h2 class="quiz-main-heading">
+                    미래를 여는<br>
+                    <span class="quiz-gradient-text">신산업 직업 탐구 퀴즈</span>
+                </h2>
 
-<div class="slide-container" id="slide11">
-    <div class="content-area">
-        <div style="max-width: 900px; text-align: center; position: relative;">
-            <i class="fa-solid fa-quote-left" style="font-size: 60px; color: rgba(0, 229, 255, 0.3); position: absolute; left: -80px; top: -40px;"></i>
-            <h3 style="font-size: 48px; font-weight: 300; line-height: 1.4; letter-spacing: -1px;">체계적 진로 탐색 시스템을 통한<br><span style="color: #39FF14; font-weight: 700;">학생 주도적 미래 역량</span> 강화<br>지원 체계 확립.</h3>
-            <p style="margin-top: 30px; font-family: Orbitron; color: #00E5FF; letter-spacing: 3px;">SYSTEM ARCHITECTURE VISION</p>
-        </div>
+                <p class="quiz-desc">
+                    인공지능, 우주공학, 바이오 등 미래 메가 트렌드 직업 20문제를 풀고, 내 성향에 딱 맞는 찰떡궁합 신산업 리포트를 받아보세요!
+                </p>
+
+                <div class="quiz-features">
+                    <div class="quiz-feature-item">
+                        <span class="quiz-feature-icon">✔</span>
+                        <span>총 20개 핵심 신산업 직업 탐구</span>
+                    </div>
+                    <div class="quiz-feature-item">
+                        <span class="quiz-feature-icon">✔</span>
+                        <span>풀이 중 실시간 힌트 제공</span>
+                    </div>
+                    <div class="quiz-feature-item">
+                        <span class="quiz-feature-icon">✔</span>
+                        <span>종료 후 개인 맞춤형 진로 추천 리포트 제공</span>
+                    </div>
+                </div>
+
+                <button class="quiz-btn">퀴즈 탐험 시작하기 ➔</button>
+            </div>
+            </div>
     </div>
 </div>
 
 <script>
-    // ---------------------------------------------
-    // 1. 밤하늘 반짝이는 별 배경 (Canvas)
-    // ---------------------------------------------
+    // 1. 밤하늘 반짝이는 별 배경
     const starsCanvas = document.getElementById('starsCanvas');
     const starsCtx = starsCanvas.getContext('2d');
     const stars = [];
@@ -293,67 +393,95 @@
     initStars();
     animateStars();
 
-    // ---------------------------------------------
-    // 2. 불빛이 반짝이는 우주선 그리기 (Canvas)
-    // ---------------------------------------------
+    // 2. 골무 모양 우주선 (크기 증가 & 하얀색 몸체 빛 유지)
     const shipCanvas = document.getElementById('shipCanvas');
     const shipCtx = shipCanvas.getContext('2d');
     let shipBlinkPhase = 0;
 
     function drawSpaceship() {
-        // 이전 프레임 지우기
-        shipCtx.clearRect(0, 0, 120, 120);
+        shipCtx.clearRect(0, 0, 240, 240);
         shipCtx.save();
         
-        // 회전은 CSS offset-rotate가 담당하므로 중심에서 오른쪽(0도)을 향하게만 그림
-        shipCtx.translate(60, 60); 
-        const size = 35; 
+        shipCtx.translate(120, 120); 
+        const size = 55;
 
-        // [우주선 몸체]
-        shipCtx.fillStyle = '#E0E0E0';
+        // 우주선 몸체 - 골무 모양
+        const thimbleWidth = size * 0.8; 
+        const thimbleRearPlane = -size * 0.4; 
+
+        shipCtx.shadowBlur = 15;
+        shipCtx.shadowColor = 'rgba(255, 255, 255, 0.9)'; 
+        shipCtx.fillStyle = '#F5F5F5'; 
+
         shipCtx.beginPath();
-        shipCtx.moveTo(size, 0); 
-        shipCtx.lineTo(-size / 2, -size / 2.5); 
-        shipCtx.lineTo(-size / 4, 0); 
-        shipCtx.lineTo(-size / 2, size / 2.5); 
+        const noseApex = size; 
+        const noseRadius = thimbleWidth / 2;
+        shipCtx.arc(noseApex - noseRadius, 0, noseRadius, -Math.PI / 2, Math.PI / 2, false); 
+        shipCtx.lineTo(thimbleRearPlane, noseRadius);
+        shipCtx.lineTo(thimbleRearPlane, -noseRadius);
         shipCtx.closePath();
         shipCtx.fill();
 
-        // [반짝이는 창문 불빛]
-        const glow = Math.abs(Math.sin(shipBlinkPhase)) * 0.7 + 0.3;
-        shipCtx.fillStyle = `rgba(0, 229, 255, ${glow})`;
+        shipCtx.shadowBlur = 0; 
+        shipCtx.lineWidth = 2;
+        shipCtx.strokeStyle = '#FFFFFF';
+        shipCtx.stroke();
+
+        // 창문 불빛
+        const windowGlow = Math.abs(Math.sin(shipBlinkPhase)) * 0.4 + 0.2;
+        shipCtx.shadowBlur = 10;
+        shipCtx.shadowColor = '#00E5FF';
+        shipCtx.fillStyle = `rgba(0, 229, 255, ${windowGlow})`;
         shipCtx.beginPath();
-        shipCtx.arc(size / 4, 0, size / 8, 0, Math.PI * 2);
+        shipCtx.arc(size / 3, 0, size / 10, 0, Math.PI * 2); 
         shipCtx.fill();
 
-        // [부스터 화염 - 역동적인 변화]
-        const boosterLen = size * (0.7 + Math.random() * 0.5);
-        shipCtx.fillStyle = '#FF5722';
+        // 발사체 주황색 네온 빛
+        shipCtx.save();
+        const boosterGlowSpeed = 3.0; 
+        const boosterGlowPhase = shipBlinkPhase * boosterGlowSpeed;
+        const rawBoosterGlow = Math.pow(Math.abs(Math.sin(boosterGlowPhase)), 2); 
+        const boosterGlow = rawBoosterGlow * 0.8 + 0.2; 
+
+        const boosterLen = size * (0.8 + Math.random() * 0.4); 
+        const boosterWidth = thimbleWidth / 2; 
+
+        shipCtx.shadowBlur = 20 * boosterGlow;
+        shipCtx.shadowColor = '#FF5722'; 
+        
+        shipCtx.fillStyle = `rgba(255, 87, 34, ${boosterGlow})`; 
         shipCtx.beginPath();
-        shipCtx.moveTo(-size / 4, 0);
-        shipCtx.lineTo(-size * 0.8, -size / 6);
-        shipCtx.lineTo(-boosterLen, 0);
-        shipCtx.lineTo(-size * 0.8, size / 6);
+        
+        const rearCenter = thimbleRearPlane;
+        shipCtx.moveTo(rearCenter, 0); 
+        shipCtx.lineTo(rearCenter - 5, -boosterWidth / 2); 
+        shipCtx.lineTo(rearCenter - boosterLen, 0); 
+        shipCtx.lineTo(rearCenter - 5, boosterWidth / 2); 
+        
         shipCtx.closePath();
         shipCtx.fill();
 
-        // 화염 안쪽 디테일 (노란색)
-        shipCtx.fillStyle = '#FFEB3B';
+        shipCtx.shadowBlur = 10;
+        shipCtx.shadowColor = '#FFD700'; 
+        shipCtx.fillStyle = `rgba(255, 215, 0, ${boosterGlow + 0.2})`; 
+        
+        const coreLen = boosterLen * 0.6;
+        const coreWidth = boosterWidth * 0.6;
         shipCtx.beginPath();
-        shipCtx.moveTo(-size / 3, 0);
-        shipCtx.lineTo(-size * 0.6, -size / 10);
-        shipCtx.lineTo(-boosterLen * 0.6, 0);
-        shipCtx.lineTo(-size * 0.6, size / 10);
+        shipCtx.moveTo(rearCenter, 0);
+        shipCtx.lineTo(rearCenter - 3, -coreWidth / 2);
+        shipCtx.lineTo(rearCenter - coreLen, 0);
+        shipCtx.lineTo(rearCenter - 3, coreWidth / 2);
         shipCtx.closePath();
         shipCtx.fill();
+        
+        shipCtx.restore(); 
+        shipCtx.restore(); 
 
-        shipCtx.restore();
-
-        shipBlinkPhase += 0.1;
+        shipBlinkPhase += 0.1; 
         requestAnimationFrame(drawSpaceship);
     }
     
-    // 우주선 렌더링 루프 시작
     drawSpaceship();
 </script>
 </body>
