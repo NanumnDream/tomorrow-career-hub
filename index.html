@@ -20,11 +20,13 @@
             place-items: center;
             min-height: 100vh;
             overflow-x: hidden;
+            margin: 0;
+            padding: 20px 0; /* 상하 스크롤 여유 공간 */
         }
 
         .slide-container {
             width: 1280px;
-            height: 720px;
+            min-height: 100vh; /* 콘텐츠에 맞춰 늘어나게 적용 */
             background-color: #02040a;
             background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('http://googleusercontent.com/image_collection/image_retrieval/2902570400736455904');
             background-size: cover;
@@ -35,12 +37,14 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            padding: 40px 60px;
+            padding: 40px 60px 80px 60px; /* 카드가 잘리지 않게 하단 패딩 넉넉히 추가 */
         }
 
-        /* 캔버스 우주선 애니메이션 */
+        /* [수정] 캔버스 우주선 위치 고정 (화면 밖으로 밀려나지 않도록 top, left 추가) */
         .spaceship-canvas {
             position: absolute;
+            top: 0;
+            left: 0;
             width: 240px;
             height: 240px;
             z-index: 15;
@@ -86,6 +90,13 @@
             color: #000;
             text-transform: uppercase;
             box-shadow: 0 0 10px rgba(255,255,255,0.2);
+            cursor: pointer; /* 마우스 오버 시 손가락 아이콘으로 변경 */
+            transition: transform 0.2s, filter 0.2s;
+        }
+        
+        .neon-box:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
         }
 
         .neon-box.cyan { background-color: #00E5FF; box-shadow: 0 0 15px #00E5FF; }
@@ -123,11 +134,7 @@
             margin-bottom: 30px; 
         }
 
-        /* -------------------------------------------
-           새로 추가된 Glassmorphism 퀴즈 카드 디자인 
-        ---------------------------------------------- */
-        
-        /* 여러 카드 배치를 위한 그리드 컨테이너 */
+        /* 퀴즈 카드 디자인 (Glassmorphism) */
         .card-grid {
             display: flex;
             gap: 25px;
@@ -136,7 +143,6 @@
             max-width: 1100px;
         }
 
-        /* 퀴즈 카드 본체 */
         .quiz-card {
             background: rgba(15, 23, 42, 0.65);
             backdrop-filter: blur(12px);
@@ -159,7 +165,6 @@
             transform: translateY(-5px);
         }
 
-        /* 카드 헤더 */
         .quiz-card-header {
             width: 100%;
             display: flex;
@@ -179,7 +184,6 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* 중앙 플로팅 아이콘 */
         .quiz-icon-wrapper {
             width: 80px;
             height: 80px;
@@ -208,7 +212,6 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
         }
 
-        /* 메인 텍스트 */
         .quiz-main-heading {
             font-size: 24px;
             font-weight: 800;
@@ -231,7 +234,6 @@
             word-break: keep-all;
         }
 
-        /* 혜택/기능 리스트 */
         .quiz-features {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -258,7 +260,6 @@
             font-size: 11px;
         }
 
-        /* 시작 버튼 */
         .quiz-btn {
             width: 100%;
             padding: 14px;
@@ -279,7 +280,6 @@
             transform: scale(1.02);
         }
 
-        /* 퀴즈 카드용 애니메이션 정의 */
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-8px); }
@@ -294,6 +294,7 @@
 
 <div class="slide-container" id="slide1">
     <canvas class="stars-canvas" id="starsCanvas"></canvas>
+    
     <canvas class="spaceship-canvas" id="shipCanvas" width="240" height="240"></canvas>
     
     <div class="neon-header">
@@ -310,7 +311,6 @@
         <p class="subtitle">학생 개인별 적성 및 소질을 신산업 트렌드와 연계하는 진로 탐색 시스템<br>중학생 맞춤형 데이터 기반 진로 설계 로드맵</p>
         
         <div class="card-grid">
-            
             <div class="quiz-card">
                 <div class="quiz-card-header">
                     <div style="display: flex; align-items: center; gap: 6px;">
@@ -351,19 +351,21 @@
 
                 <button class="quiz-btn">퀴즈 탐험 시작하기 ➔</button>
             </div>
-            </div>
+        </div>
     </div>
 </div>
 
 <script>
-    // 1. 밤하늘 반짝이는 별 배경
+    // 1. 밤하늘 반짝이는 별 배경 (스크롤 되어도 화면 가득 차도록 유지)
     const starsCanvas = document.getElementById('starsCanvas');
     const starsCtx = starsCanvas.getContext('2d');
     const stars = [];
 
     function initStars() {
-        starsCanvas.width = 1280;
-        starsCanvas.height = 720;
+        const container = document.getElementById('slide1');
+        starsCanvas.width = container.offsetWidth;
+        starsCanvas.height = container.offsetHeight;
+        
         stars.length = 0;
         for (let i = 0; i < 100; i++) {
             stars.push({
@@ -375,6 +377,8 @@
             });
         }
     }
+
+    window.addEventListener('resize', initStars);
 
     function animateStars() {
         starsCtx.clearRect(0, 0, starsCanvas.width, starsCanvas.height);
@@ -390,10 +394,8 @@
         }
         requestAnimationFrame(animateStars);
     }
-    initStars();
-    animateStars();
-
-    // 2. 골무 모양 우주선 (크기 증가 & 하얀색 몸체 빛 유지)
+    
+    // 2. 우주선 그리기 (크기 축소 및 강한 빛 방출 유지)
     const shipCanvas = document.getElementById('shipCanvas');
     const shipCtx = shipCanvas.getContext('2d');
     let shipBlinkPhase = 0;
@@ -403,15 +405,17 @@
         shipCtx.save();
         
         shipCtx.translate(120, 120); 
-        const size = 55;
+        const size = 30; // 축소된 크기 유지
 
-        // 우주선 몸체 - 골무 모양
+        // [우주선 몸체 - 골무 모양]
         const thimbleWidth = size * 0.8; 
         const thimbleRearPlane = -size * 0.4; 
 
-        shipCtx.shadowBlur = 15;
-        shipCtx.shadowColor = 'rgba(255, 255, 255, 0.9)'; 
-        shipCtx.fillStyle = '#F5F5F5'; 
+        // 하얀 몸체 에너지를 뿜어내듯 강하게 빛나는 맥동 효과 유지
+        const bodyGlowIntensity = Math.abs(Math.sin(shipBlinkPhase * 1.5)) * 10 + 20; 
+        shipCtx.shadowBlur = bodyGlowIntensity;
+        shipCtx.shadowColor = 'rgba(255, 255, 255, 1)'; 
+        shipCtx.fillStyle = '#FFFFFF';
 
         shipCtx.beginPath();
         const noseApex = size; 
@@ -423,11 +427,11 @@
         shipCtx.fill();
 
         shipCtx.shadowBlur = 0; 
-        shipCtx.lineWidth = 2;
-        shipCtx.strokeStyle = '#FFFFFF';
+        shipCtx.lineWidth = 1.5;
+        shipCtx.strokeStyle = '#E0E0E0';
         shipCtx.stroke();
 
-        // 창문 불빛
+        // [창문 불빛]
         const windowGlow = Math.abs(Math.sin(shipBlinkPhase)) * 0.4 + 0.2;
         shipCtx.shadowBlur = 10;
         shipCtx.shadowColor = '#00E5FF';
@@ -436,8 +440,9 @@
         shipCtx.arc(size / 3, 0, size / 10, 0, Math.PI * 2); 
         shipCtx.fill();
 
-        // 발사체 주황색 네온 빛
+        // [발사체 - 주황색 네온 빛 반짝임 효과]
         shipCtx.save();
+        
         const boosterGlowSpeed = 3.0; 
         const boosterGlowPhase = shipBlinkPhase * boosterGlowSpeed;
         const rawBoosterGlow = Math.pow(Math.abs(Math.sin(boosterGlowPhase)), 2); 
@@ -482,7 +487,13 @@
         requestAnimationFrame(drawSpaceship);
     }
     
-    drawSpaceship();
+    // 폰트 등이 로드된 후 캔버스 높이 정확하게 재계산
+    setTimeout(() => {
+        initStars();
+        animateStars();
+        drawSpaceship();
+    }, 100);
+    
 </script>
 </body>
 </html>
