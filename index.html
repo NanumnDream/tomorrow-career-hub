@@ -22,7 +22,6 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            /* 손글씨 폰트 적용 */
             font-family: 'Nanum Pen Script', cursive;
             overflow: hidden;
             position: relative;
@@ -54,7 +53,6 @@
 
         h1 {
             width: 100%;
-            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
             font-size: 4em;
             color: #a8f4ff;
             margin-bottom: 0;
@@ -65,7 +63,6 @@
         }
 
         .subtitle {
-            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
             font-size: 2em;
             color: #00ff88;
             margin-top: 15px;
@@ -73,74 +70,44 @@
             letter-spacing: 1px;
         }
 
-        /* 상단 메뉴 영역 */
+        /* 상단 메뉴 영역 (고르게 정렬 및 반응형 크기 적용) */
         .content {
             position: fixed;
-            top: 25px;
-            left: 50%;
-            transform: translateX(-50%);
+            top: 15px;
+            left: 0;
+            width: 100%;
             display: flex;
-            flex-wrap: nowrap;
             justify-content: center;
             align-items: center;
-            gap: 15px;
-            width: auto;
-            max-width: 95vw;
-            padding: 10px;
+            gap: 2.5vw; /* 해상도에 맞춰 버튼 간격 자동 조절 */
+            padding: 10px 15cm;
             z-index: 12;
         }
 
-        /* 형광빛 네온 메뉴 박스 디자인 */
-        .button {
-            position: relative;
-            font-family: 'Nanum Pen Script', cursive;
-            background: rgba(0, 0, 0, 0.6);
-            color: #fff;
-            padding: 12px 20px;
-            font-size: 1.5em;
+        /* 이미지 메뉴 버튼 전용 디자인 */
+        .img-btn {
+            background: transparent;
+            border: none;
             cursor: pointer;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-            text-align: center;
-            backdrop-filter: blur(5px);
+            padding: 0;
+            width: 60vw; /* 화면 크기에 비례하여 버튼 크기 조절 */
+            max-width: 840px; /* 버튼 최대 크기 제한 */
+            min-width: 420px; /* 버튼 최소 크기 제한 */
+            transition: transform 0.3s ease, filter 0.3s ease;
         }
 
-        /* 버튼별 형광 색상 지정 (테두리와 빛번짐 강화) */
-        .button.btn1 {
-            border: 2px solid #00ffff;
-            box-shadow: 0 0 15px 2px rgba(0, 255, 255, 0.6), inset 0 0 10px rgba(0, 255, 255, 0.4);
-            color: #e0ffff;
+        .img-btn img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: contain;
         }
-        .button.btn1:hover { box-shadow: 0 0 25px 5px rgba(0, 255, 255, 0.9), inset 0 0 15px rgba(0, 255, 255, 0.6); background: rgba(0, 255, 255, 0.1); }
 
-        .button.btn2 {
-            border: 2px solid #ff00ff;
-            box-shadow: 0 0 15px 2px rgba(255, 0, 255, 0.6), inset 0 0 10px rgba(255, 0, 255, 0.4);
-            color: #ffe0ff;
+        /* 마우스를 올렸을 때(Hover) 살짝 떠오르며 은은한 빛 효과 */
+        .img-btn:hover {
+            transform: translateY(-6px) scale(1.05);
+            filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.4)); 
         }
-        .button.btn2:hover { box-shadow: 0 0 25px 5px rgba(255, 0, 255, 0.9), inset 0 0 15px rgba(255, 0, 255, 0.6); background: rgba(255, 0, 255, 0.1); }
-
-        .button.btn3 {
-            border: 2px solid #00ff88;
-            box-shadow: 0 0 15px 2px rgba(0, 255, 136, 0.6), inset 0 0 10px rgba(0, 255, 136, 0.4);
-            color: #e0ffef;
-        }
-        .button.btn3:hover { box-shadow: 0 0 25px 5px rgba(0, 255, 136, 0.9), inset 0 0 15px rgba(0, 255, 136, 0.6); background: rgba(0, 255, 136, 0.1); }
-
-        .button.btn4 {
-            border: 2px solid #ffaa00;
-            box-shadow: 0 0 15px 2px rgba(255, 170, 0, 0.6), inset 0 0 10px rgba(255, 170, 0, 0.4);
-            color: #fffae0;
-        }
-        .button.btn4:hover { box-shadow: 0 0 25px 5px rgba(255, 170, 0, 0.9), inset 0 0 15px rgba(255, 170, 0, 0.6); background: rgba(255, 170, 0, 0.1); }
-
-        .button.btn5 {
-            border: 2px solid #ff3366;
-            box-shadow: 0 0 15px 2px rgba(255, 51, 102, 0.6), inset 0 0 10px rgba(255, 51, 102, 0.4);
-            color: #ffe0e6;
-        }
-        .button.btn5:hover { box-shadow: 0 0 25px 5px rgba(255, 51, 102, 0.9), inset 0 0 15px rgba(255, 51, 102, 0.6); background: rgba(255, 51, 102, 0.1); }
 
         /* 진한 네이비 골무형 우주선 */
         .spaceship {
@@ -159,24 +126,24 @@
             filter: drop-shadow(0 0 8px rgba(11, 37, 89, 0.8));
         }
 
-        /* 발사체 불빛 대폭 축소 */
+        /* 주황색으로 변경된 발사체 불빛 */
         .launch-glow {
             position: absolute;
             left: 50%;
             bottom: -5px;
-            width: 12px;
-            height: 18px;
+            width: 14px;
+            height: 22px;
             transform: translateX(-50%);
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 200, 100, 0.95) 0%, rgba(255, 180, 50, 0.7) 50%, rgba(255, 150, 30, 0.35) 80%, transparent 100%);
+            background: radial-gradient(circle, rgba(255, 200, 50, 0.9) 0%, rgba(255, 100, 0, 0.6) 60%, transparent 100%);
             filter: blur(2px);
-            box-shadow: 0 0 14px 3px rgba(255, 170, 50, 0.65);
+            box-shadow: 0 0 12px 3px rgba(255, 120, 0, 0.5);
             animation: shimmer 0.5s ease-in-out infinite alternate;
         }
 
         @keyframes shimmer {
-            from { opacity: 0.6; transform: translateX(-50%) scaleY(0.8); }
-            to { opacity: 1; transform: translateX(-50%) scaleY(1.2); }
+            from { opacity: 0.7; transform: translateX(-50%) scaleY(0.85); }
+            to { opacity: 1; transform: translateX(-50%) scaleY(1.15); }
         }
     </style>
 </head>
@@ -205,15 +172,15 @@
     </div>
 
     <div class="content">
-        <button class="button btn1">신산업 세계로 로그인</button>
-        <button class="button btn2">자기 이해 체크</button>
-        <button class="button btn3">미래 직무 속으로 다이빙</button>
-        <button class="button btn4">진로 포트폴리오</button>
-        <button class="button btn5">신산업 진로 교육 자료실</button>
+        <button class="img-btn"><img src="./image/상단메뉴_로그인.png" alt="신산업 세계로 로그인"></button>
+        <button class="img-btn"><img src="./image/상단메뉴_자기이해.png" alt="자기 이해 체크"></button>
+        <button class="img-btn"><img src="./image/상단메뉴_미래직무.png" alt="미래 직무 속으로 다이빙"></button>
+        <button class="img-btn"><img src="./image/상단메뉴_포트폴리오.png" alt="진로 포트폴리오"></button>
+        <button class="img-btn"><img src="./image/상단메뉴_자료실.png" alt="신산업 진로 교육 자료실"></button>
     </div>
 
     <div class="container">
-        <h1>내일(Tomorrow)의<br>내 일(Job) 탐색</h1>
+        <h1>내 일(Tomorrow)의<br>내일(Job) 탐색</h1>
         <p class="subtitle">나만의 신산업 진로 탐험 가이드</p>
     </div>
 
@@ -299,17 +266,15 @@
                 x = cx + Math.cos(rad) * orbitRadius;
                 y = cy + Math.sin(rad) * orbitRadius;
                 
-                // 접선 방향 계산 (진행 방향을 따라 우주선 머리 회전)
-                let dx = Math.sin(rad);
-                let dy = -Math.cos(rad);
-                angle = Math.atan2(dy, dx) * (180 / Math.PI) + 90;
+                // 접선 방향 계산 (우주선 머리가 진행방향을 향하도록)
+                angle = (rad * (180 / Math.PI)); 
 
             } else {
                 // 3단계: 중앙에서 우측 상단으로 퇴장 (0.7 ~ 1.0)
                 let t = (progress - 0.7) / 0.3; // 0 ~ 1
                 let easeT = t * t; // easeIn
                 let startX = cx;
-                let startY = cy + orbitRadius; // 궤도 종료 지점
+                let startY = cy - orbitRadius; // 궤도 종료 지점
                 let endX = window.innerWidth + 100;
                 let endY = -100;
 
