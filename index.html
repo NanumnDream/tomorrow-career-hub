@@ -3,299 +3,358 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>내일의 내 일(Job) 탐색</title>
+    <title>미래 신산업 연계 진로 탐색 시스템</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* 기본 설정 */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            background-color: #02040a;
+            display: grid;
+            gap: 20px;
+            grid-template-columns: 1fr;
+            place-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        body {
-            background: #000 url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><defs><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" result="noise" /></filter></defs><circle cx="10" cy="20" r="1" fill="white" opacity="0.8"/><circle cx="60" cy="15" r="0.5" fill="white" opacity="0.6"/><circle cx="80" cy="50" r="1.5" fill="white" opacity="0.7"/><circle cx="30" cy="70" r="0.8" fill="white" opacity="0.5"/><circle cx="90" cy="80" r="1" fill="white" opacity="0.9"/></svg>');
-            background-attachment: fixed;
-            min-height: 100vh;
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            background-color: #02040a;
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('http://googleusercontent.com/image_collection/image_retrieval/2902570400736455904');
+            background-size: cover;
+            background-position: center;
+            color: #ffffff;
+            font-family: 'Noto Sans KR', sans-serif;
+            position: relative;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Nanum Pen Script', cursive;
-            overflow: hidden;
-            position: relative;
+            padding: 40px 60px;
         }
 
-        /* 별 애니메이션 */
-        canvas {
-            position: fixed;
+        /* [수정] 캔버스 우주선 애니메이션: 왼쪽 -> 중앙 루프 -> 오른쪽 위로 점진적 축소 */
+        .spaceship-canvas {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            z-index: 15;
+            pointer-events: none;
+            /* offset-path를 이용해 지정된 곡선 경로(M:시작, Q/C:곡선)를 따라가며 자동 회전 */
+            offset-path: path('M -200 550 Q 200 500 450 450 C 750 150, 650 50, 550 150 C 350 300, 500 650, 750 400 Q 1050 200 1400 -200');
+            offset-rotate: auto;
+            animation: flyLoop 10s linear infinite;
+        }
+
+        @keyframes flyLoop {
+            0% { offset-distance: 0%; transform: scale(1.2); opacity: 0; }
+            5% { opacity: 1; }
+            70% { transform: scale(0.7); opacity: 1; }
+            100% { offset-distance: 100%; transform: scale(0.1); opacity: 0; }
+        }
+
+        /* [수정] 밤하늘 별 효과를 위한 캔버스 */
+        .stars-canvas {
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: 1;
+            pointer-events: none;
         }
 
-        .container {
-            position: relative;
-            z-index: 10;
+        /* 상단 메뉴: 번호 제외, 각기 다른 형광색 박스 */
+        .neon-header {
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
-            text-align: center;
-            background: transparent;
-            padding: 50px 40px 20px 40px;
-            max-width: 900px;
-            margin: -100px auto 0 auto;
+            gap: 15px;
+            width: 100%;
+            margin-bottom: 40px;
+            z-index: 10;
         }
 
-        h1 {
-            width: 100%;
-            font-size: 4em;
-            color: #a8f4ff;
-            margin-bottom: 0;
-            margin-top: 0;
-            text-shadow: 0 0 20px rgba(138, 244, 255, 0.9), 0 0 40px rgba(96, 193, 255, 0.6);
+        .neon-box {
+            padding: 8px 18px;
+            font-size: 14px;
+            font-weight: 700;
+            border-radius: 4px;
+            color: #000;
+            text-transform: uppercase;
+            box-shadow: 0 0 10px rgba(255,255,255,0.2);
+        }
+
+        .neon-box.cyan { background-color: #00E5FF; box-shadow: 0 0 15px #00E5FF; }
+        .neon-box.green { background-color: #39FF14; box-shadow: 0 0 15px #39FF14; }
+        .neon-box.magenta { background-color: #FF00FF; box-shadow: 0 0 15px #FF00FF; }
+        .neon-box.yellow { background-color: #FFEF00; box-shadow: 0 0 15px #FFEF00; }
+        .neon-box.orange { background-color: #FF8A00; box-shadow: 0 0 15px #FF8A00; }
+
+        /* 타이틀 크기 축소 (기존 절반 수준) */
+        .slide-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 40px; 
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #ffffff;
+            text-align: center;
             letter-spacing: 2px;
-            line-height: 1.2;
+            width: 100%;
+            z-index: 10;
         }
 
         .subtitle {
-            font-size: 2em;
-            color: #00ff88;
-            margin-top: 15px;
-            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
-            letter-spacing: 1px;
+            font-size: 18px;
+            color: #a0aec0;
+            text-align: center;
+            margin-bottom: 50px;
+            line-height: 1.6;
+            z-index: 10;
         }
 
-        /* 상단 메뉴 영역 (고르게 정렬 및 반응형 크기 적용) */
-        .content {
-            position: fixed;
-            top: 15px;
-            left: 0;
-            width: 100%;
+        /* 레이아웃 공통 설정 */
+        .content-area {
+            flex-grow: 1;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            gap: 2.5vw; /* 해상도에 맞춰 버튼 간격 자동 조절 */
-            padding: 10px 15cm;
-            z-index: 12;
+            width: 100%;
+            z-index: 10;
         }
 
-        /* 이미지 메뉴 버튼 전용 디자인 */
-        .img-btn {
-            background: transparent;
+        .section-title-layout h2 {
+            font-size: 60px;
+            font-family: 'Orbitron', sans-serif;
+            background: linear-gradient(90deg, #00E5FF, #39FF14);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .section-title-layout hr {
+            width: 150px;
+            height: 4px;
+            background: #00E5FF;
             border: none;
-            cursor: pointer;
-            padding: 0;
-            width: 60vw; /* 화면 크기에 비례하여 버튼 크기 조절 */
-            max-width: 840px; /* 버튼 최대 크기 제한 */
-            min-width: 420px; /* 버튼 최소 크기 제한 */
-            transition: transform 0.3s ease, filter 0.3s ease;
+            margin: 20px auto;
         }
 
-        .img-btn img {
-            width: 100%;
-            height: auto;
-            display: block;
-            object-fit: contain;
+        .tiled-content { display: flex; gap: 30px; width: 100%; }
+        .tile {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease;
         }
+        .tile:hover { transform: translateY(-10px); border-color: #00E5FF; }
+        .tile i { font-size: 40px; color: #00E5FF; margin-bottom: 20px; }
+        .tile h3 { font-size: 24px; margin-bottom: 15px; color: #fff; }
+        .tile p { font-size: 16px; color: #cbd5e0; line-height: 1.5; }
 
-        /* 마우스를 올렸을 때(Hover) 살짝 떠오르며 은은한 빛 효과 */
-        .img-btn:hover {
-            transform: translateY(-6px) scale(1.05);
-            filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.4)); 
-        }
+        .chart-container { width: 100%; display: flex; flex-direction: column; gap: 20px; }
+        .bar { display: flex; align-items: center; gap: 20px; width: 100%; }
+        .bar .label { flex: 0 0 150px; text-align: right; font-weight: 700; color: #00E5FF; }
+        .bar .bar-inner { flex-grow: 1; height: 30px; background: rgba(255,255,255,0.1); border-radius: 15px; overflow: hidden; }
+        .bar .bar-fill { height: 100%; background: linear-gradient(90deg, #00E5FF, #39FF14); display: flex; align-items: center; justify-content: flex-end; padding-right: 15px; font-weight: 700; font-size: 14px; }
 
-        /* 진한 네이비 골무형 우주선 */
-        .spaceship {
-            position: fixed;
-            width: 45px;
-            height: 55px;
-            z-index: 5;
-            pointer-events: none;
-            transform-origin: center center;
-        }
+        .table-layout table { width: 100%; border-collapse: collapse; }
+        .table-layout th { background: rgba(0, 229, 255, 0.2); padding: 15px; text-align: left; border-bottom: 2px solid #00E5FF; }
+        .table-layout td { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); }
 
-        .spaceship svg {
-            width: 100%;
-            height: 100%;
-            display: block;
-            filter: drop-shadow(0 0 8px rgba(11, 37, 89, 0.8));
-        }
-
-        /* 주황색으로 변경된 발사체 불빛 */
-        .launch-glow {
-            position: absolute;
-            left: 50%;
-            bottom: -5px;
-            width: 14px;
-            height: 22px;
-            transform: translateX(-50%);
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 200, 50, 0.9) 0%, rgba(255, 100, 0, 0.6) 60%, transparent 100%);
-            filter: blur(2px);
-            box-shadow: 0 0 12px 3px rgba(255, 120, 0, 0.5);
-            animation: shimmer 0.5s ease-in-out infinite alternate;
-        }
-
-        @keyframes shimmer {
-            from { opacity: 0.7; transform: translateX(-50%) scaleY(0.85); }
-            to { opacity: 1; transform: translateX(-50%) scaleY(1.15); }
-        }
+        .highlight-numbers { display: flex; align-items: center; gap: 40px; }
+        .highlight-numbers .number { font-size: 120px; font-weight: 700; font-family: 'Orbitron', sans-serif; color: #39FF14; line-height: 1; }
+        .highlight-numbers .desc { font-size: 24px; color: #fff; }
     </style>
 </head>
 <body>
-    <canvas id="starsCanvas"></canvas>
+
+<div class="slide-container" id="slide1">
+    <canvas class="stars-canvas" id="starsCanvas"></canvas>
     
-    <div class="spaceship" id="spaceship" aria-label="우주선">
-        <svg viewBox="0 0 60 70" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-                <linearGradient id="navyGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stop-color="#0a1526" />
-                    <stop offset="50%" stop-color="#162e54" />
-                    <stop offset="100%" stop-color="#0a1526" />
-                </linearGradient>
-            </defs>
-            <path d="M 15 55 L 15 25 C 15 5 45 5 45 25 L 45 55 C 45 65 15 65 15 55 Z" fill="url(#navyGradient)" stroke="#2a4d82" stroke-width="2"/>
-            <path d="M 12 55 Q 30 65 48 55 L 48 60 Q 30 70 12 60 Z" fill="#050a12" />
-            <circle cx="30" cy="25" r="6" fill="#88ccff" opacity="0.8" stroke="#ffffff" stroke-width="1"/>
-            <circle cx="22" cy="40" r="1.5" fill="#050a12" opacity="0.6"/>
-            <circle cx="30" cy="40" r="1.5" fill="#050a12" opacity="0.6"/>
-            <circle cx="38" cy="40" r="1.5" fill="#050a12" opacity="0.6"/>
-            <circle cx="26" cy="48" r="1.5" fill="#050a12" opacity="0.6"/>
-            <circle cx="34" cy="48" r="1.5" fill="#050a12" opacity="0.6"/>
-        </svg>
-        <div class="launch-glow"></div>
+    <canvas class="spaceship-canvas" id="shipCanvas" width="120" height="120"></canvas>
+    
+    <div class="neon-header">
+        <div class="neon-box cyan">신입생 로그인</div>
+        <div class="neon-box green">자기이해 워크북</div>
+        <div class="neon-box magenta">미래직무 다이빙</div>
+        <div class="neon-box yellow">포트폴리오</div>
+        <div class="neon-box orange">교육 자료실</div>
     </div>
 
-    <div class="content">
-        <button class="img-btn"><img src="./image/상단메뉴_로그인.png" alt="신산업 세계로 로그인"></button>
-        <button class="img-btn"><img src="./image/상단메뉴_자기이해.png" alt="자기 이해 체크"></button>
-        <button class="img-btn"><img src="./image/상단메뉴_미래직무.png" alt="미래 직무 속으로 다이빙"></button>
-        <button class="img-btn"><img src="./image/상단메뉴_포트폴리오.png" alt="진로 포트폴리오"></button>
-        <button class="img-btn"><img src="./image/상단메뉴_자료실.png" alt="신산업 진로 교육 자료실"></button>
+    <div class="content-area">
+        <p style="color: #00E5FF; font-family: 'Orbitron', sans-serif; letter-spacing: 5px; margin-bottom: 10px;">FUTURE COMPETENCY EXPLORATION SYSTEM</p>
+        <h1 class="slide-title">내일(Tomorrow)의<br>내 일(Job) 탐색</h1>
+        <p class="subtitle">학생 개인별 적성 및 소질을 신산업 트렌드와 연계하는 진로 탐색 시스템입니다.<br>중학생 맞춤형 데이터 기반 진로 설계 로드맵.</p>
+        <div style="padding: 15px 40px; border: 2px solid #00E5FF; border-radius: 30px; color: #00E5FF; font-weight: 700; cursor: pointer; z-index: 10;">시스템 시작하기 →</div>
     </div>
+</div>
 
-    <div class="container">
-        <h1>내 일(Tomorrow)의<br>내일(Job) 탐색</h1>
-        <p class="subtitle">나만의 신산업 진로 탐험 가이드</p>
+<div class="slide-container" id="slide2">
+    <div class="neon-header">
+        <div class="neon-box cyan">신입생 로그인</div>
+        <div class="neon-box green">자기이해 워크북</div>
+        <div class="neon-box magenta">미래직무 다이빙</div>
+        <div class="neon-box yellow">포트폴리오</div>
+        <div class="neon-box orange">교육 자료실</div>
     </div>
+    <div class="content-area section-title-layout">
+        <hr>
+        <h2>01. Exploration</h2>
+        <p class="subtitle">신산업 연계 진로 탐색 프로세스 개요</p>
+    </div>
+</div>
 
-    <script>
-        // 별 배경 애니메이션
-        const canvas = document.getElementById('starsCanvas');
-        const ctx = canvas.getContext('2d');
+<div class="slide-container" id="slide3">
+    <div class="neon-header">
+        <div class="neon-box cyan">신입생 로그인</div>
+        <div class="neon-box green">자기이해 워크북</div>
+        <div class="neon-box magenta">미래직무 다이빙</div>
+        <div class="neon-box yellow">포트폴리오</div>
+        <div class="neon-box orange">교육 자료실</div>
+    </div>
+    <h2 class="slide-title">핵심 탐색 서비스</h2>
+    <div class="content-area">
+        <div class="tiled-content">
+            <div class="tile">
+                <i class="fa-solid fa-user-astronaut"></i>
+                <h3>자기이해</h3>
+                <p>학생 기초 데이터(강점, 가치관) 기반 진로 목표 설정 및 분석 리포트 산출.</p>
+            </div>
+            <div class="tile">
+                <i class="fa-solid fa-rocket"></i>
+                <h3>미래직무</h3>
+                <p>신산업 트렌드에 발맞춘 미래 유망 직무 연계 가상 실무 체험.</p>
+            </div>
+            <div class="tile">
+                <i class="fa-solid fa-folder-open"></i>
+                <h3>포트폴리오</h3>
+                <p>탐색 단계별 데이터를 기록 및 관리하여 개별 맞춤형 진로 포트폴리오 구축.</p>
+            </div>
+        </div>
+    </div>
+</div>
 
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
+<div class="slide-container" id="slide11">
+    <div class="content-area">
+        <div style="max-width: 900px; text-align: center; position: relative;">
+            <i class="fa-solid fa-quote-left" style="font-size: 60px; color: rgba(0, 229, 255, 0.3); position: absolute; left: -80px; top: -40px;"></i>
+            <h3 style="font-size: 48px; font-weight: 300; line-height: 1.4; letter-spacing: -1px;">체계적 진로 탐색 시스템을 통한<br><span style="color: #39FF14; font-weight: 700;">학생 주도적 미래 역량</span> 강화<br>지원 체계 확립.</h3>
+            <p style="margin-top: 30px; font-family: Orbitron; color: #00E5FF; letter-spacing: 3px;">SYSTEM ARCHITECTURE VISION</p>
+        </div>
+    </div>
+</div>
 
-        const stars = [];
-        for (let i = 0; i < 200; i++) {
+<script>
+    // ---------------------------------------------
+    // 1. 밤하늘 반짝이는 별 배경 (Canvas)
+    // ---------------------------------------------
+    const starsCanvas = document.getElementById('starsCanvas');
+    const starsCtx = starsCanvas.getContext('2d');
+    const stars = [];
+
+    function initStars() {
+        starsCanvas.width = 1280;
+        starsCanvas.height = 720;
+        stars.length = 0;
+        for (let i = 0; i < 100; i++) {
             stars.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                radius: Math.random() * 1.5 + 0.5,
-                opacity: Math.random(),
-                speed: Math.random() * 0.02 + 0.005,
-                dir: Math.random() > 0.5 ? 1 : -1
+                x: Math.random() * starsCanvas.width,
+                y: Math.random() * starsCanvas.height,
+                size: Math.random() * 1.5 + 0.5,
+                alpha: Math.random(),
+                speed: Math.random() * 0.02 + 0.005
             });
         }
+    }
 
-        function drawStars() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#000';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            stars.forEach(star => {
-                star.opacity += star.speed * star.dir;
-                if (star.opacity >= 1 || star.opacity <= 0.1) star.dir *= -1;
-                
-                ctx.beginPath();
-                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
-                ctx.fill();
-            });
-            requestAnimationFrame(drawStars);
+    function animateStars() {
+        starsCtx.clearRect(0, 0, starsCanvas.width, starsCanvas.height);
+        for (let i = 0; i < stars.length; i++) {
+            let s = stars[i];
+            s.alpha += s.speed;
+            if (s.alpha > 1 || s.alpha < 0.1) s.speed *= -1;
+
+            starsCtx.fillStyle = `rgba(255, 255, 255, ${Math.abs(s.alpha)})`;
+            starsCtx.beginPath();
+            starsCtx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+            starsCtx.fill();
         }
-        drawStars();
+        requestAnimationFrame(animateStars);
+    }
+    initStars();
+    animateStars();
 
-        // 자연스러운 궤도 애니메이션 (가운데 한 바퀴 회전 후 퇴장)
-        const spaceship = document.getElementById('spaceship');
-        const flightDuration = 15000; // 15초 사이클
-        let startTime = performance.now();
+    // ---------------------------------------------
+    // 2. 불빛이 반짝이는 우주선 그리기 (Canvas)
+    // ---------------------------------------------
+    const shipCanvas = document.getElementById('shipCanvas');
+    const shipCtx = shipCanvas.getContext('2d');
+    let shipBlinkPhase = 0;
 
-        function animateSpaceship(timestamp) {
-            let elapsed = timestamp - startTime;
-            let progress = (elapsed % flightDuration) / flightDuration; // 0 ~ 1 반복
-
-            const cx = window.innerWidth / 2;
-            const cy = window.innerHeight / 2;
-            const orbitRadius = Math.min(cx, cy) * 0.5; // 화면 중앙 궤도 크기
-
-            let x, y, angle;
-
-            if (progress < 0.3) {
-                // 1단계: 좌측 하단에서 중앙으로 진입 (0.0 ~ 0.3)
-                let t = progress / 0.3; // 0 ~ 1
-                let easeT = t * (2 - t); // easeOut
-                x = -100 + (cx - -100) * easeT;
-                y = window.innerHeight + 100 + ((cy + orbitRadius) - (window.innerHeight + 100)) * easeT;
-                // 목표 지점(cx, cy+radius)으로 향하는 각도 계산
-                let dx = cx - -100;
-                let dy = (cy + orbitRadius) - (window.innerHeight + 100);
-                angle = Math.atan2(dy, dx) * (180 / Math.PI) + 90;
-                
-                if (t > 0.8) {
-                    // 궤도 진입 전 부드럽게 각도 회전
-                    let targetAngle = 90; // 궤도 시작 각도 (수평)
-                    angle = angle + (targetAngle - angle) * ((t - 0.8) / 0.2);
-                }
-
-            } else if (progress < 0.7) {
-                // 2단계: 중앙에서 한 바퀴 원운동 (0.3 ~ 0.7)
-                let t = (progress - 0.3) / 0.4; // 0 ~ 1
-                let rad = (Math.PI / 2) - (t * Math.PI * 2); // 90도에서 시계방향으로 360도 회전
-                
-                x = cx + Math.cos(rad) * orbitRadius;
-                y = cy + Math.sin(rad) * orbitRadius;
-                
-                // 접선 방향 계산 (우주선 머리가 진행방향을 향하도록)
-                angle = (rad * (180 / Math.PI)); 
-
-            } else {
-                // 3단계: 중앙에서 우측 상단으로 퇴장 (0.7 ~ 1.0)
-                let t = (progress - 0.7) / 0.3; // 0 ~ 1
-                let easeT = t * t; // easeIn
-                let startX = cx;
-                let startY = cy - orbitRadius; // 궤도 종료 지점
-                let endX = window.innerWidth + 100;
-                let endY = -100;
-
-                x = startX + (endX - startX) * easeT;
-                y = startY + (endY - startY) * easeT;
-                
-                let dx = endX - startX;
-                let dy = endY - startY;
-                angle = Math.atan2(dy, dx) * (180 / Math.PI) + 90;
-            }
-
-            // 우주선 위치 및 회전 적용 (크기도 궤도에서는 약간 작아지게 연출)
-            let scale = progress > 0.3 && progress < 0.7 ? 0.85 : 1;
-            spaceship.style.transform = `translate(-50%, -50%) rotate(${angle}deg) scale(${scale})`;
-            spaceship.style.left = `${x}px`;
-            spaceship.style.top = `${y}px`;
-
-            requestAnimationFrame(animateSpaceship);
-        }
+    function drawSpaceship() {
+        // 이전 프레임 지우기
+        shipCtx.clearRect(0, 0, 120, 120);
+        shipCtx.save();
         
-        requestAnimationFrame(animateSpaceship);
-    </script>
+        // 회전은 CSS offset-rotate가 담당하므로 중심에서 오른쪽(0도)을 향하게만 그림
+        shipCtx.translate(60, 60); 
+        const size = 35; 
+
+        // [우주선 몸체]
+        shipCtx.fillStyle = '#E0E0E0';
+        shipCtx.beginPath();
+        shipCtx.moveTo(size, 0); 
+        shipCtx.lineTo(-size / 2, -size / 2.5); 
+        shipCtx.lineTo(-size / 4, 0); 
+        shipCtx.lineTo(-size / 2, size / 2.5); 
+        shipCtx.closePath();
+        shipCtx.fill();
+
+        // [반짝이는 창문 불빛]
+        const glow = Math.abs(Math.sin(shipBlinkPhase)) * 0.7 + 0.3;
+        shipCtx.fillStyle = `rgba(0, 229, 255, ${glow})`;
+        shipCtx.beginPath();
+        shipCtx.arc(size / 4, 0, size / 8, 0, Math.PI * 2);
+        shipCtx.fill();
+
+        // [부스터 화염 - 역동적인 변화]
+        const boosterLen = size * (0.7 + Math.random() * 0.5);
+        shipCtx.fillStyle = '#FF5722';
+        shipCtx.beginPath();
+        shipCtx.moveTo(-size / 4, 0);
+        shipCtx.lineTo(-size * 0.8, -size / 6);
+        shipCtx.lineTo(-boosterLen, 0);
+        shipCtx.lineTo(-size * 0.8, size / 6);
+        shipCtx.closePath();
+        shipCtx.fill();
+
+        // 화염 안쪽 디테일 (노란색)
+        shipCtx.fillStyle = '#FFEB3B';
+        shipCtx.beginPath();
+        shipCtx.moveTo(-size / 3, 0);
+        shipCtx.lineTo(-size * 0.6, -size / 10);
+        shipCtx.lineTo(-boosterLen * 0.6, 0);
+        shipCtx.lineTo(-size * 0.6, size / 10);
+        shipCtx.closePath();
+        shipCtx.fill();
+
+        shipCtx.restore();
+
+        shipBlinkPhase += 0.1;
+        requestAnimationFrame(drawSpaceship);
+    }
+    
+    // 우주선 렌더링 루프 시작
+    drawSpaceship();
+</script>
 </body>
 </html>
