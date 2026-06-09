@@ -54,6 +54,7 @@
 
         h1 {
             width: 100%;
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
             font-size: 4em;
             color: #a8f4ff;
             margin-bottom: 0;
@@ -64,6 +65,7 @@
         }
 
         .subtitle {
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
             font-size: 2em;
             color: #00ff88;
             margin-top: 15px;
@@ -166,9 +168,9 @@
             height: 18px;
             transform: translateX(-50%);
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(100, 200, 255, 0.9) 0%, rgba(0, 150, 255, 0.4) 60%, transparent 100%);
+            background: radial-gradient(circle, rgba(255, 200, 100, 0.95) 0%, rgba(255, 180, 50, 0.7) 50%, rgba(255, 150, 30, 0.35) 80%, transparent 100%);
             filter: blur(2px);
-            box-shadow: 0 0 10px 2px rgba(0, 150, 255, 0.4);
+            box-shadow: 0 0 14px 3px rgba(255, 170, 50, 0.65);
             animation: shimmer 0.5s ease-in-out infinite alternate;
         }
 
@@ -211,7 +213,7 @@
     </div>
 
     <div class="container">
-        <h1>내 일(Tomorrow)의<br>내일(Job) 탐색</h1>
+        <h1>내일(Tomorrow)의<br>내 일(Job) 탐색</h1>
         <p class="subtitle">나만의 신산업 진로 탐험 가이드</p>
     </div>
 
@@ -297,15 +299,17 @@
                 x = cx + Math.cos(rad) * orbitRadius;
                 y = cy + Math.sin(rad) * orbitRadius;
                 
-                // 접선 방향 계산 (우주선 머리가 진행방향을 향하도록)
-                angle = (rad * (180 / Math.PI)) + 180; 
+                // 접선 방향 계산 (진행 방향을 따라 우주선 머리 회전)
+                let dx = Math.sin(rad);
+                let dy = -Math.cos(rad);
+                angle = Math.atan2(dy, dx) * (180 / Math.PI) + 90;
 
             } else {
                 // 3단계: 중앙에서 우측 상단으로 퇴장 (0.7 ~ 1.0)
                 let t = (progress - 0.7) / 0.3; // 0 ~ 1
                 let easeT = t * t; // easeIn
                 let startX = cx;
-                let startY = cy - orbitRadius; // 궤도 종료 지점
+                let startY = cy + orbitRadius; // 궤도 종료 지점
                 let endX = window.innerWidth + 100;
                 let endY = -100;
 
