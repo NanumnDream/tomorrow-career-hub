@@ -40,7 +40,7 @@
             padding: 40px 60px 80px 60px; /* 카드가 잘리지 않게 하단 패딩 넉넉히 추가 */
         }
 
-        /* [수정] 캔버스 우주선 위치 고정 (화면 밖으로 밀려나지 않도록 top, left 추가) */
+        /* 캔버스 우주선 애니메이션 */
         .spaceship-canvas {
             position: absolute;
             top: 0;
@@ -139,6 +139,7 @@
             display: flex;
             gap: 25px;
             justify-content: center;
+            flex-wrap: wrap; /* 카드가 많아지면 아래로 떨어지도록 래핑 허용 */
             width: 100%;
             max-width: 1100px;
         }
@@ -199,6 +200,12 @@
             margin-bottom: 20px;
         }
 
+        /* 두번째 박스 아이콘 전용 그라데이션 */
+        .quiz-icon-wrapper.alt-color {
+            background: linear-gradient(to top right, #4338ca, #3b82f6);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+        }
+
         .quiz-badge {
             position: absolute;
             top: -6px;
@@ -245,6 +252,7 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
+            flex-grow: 1; /* 카드 높이 균형을 위해 여백 채움 */
         }
 
         .quiz-feature-item {
@@ -350,6 +358,48 @@
                 </div>
 
                 <button class="quiz-btn">퀴즈 탐험 시작하기 ➔</button>
+            </div>
+
+            <div class="quiz-card">
+                <div class="quiz-card-header">
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <span style="font-size: 16px;">📡</span>
+                        <span class="quiz-card-title">TREND DETECTOR</span>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); padding: 5px 8px; border-radius: 8px; font-size: 12px; cursor: pointer;">🔊</div>
+                </div>
+
+                <div class="quiz-icon-wrapper alt-color">
+                    🔮
+                    <div class="quiz-badge">TQ</div>
+                </div>
+
+                <h2 class="quiz-main-heading">
+                    미래 트렌드 감지기<br>
+                    <span class="quiz-gradient-text">신산업 친화도 테스트</span>
+                </h2>
+
+                <p class="quiz-desc">
+                    나는 다가올 미래 세상의 혁신 키워드들과 얼마나 가까운 사이일까?<br>
+                    15가지의 친화도 체크리스트를 통과하고 내 안의 미래 테크 온도를 분석해 보세요!
+                </p>
+
+                <div class="quiz-features">
+                    <div class="quiz-feature-item">
+                        <span class="quiz-feature-icon" style="color:#818cf8;">✔</span>
+                        <span>미래 신산업 핵심 트렌드 15문항 정밀 체크</span>
+                    </div>
+                    <div class="quiz-feature-item">
+                        <span class="quiz-feature-icon" style="color:#818cf8;">✔</span>
+                        <span>지식 인지도, 활용도, 진로 선호도 통합 평가</span>
+                    </div>
+                    <div class="quiz-feature-item">
+                        <span class="quiz-feature-icon" style="color:#818cf8;">✔</span>
+                        <span>최종 점수별 상/중/하 성향 보고서 및 영역 차트 분석</span>
+                    </div>
+                </div>
+
+                <button class="quiz-btn">친화도 감지 측정 시작 ➔</button>
             </div>
         </div>
     </div>
