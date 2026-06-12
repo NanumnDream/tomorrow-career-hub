@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>미래 트렌드 감지기: 나의 신산업 친화도 테스트</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: radial-gradient(circle at 50% 50%, #1e1b4b 0%, #0f172a 100%);
+        }
+        .glow-indigo { box-shadow: 0 0 25px 2px rgba(99, 102, 241, 0.3); }
+        .glow-emerald { box-shadow: 0 0 25px 2px rgba(16, 185, 129, 0.3); }
+        .glow-amber { box-shadow: 0 0 25px 2px rgba(245, 158, 11, 0.3); }
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        @keyframes pulse-slow {
+            0%, 100% { transform: scale(1); opacity: 0.95; }
+            50% { transform: scale(1.02); opacity: 1; }
+        }
+        .animate-pulse-slow { animation: pulse-slow 3.5s infinite ease-in-out; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .animate-float { animation: float 4.5s infinite ease-in-out; }
+    </style>
+</head>
+<body class="min-h-screen text-slate-100 flex items-center justify-center p-3 md:p-6 overflow-x-hidden">
+
+    <canvas id="confetti-canvas" class="absolute inset-0 pointer-events-none z-50 w-full h-full"></canvas>
+
+    <div class="w-full max-w-2xl min-h-[720px] rounded-3xl glass-panel glow-indigo flex flex-col justify-between overflow-hidden relative transition-all duration-500 ease-in-out">
+        
+        <div class="px-6 pt-5 pb-3 flex justify-between items-center border-b border-white/5 z-10">
+            <div class="flex items-center space-x-2">
+                <span class="text-xl">📡</span>
+                <span class="font-black text-sm tracking-widest bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-cyan-400">TREND DETECTOR</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button id="sound-toggle" class="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 active:scale-95 transition-all text-sm flex items-center justify-center" title="효과음 켜기/끄기">
+                    <span id="sound-icon">🔊</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="flex-grow flex flex-col justify-center px-6 py-8 relative">
+            
+            <div id="home-screen" class="space-y-8 flex flex-col items-center text-center py-6">
+                <div class="relative w-28 h-28 bg-gradient-to-tr from-indigo-600 to-cyan-500 rounded-3xl flex items-center justify-center text-5xl shadow-2xl glow-indigo animate-float">
+                    🔮
+                    <div class="absolute -top-2 -right-2 bg-emerald-500 text-xs px-2.5 py-1 rounded-full font-black text-slate-900 shadow-md">TQ</div>
+                </div>
+                <div class="space-y-3">
+                    <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-tight">
+                        미래 트렌드 감지기<br>
+                        <span class="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-indigo-400 to-purple-400">나의 신산업 친화도 테스트</span>
+                    </h1>
+                    <p class="text-sm md:text-base text-slate-400 max-w-md mx-auto leading-relaxed">
+                        나는 다가올 미래 세상의 혁신 키워드들과 얼마나 가까운 사이일까?<br>
+                        15가지의 친화도 체크리스트를 통과하고 내 안의 미래 테크 온도를 분석해 보세요!
+                    </p>
+                </div>
+
+                <div class="w-full max-w-sm bg-white/5 p-4 rounded-2xl border border-white/5 space-y-2 text-left">
+                    <div class="flex items-center space-x-2.5 text-xs text-slate-300">
+                        <span class="text-indigo-400">✔</span>
+                        <span>미래 신산업 핵심 트렌드 15문항 정밀 체크</span>
+                    </div>
+                    <div class="flex items-center space-x-2.5 text-xs text-slate-300">
+                        <span class="text-indigo-400">✔</span>
+                        <span>지식 인지도, 활용도, 진로 선호도 통합 평가</span>
+                    </div>
+                    <div class="flex items-center space-x-2.5 text-xs text-slate-300">
+                        <span class="text-indigo-400">✔</span>
+                        <span>최종 점수별 상/중/하 성향 보고서 및 영역 차트 분석</span>
+                    </div>
+                </div>
+
+                <button id="start-btn" class="w-full max-w-xs py-4 rounded-2xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white font-extrabold text-lg shadow-xl hover:brightness-110 active:scale-[0.98] transition-all animate-pulse-slow">
+                    친화도 감지 측정 시작 ➔
+                </button>
+            </div>
+
+            <div id="quiz-screen" class="hidden space-y-6">
+                <div class="flex justify-between items-center">
+                    <div class="space-y-1">
+                        <span id="quiz-progress-text" class="text-xs font-bold text-cyan-400 tracking-wider">CHECKLIST 01 OF 15</span>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-xs text-slate-400">누적 신산업 스코어:</span>
+                            <span id="score-counter" class="text-xs font-black text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded-full">⭐ 0점</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden">
+                    <div id="quiz-progress-fill" class="h-full bg-gradient-to-r from-cyan-400 to-indigo-500 transition-all duration-300 w-[6%]"></div>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="p-6 rounded-2xl bg-white/[0.03] border border-white/5 shadow-inner">
+                        <h2 id="question-text" class="text-lg md:text-xl font-bold leading-relaxed text-slate-100">
+                            문항 내용을 로드하고 있습니다...
+                        </h2>
+                    </div>
+                </div>
+
+                <div id="options-container" class="grid grid-cols-1 gap-3.5 pt-2">
+                </div>
+            </div>
+
+            <div id="result-screen" class="hidden space-y-6">
+                <div class="text-center space-y-2">
+                    <div id="result-icon-badge" class="w-16 h-16 mx-auto rounded-full flex items-center justify-center text-3xl shadow-lg">🏆</div>
+                    <h2 class="text-3xl font-black bg-clip-text text-transparent bg-gradient-to-r from-amber-400 to-orange-400">나의 신산업 친화도</h2>
+                    <p class="text-xs text-slate-400">나의 미래 경쟁력 지수(TQ) 분석 리포트</p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="p-4 rounded-2xl bg-white/[0.03] border border-white/5 text-center space-y-1">
+                        <span class="text-xs text-slate-400 block font-bold">미래 트렌드 스코어</span>
+                        <span id="final-score" class="text-3xl font-black text-emerald-400">0점</span>
+                        <span class="text-[10px] text-slate-500 block">(총점 45점 만점)</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-white/[0.03] border border-white/5 text-center space-y-1 flex flex-col justify-center items-center">
+                        <span class="text-xs text-slate-400 block font-bold mb-1">나의 친화 수준</span>
+                        <span id="final-grade" class="text-xl font-black px-4 py-1.5 rounded-full border">상</span>
+                    </div>
+                </div>
+
+                <div id="grade-feedback-box" class="p-6 rounded-2xl bg-gradient-to-br from-indigo-950/50 to-slate-900 border border-indigo-500/20 space-y-4">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-xl">💡</span>
+                        <h3 class="font-extrabold text-indigo-300 text-sm md:text-base">나의 미래 경쟁력 판정</h3>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <h4 id="career-type-title" class="text-xl font-black text-cyan-300">트렌드 친화도를 지닌 미래 인재</h4>
+                        <p id="career-type-desc" class="text-xs md:text-sm text-slate-300 leading-relaxed">
+                            나오는 멘트가 세부 판정 등급에 따라 여기에 표기됩니다.
+                        </p>
+                    </div>
+
+                    <div class="space-y-2.5 pt-2 border-t border-white/5">
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-[11px] text-slate-400 font-bold">
+                                <span>AI & 데이터 분야 친밀도</span>
+                                <span id="bar-pct-0">0%</span>
+                            </div>
+                            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                                <div id="bar-fill-0" class="h-full bg-cyan-400 transition-all duration-1000" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-[11px] text-slate-400 font-bold">
+                                <span>바이오 & 친환경 에너지 친밀도</span>
+                                <span id="bar-pct-1">0%</span>
+                            </div>
+                            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                                <div id="bar-fill-1" class="h-full bg-emerald-400 transition-all duration-1000" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-[11px] text-slate-400 font-bold">
+                                <span>로봇공학 & 항공우주 친밀도</span>
+                                <span id="bar-pct-2">0%</span>
+                            </div>
+                            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                                <div id="bar-fill-2" class="h-full bg-indigo-400 transition-all duration-1000" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-[11px] text-slate-400 font-bold">
+                                <span>크리에이티브 플랫폼 친밀도</span>
+                                <span id="bar-pct-3">0%</span>
+                            </div>
+                            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                                <div id="bar-fill-3" class="h-full bg-purple-400 transition-all duration-1000" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <button id="copy-result-btn" class="py-3 rounded-xl bg-white/5 hover:bg-white/10 text-white font-extrabold text-sm border border-white/10 active:scale-95 transition-all">
+                        📋 진단 결과표 복사하기
+                    </button>
+                    <button id="restart-btn" class="py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-500 hover:opacity-95 text-white font-extrabold text-sm active:scale-95 transition-all">
+                        🔄 다시 측정해보기
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="toast-message" class="absolute bottom-6 left-1/2 -translate-x-1/2 transform scale-90 opacity-0 bg-slate-900 border border-indigo-500/30 px-6 py-3 rounded-full text-xs font-bold text-indigo-300 shadow-xl pointer-events-none transition-all duration-300 z-50">
+            진단 보고서가 클립보드에 복사되었습니다!
+        </div>
+        
+    </div>
+
+    <script>
+        const DOMAINS = { AI_DATA: 0, BIO_GREEN: 1, ROBOT_SPACE: 2, CREATIVE_PLAT: 3 };
+
+        const ITEMS = [
+            { q: "1. 챗GPT나 인공지능 이미지 그리기 같은 '생성형 AI' 서비스를 가입하거나 직접 사용해 본 적이 있다.", domain: DOMAINS.AI_DATA },
+            { q: "2. 현실 속 가짜 세계인 '메타버스(Metaverse)' 가상 현실 놀이터(제페토, 로블록스 등)에 참여해 본 적이 있다.", domain: DOMAINS.CREATIVE_PLAT },
+            { q: "3. 운전자 없이 센서와 카메라로 스스로 움직여 목적지로 이동하는 '자율주행 자동차'의 기본 원리를 알고 있다.", domain: DOMAINS.ROBOT_SPACE },
+            { q: "4. 지구 기후 변화를 해결하기 위해 태양광, 수소, 풍력 등을 동력으로 이용하는 '신재생 에너지'의 중요성을 안다.", domain: DOMAINS.BIO_GREEN },
+            { q: "5. 무인 날아다니는 기계인 '드론(Drone)' 기술이 우편 배달, 안전 점검 등의 신산업에 어떻게 연결되는지 알고 있다.", domain: DOMAINS.ROBOT_SPACE },
+            { q: "6. 내가 스마트폰 앱으로 즐겨 보는 알고리즘 비디오 추천 서비스가 거대한 사용자 정보를 다루는 '빅데이터 분석'의 일부라는 사실을 안다.", domain: DOMAINS.AI_DATA },
+            { q: "7. 인공지능이 더 똑똑하고 오차 없는 정답을 내리도록 최적의 명령어 문장을 작성 설계하는 '프롬프트 엔지니어' 직무를 들어본 적 있다.", domain: DOMAINS.AI_DATA },
+            { q: "8. 사람이 직접 처리하기 힘들거나 위험한 단순 노동을 든든하게 메카닉 센서로 대신하는 '협동 로봇 및 스마트 로봇'에 흥미가 있다.", domain: DOMAINS.ROBOT_SPACE },
+            { q: "9. 계절과 상관없이 고층 실내 안에서 인공 햇빛과 컴퓨터 모니터링 원격 제어로 작물을 고속 재배하는 '스마트팜' 기술을 설명할 수 있다.", domain: DOMAINS.BIO_GREEN },
+            { q: "10. 미래 신산업 모바일 앱이나 홈페이지 등을 만들 때 이용자의 터치 편의성과 예쁜 화면 구성을 주도하는 'UI/UX 디자인' 직무를 알고 있다.", domain: DOMAINS.CREATIVE_PLAT },
+            { q: "11. 우주를 항해하는 차세대 발사체 로켓(누리호 등)과 밤하늘 속 궤도를 돌고 있는 인공위성 우주 과학 뉴스에 흥미가 생긴다.", domain: DOMAINS.ROBOT_SPACE },
+            { q: "12. 데이터의 소유권을 위변조가 불가능하도록 암호화 처리하여 가상 경제를 움직이게 돕는 분산 장부 '블록체인(Blockchain)' 기술을 안다.", domain: DOMAINS.AI_DATA },
+            { q: "13. 스마트 가전기기나 인프라 물건들이 서로 무선 공유망으로 동시 제어 연계되는 '사물인터넷(IoT)' 기기를 작동해 보거나 구조를 알고 있다.", domain: DOMAINS.CREATIVE_PLAT },
+            { q: "14. 생물체와 전이 유전자 등 최첨단 미생물 과학 분석 기법을 융합해 건강 치료제를 제작하는 바이오 의약 기술에 관심이 있다.", domain: DOMAINS.BIO_GREEN },
+            { q: "15. 환경 정화, 미래 신재생 배터리, 화이트 해커 보안 분야 등 미래 신산업 영역 중 내가 가보고 싶은 진로 직업이 하나 이상 있다.", domain: DOMAINS.CREATIVE_PLAT }
+        ];
+
+        let state = { currentIdx: 0, score: 0, soundEnabled: true, selectedScores: [], domainScores: [0, 0, 0, 0] };
+
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            if (!state.soundEnabled) return;
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            if (type === 'click') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(1000, audioCtx.currentTime + 0.08);
+                gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.08);
+                osc.start(audioCtx.currentTime);
+                osc.stop(audioCtx.currentTime + 0.08);
+            } else if (type === 'high') {
+                const now = audioCtx.currentTime;
+                const notes = [523.25, 659.25, 783.99, 1046.50];
+                notes.forEach((freq, i) => {
+                    const o = audioCtx.createOscillator();
+                    const g = audioCtx.createGain();
+                    o.connect(g); g.connect(audioCtx.destination);
+                    o.type = 'triangle';
+                    o.frequency.setValueAtTime(freq, now + i * 0.08);
+                    g.gain.setValueAtTime(0.08, now + i * 0.08);
+                    g.gain.exponentialRampToValueAtTime(0.01, now + i * 0.08 + 0.2);
+                    o.start(now + i * 0.08); o.stop(now + i * 0.08 + 0.25);
+                });
+            } else if (type === 'medium') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+                osc.frequency.setValueAtTime(783.99, audioCtx.currentTime + 0.12);
+                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                osc.start(audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.3);
+            } else if (type === 'low') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(392.00, audioCtx.currentTime);
+                osc.frequency.setValueAtTime(349.23, audioCtx.currentTime + 0.15);
+                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.35);
+                osc.start(audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.35);
+            }
+        }
+
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        let confettiActive = false; let particles = [];
+
+        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resizeCanvas); resizeCanvas();
+
+        class Confetti {
+            constructor() {
+                this.x = Math.random() * canvas.width; this.y = Math.random() * -canvas.height - 20;
+                this.rotation = Math.random() * 360; this.rotationSpeed = Math.random() * 6 - 3;
+                this.color = `hsl(${Math.random() * 360}, 90%, 65%)`; this.size = Math.random() * 8 + 6;
+                this.speedY = Math.random() * 3 + 3; this.speedX = Math.random() * 2 - 1;
+            }
+            update() {
+                this.y += this.speedY; this.x += this.speedX; this.rotation += this.rotationSpeed;
+                if (this.y > canvas.height) { this.y = -20; this.x = Math.random() * canvas.width; }
+            }
+            draw() {
+                ctx.save(); ctx.translate(this.x, this.y); ctx.rotate((this.rotation * Math.PI) / 180);
+                ctx.fillStyle = this.color; ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
+                ctx.restore();
+            }
+        }
+
+        function triggerConfetti() {
+            particles = []; for (let i = 0; i < 70; i++) particles.push(new Confetti());
+            confettiActive = true; animateConfetti();
+            setTimeout(() => { confettiActive = false; ctx.clearRect(0, 0, canvas.width, canvas.height); }, 4500);
+        }
+
+        function animateConfetti() {
+            if (!confettiActive) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach((p) => { p.update(); p.draw(); });
+            requestAnimationFrame(animateConfetti);
+        }
+
+        const screens = { home: document.getElementById('home-screen'), quiz: document.getElementById('quiz-screen'), result: document.getElementById('result-screen') };
+        const startBtn = document.getElementById('start-btn'), restartBtn = document.getElementById('restart-btn'), copyResultBtn = document.getElementById('copy-result-btn'), soundToggle = document.getElementById('sound-toggle'), soundIcon = document.getElementById('sound-icon');
+        const quizProgressText = document.getElementById('quiz-progress-text'), quizProgressFill = document.getElementById('quiz-progress-fill'), scoreCounter = document.getElementById('score-counter'), questionText = document.getElementById('question-text'), optionsContainer = document.getElementById('options-container');
+        const finalScore = document.getElementById('final-score'), finalGrade = document.getElementById('final-grade'), resultIconBadge = document.getElementById('result-icon-badge'), careerTypeTitle = document.getElementById('career-type-title'), careerTypeDesc = document.getElementById('career-type-desc'), toastMessage = document.getElementById('toast-message');
+
+        function navigateTo(targetScreen) {
+            Object.keys(screens).forEach(key => {
+                if (key === targetScreen) screens[key].classList.remove('hidden');
+                else screens[key].classList.add('hidden');
+            });
+            state.screen = targetScreen;
+        }
+
+        function startTest() {
+            state.currentIdx = 0; state.score = 0; state.selectedScores = []; state.domainScores = [0, 0, 0, 0];
+            scoreCounter.innerText = `⭐ 0점`; navigateTo('quiz'); loadNextItem();
+        }
+
+        function loadNextItem() {
+            const currentItem = ITEMS[state.currentIdx];
+            quizProgressText.innerText = `CHECKLIST ${String(state.currentIdx + 1).padStart(2, '0')} OF ${ITEMS.length}`;
+            quizProgressFill.style.width = `${((state.currentIdx + 1) / ITEMS.length) * 100}%`;
+            questionText.innerText = currentItem.q;
+            optionsContainer.innerHTML = '';
+            
+            const options = [
+                { label: "실제 체험/적극 활용하며 아주 잘 알아요", score: 3, emoji: "🔥" },
+                { label: "들어봤고 대략 어떤 개념인지 알고 있어요", score: 2, emoji: "💡" },
+                { label: "잘 들어본 적이 없거나 전혀 몰라요", score: 1, emoji: "❔" }
+            ];
+
+            options.forEach((opt) => {
+                const button = document.createElement('button');
+                button.className = "option-btn w-full px-5 py-4 bg-white/[0.03] hover:bg-white/[0.08] border border-white/5 hover:border-indigo-500/40 rounded-2xl text-left text-slate-200 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 active:scale-[0.99] flex items-center justify-between group";
+                button.innerHTML = `
+                    <div class="flex items-center space-x-3.5 pr-4">
+                        <span class="w-8 h-8 flex items-center justify-center rounded-xl bg-slate-800 text-lg group-hover:bg-indigo-500 transition-all">${opt.emoji}</span>
+                        <span class="leading-relaxed font-semibold">${opt.label}</span>
+                    </div>
+                    <span class="text-xs bg-white/5 group-hover:bg-indigo-500/20 px-2.5 py-1 rounded text-slate-400 group-hover:text-indigo-300 transition-all">+${opt.score}점</span>
+                `;
+                button.addEventListener('click', () => submitChoice(opt.score));
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function submitChoice(point) {
+            playSound('click');
+            const currentItem = ITEMS[state.currentIdx];
+            state.selectedScores.push(point); state.score += point; state.domainScores[currentItem.domain] += point;
+            scoreCounter.innerText = `⭐ ${state.score}점`;
+            state.currentIdx++;
+            if (state.currentIdx < ITEMS.length) loadNextItem();
+            else renderResultReport();
+        }
+
+        function renderResultReport() {
+            let report = { grade: "하", title: "새싹 테크 스타터 🌱", desc: "아직은 신산업 기술들이 조금 낯설고 어렵게 느껴지는군요! 괜찮아요. 세상은 엄청 빠르게 변화하고 있으니 지금부터 하나씩 알아가면 된답니다. 우리 함께 흥미진진한 미래 신산업을 더 알아 가 볼까요? 🚀", style: "text-amber-400 bg-amber-400/10 border-amber-400/20 glow-amber", soundType: "low", badge: "🌱" };
+            if (state.score >= 40) {
+                report = { grade: "상", title: "얼리어답터 미래 테크 리더 👑", desc: "미래를 화려하게 앞서가는 완벽한 신산업 리더이시군요! 이미 첨단 산업과 디지털 트렌드에 대해 매우 잘 인지하고 폭넓게 활용하고 있네요. 앞으로 신산업의 중심에서 활약할 핵심 주역이 될 준비가 끝났습니다! 멋진 날개를 마음껏 펼쳐 보세요! 🌟", style: "text-emerald-400 bg-emerald-400/10 border-emerald-500/20 glow-emerald", soundType: "high", badge: "🏆" };
+                triggerConfetti();
+            } else if (state.score >= 26) {
+                report = { grade: "중", title: "미래를 달리는 성장 크루 🧭", desc: "이미 멋진 출발점에 서 있군요! 평소 관심사만큼 신산업 트렌드에 늘 귀를 기울이고 유심히 살펴보고 있는 모습이 아주 훌륭합니다. 우리 함께 조금만 더 알아 가 볼까요? 세상을 깜짝 놀라게 할 트렌드 마스터가 될 날이 머지않았습니다! ✨", style: "text-cyan-400 bg-cyan-400/10 border-indigo-500/20 glow-indigo", soundType: "medium", badge: "⭐" };
+            }
+
+            playSound(report.soundType);
+            finalScore.innerText = `${state.score}점`; finalGrade.innerText = report.grade; finalGrade.className = `text-xl font-black px-4 py-1.5 rounded-full border ${report.style}`;
+            resultIconBadge.innerText = report.badge; careerTypeTitle.innerText = report.title; careerTypeDesc.innerText = report.desc;
+
+            const domainMaxPoints = [12, 9, 12, 12];
+            state.domainScores.forEach((pts, idx) => {
+                const percent = Math.round((pts / domainMaxPoints[idx]) * 100);
+                document.getElementById(`bar-pct-${idx}`).innerText = `${percent}%`;
+                setTimeout(() => { document.getElementById(`bar-fill-${idx}`).style.width = `${Math.min(percent, 100)}%`; }, 150);
+            });
+            navigateTo('result');
+        }
+
+        function copyResult() {
+            const tempArea = document.createElement("textarea");
+            tempArea.value = `[🚀 미래 트렌드 감지기: 신산업 친화도 테스트 결과]\n------------------------------------\n나의 종합 테크 스코어: ${finalScore.innerText} / 45점\n친화력 판정 수준: [ ${finalGrade.innerText} ] 등급\n나의 성향 타입: ${careerTypeTitle.innerText}\n\n📌 트렌드 감지기 어드바이스:\n"${careerTypeDesc.innerText}"\n\n* 본 진단은 ${new Date().getFullYear()}년 신산업 핵심 트렌드 15문항 체크리스트를 바탕으로 측정된 중학생 전용 신산업 인지도 진단서입니다.`;
+            document.body.appendChild(tempArea); tempArea.select();
+            try { if (document.execCommand('copy')) showToast(); } catch (err) { console.error(err); }
+            document.body.removeChild(tempArea);
+        }
+
+        function showToast() {
+            toastMessage.classList.remove('opacity-0', 'scale-90'); toastMessage.classList.add('opacity-100', 'scale-100');
+            setTimeout(() => { toastMessage.classList.remove('opacity-100', 'scale-100'); toastMessage.classList.add('opacity-0', 'scale-90'); }, 2400);
+        }
+
+        startBtn.addEventListener('click', () => { playSound('click'); startTest(); });
+        restartBtn.addEventListener('click', () => { playSound('click'); startTest(); });
+        copyResultBtn.addEventListener('click', () => { playSound('click'); copyResult(); });
+        soundToggle.addEventListener('click', () => {
+            state.soundEnabled = !state.soundEnabled;
+            if (state.soundEnabled) { soundIcon.innerText = "🔊"; playSound('click'); } else { soundIcon.innerText = "🔇"; }
+        });
+    </script>
+</body>
+</html>

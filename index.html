@@ -21,12 +21,12 @@
             min-height: 100vh;
             overflow-x: hidden;
             margin: 0;
-            padding: 20px 0; /* 상하 스크롤 여유 공간 */
+            padding: 20px 0;
         }
 
         .slide-container {
             width: 1280px;
-            min-height: 100vh; /* 콘텐츠에 맞춰 늘어나게 적용 */
+            min-height: 100vh;
             background-color: #02040a;
             background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('http://googleusercontent.com/image_collection/image_retrieval/2902570400736455904');
             background-size: cover;
@@ -37,7 +37,7 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            padding: 40px 60px 80px 60px; /* 카드가 잘리지 않게 하단 패딩 넉넉히 추가 */
+            padding: 40px 60px 80px 60px;
         }
 
         /* 캔버스 우주선 애니메이션 */
@@ -90,7 +90,7 @@
             color: #000;
             text-transform: uppercase;
             box-shadow: 0 0 10px rgba(255,255,255,0.2);
-            cursor: pointer; /* 마우스 오버 시 손가락 아이콘으로 변경 */
+            cursor: pointer;
             transition: transform 0.2s, filter 0.2s;
         }
         
@@ -139,7 +139,7 @@
             display: flex;
             gap: 25px;
             justify-content: center;
-            flex-wrap: wrap; /* 카드가 많아지면 아래로 떨어지도록 래핑 허용 */
+            flex-wrap: wrap;
             width: 100%;
             max-width: 1100px;
         }
@@ -200,7 +200,6 @@
             margin-bottom: 20px;
         }
 
-        /* 두번째 박스 아이콘 전용 그라데이션 */
         .quiz-icon-wrapper.alt-color {
             background: linear-gradient(to top right, #4338ca, #3b82f6);
             box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
@@ -252,7 +251,7 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
-            flex-grow: 1; /* 카드 높이 균형을 위해 여백 채움 */
+            flex-grow: 1;
         }
 
         .quiz-feature-item {
@@ -299,7 +298,7 @@
     </style>
 </head>
 <body>
-
+    
 <div class="slide-container" id="slide1">
     <canvas class="stars-canvas" id="starsCanvas"></canvas>
     
@@ -312,7 +311,7 @@
         <div class="neon-box yellow">포트폴리오</div>
         <div class="neon-box orange">교육 자료실</div>
     </div>
-
+    
     <div class="content-area">
         <p style="color: #00E5FF; font-family: 'Orbitron', sans-serif; letter-spacing: 5px; margin-bottom: 5px; font-size: 13px;">FUTURE COMPETENCY EXPLORATION SYSTEM</p>
         <h1 class="slide-title">내일(Tomorrow)의<br>내 일(Job) 탐색</h1>
@@ -327,21 +326,21 @@
                     </div>
                     <div style="background: rgba(255,255,255,0.05); padding: 5px 8px; border-radius: 8px; font-size: 12px; cursor: pointer;">🔊</div>
                 </div>
-
+                
                 <div class="quiz-icon-wrapper">
                     🔮
                     <div class="quiz-badge">NEW</div>
                 </div>
-
+                
                 <h2 class="quiz-main-heading">
                     미래를 여는<br>
                     <span class="quiz-gradient-text">신산업 직업 탐구 퀴즈</span>
                 </h2>
-
+                
                 <p class="quiz-desc">
                     인공지능, 우주공학, 바이오 등 미래 메가 트렌드 직업 20문제를 풀고, 내 성향에 딱 맞는 찰떡궁합 신산업 리포트를 받아보세요!
                 </p>
-
+                
                 <div class="quiz-features">
                     <div class="quiz-feature-item">
                         <span class="quiz-feature-icon">✔</span>
@@ -356,10 +355,10 @@
                         <span>종료 후 개인 맞춤형 진로 추천 리포트 제공</span>
                     </div>
                 </div>
-
-                <button class="quiz-btn">퀴즈 탐험 시작하기 ➔</button>
+                
+                <button class="quiz-btn" onclick="alert('신산업 직업 탐구 퀴즈는 현재 준비 중입니다! 🚀')">퀴즈 탐험 시작하기 ➔</button>
             </div>
-
+            
             <div class="quiz-card">
                 <div class="quiz-card-header">
                     <div style="display: flex; align-items: center; gap: 6px;">
@@ -368,22 +367,22 @@
                     </div>
                     <div style="background: rgba(255,255,255,0.05); padding: 5px 8px; border-radius: 8px; font-size: 12px; cursor: pointer;">🔊</div>
                 </div>
-
+                
                 <div class="quiz-icon-wrapper alt-color">
                     🔮
                     <div class="quiz-badge">TQ</div>
                 </div>
-
+                
                 <h2 class="quiz-main-heading">
                     미래 트렌드 감지기<br>
                     <span class="quiz-gradient-text">신산업 친화도 테스트</span>
                 </h2>
-
+                
                 <p class="quiz-desc">
                     나는 다가올 미래 세상의 혁신 키워드들과 얼마나 가까운 사이일까?<br>
                     15가지의 친화도 체크리스트를 통과하고 내 안의 미래 테크 온도를 분석해 보세요!
                 </p>
-
+                
                 <div class="quiz-features">
                     <div class="quiz-feature-item">
                         <span class="quiz-feature-icon" style="color:#818cf8;">✔</span>
@@ -398,19 +397,19 @@
                         <span>최종 점수별 상/중/하 성향 보고서 및 영역 차트 분석</span>
                     </div>
                 </div>
-
-                <button class="quiz-btn">친화도 감지 측정 시작 ➔</button>
+                
+                <button class="quiz-btn" onclick="location.href='친화도테스트.html'">친화도 감지 측정 시작 ➔</button>
             </div>
         </div>
     </div>
 </div>
-
+    
 <script>
-    // 1. 밤하늘 반짝이는 별 배경 (스크롤 되어도 화면 가득 차도록 유지)
+    // 1. 밤하늘 반짝이는 별 배경
     const starsCanvas = document.getElementById('starsCanvas');
     const starsCtx = starsCanvas.getContext('2d');
     const stars = [];
-
+    
     function initStars() {
         const container = document.getElementById('slide1');
         starsCanvas.width = container.offsetWidth;
@@ -427,16 +426,16 @@
             });
         }
     }
-
+    
     window.addEventListener('resize', initStars);
-
+    
     function animateStars() {
         starsCtx.clearRect(0, 0, starsCanvas.width, starsCanvas.height);
         for (let i = 0; i < stars.length; i++) {
             let s = stars[i];
             s.alpha += s.speed;
             if (s.alpha > 1 || s.alpha < 0.1) s.speed *= -1;
-
+            
             starsCtx.fillStyle = `rgba(255, 255, 255, ${Math.abs(s.alpha)})`;
             starsCtx.beginPath();
             starsCtx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
@@ -445,28 +444,27 @@
         requestAnimationFrame(animateStars);
     }
     
-    // 2. 우주선 그리기 (크기 축소 및 강한 빛 방출 유지)
+    // 2. 우주선 그리기
     const shipCanvas = document.getElementById('shipCanvas');
     const shipCtx = shipCanvas.getContext('2d');
     let shipBlinkPhase = 0;
-
+    
     function drawSpaceship() {
         shipCtx.clearRect(0, 0, 240, 240);
         shipCtx.save();
         
         shipCtx.translate(120, 120); 
-        const size = 30; // 축소된 크기 유지
-
-        // [우주선 몸체 - 골무 모양]
+        const size = 30; 
+        
+        // [우주선 몸체]
         const thimbleWidth = size * 0.8; 
         const thimbleRearPlane = -size * 0.4; 
-
-        // 하얀 몸체 에너지를 뿜어내듯 강하게 빛나는 맥동 효과 유지
+        
         const bodyGlowIntensity = Math.abs(Math.sin(shipBlinkPhase * 1.5)) * 10 + 20; 
         shipCtx.shadowBlur = bodyGlowIntensity;
         shipCtx.shadowColor = 'rgba(255, 255, 255, 1)'; 
         shipCtx.fillStyle = '#FFFFFF';
-
+        
         shipCtx.beginPath();
         const noseApex = size; 
         const noseRadius = thimbleWidth / 2;
@@ -475,12 +473,12 @@
         shipCtx.lineTo(thimbleRearPlane, -noseRadius);
         shipCtx.closePath();
         shipCtx.fill();
-
+        
         shipCtx.shadowBlur = 0; 
         shipCtx.lineWidth = 1.5;
         shipCtx.strokeStyle = '#E0E0E0';
         shipCtx.stroke();
-
+        
         // [창문 불빛]
         const windowGlow = Math.abs(Math.sin(shipBlinkPhase)) * 0.4 + 0.2;
         shipCtx.shadowBlur = 10;
@@ -489,18 +487,18 @@
         shipCtx.beginPath();
         shipCtx.arc(size / 3, 0, size / 10, 0, Math.PI * 2); 
         shipCtx.fill();
-
-        // [발사체 - 주황색 네온 빛 반짝임 효과]
+        
+        // [발사체]
         shipCtx.save();
         
         const boosterGlowSpeed = 3.0; 
         const boosterGlowPhase = shipBlinkPhase * boosterGlowSpeed;
         const rawBoosterGlow = Math.pow(Math.abs(Math.sin(boosterGlowPhase)), 2); 
         const boosterGlow = rawBoosterGlow * 0.8 + 0.2; 
-
+        
         const boosterLen = size * (0.8 + Math.random() * 0.4); 
         const boosterWidth = thimbleWidth / 2; 
-
+        
         shipCtx.shadowBlur = 20 * boosterGlow;
         shipCtx.shadowColor = '#FF5722'; 
         
@@ -515,7 +513,7 @@
         
         shipCtx.closePath();
         shipCtx.fill();
-
+        
         shipCtx.shadowBlur = 10;
         shipCtx.shadowColor = '#FFD700'; 
         shipCtx.fillStyle = `rgba(255, 215, 0, ${boosterGlow + 0.2})`; 
@@ -532,12 +530,11 @@
         
         shipCtx.restore(); 
         shipCtx.restore(); 
-
+        
         shipBlinkPhase += 0.1; 
         requestAnimationFrame(drawSpaceship);
     }
     
-    // 폰트 등이 로드된 후 캔버스 높이 정확하게 재계산
     setTimeout(() => {
         initStars();
         animateStars();
