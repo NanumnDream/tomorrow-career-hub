@@ -24,8 +24,10 @@
             padding: 20px 0;
         }
 
+        /* 한 줄에 3개가 들어가도록 컨테이너 너비 확장 */
         .slide-container {
-            width: 1280px;
+            width: 100%;
+            max-width: 1360px;
             min-height: 100vh;
             background-color: #02040a;
             background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('http://googleusercontent.com/image_collection/image_retrieval/2902570400736455904');
@@ -144,6 +146,7 @@
             max-width: 1250px;
         }
 
+        /* 카드 최대 너비를 조정하여 3개가 여유롭게 배치되도록 구성 */
         .quiz-card {
             background: rgba(15, 23, 42, 0.65);
             backdrop-filter: blur(12px);
@@ -153,7 +156,9 @@
             border-radius: 24px;
             padding: 24px;
             width: 100%;
-            max-width: 380px;
+            flex: 1;
+            min-width: 300px;
+            max-width: 370px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -370,7 +375,7 @@
                 </div>
                 
                 <div class="quiz-icon-wrapper alt-color">
-                    🔮
+                    🔍
                     <div class="quiz-badge">TQ</div>
                 </div>
                 
@@ -406,42 +411,41 @@
                 <div class="quiz-card-header">
                     <div style="display: flex; align-items: center; gap: 6px;">
                         <span style="font-size: 16px;">🧭</span>
-                        <span class="quiz-card-title">NEW MODULE</span>
+                        <span class="quiz-card-title">CAREER NAVIGATOR</span>
                     </div>
                     <div style="background: rgba(255,255,255,0.05); padding: 5px 8px; border-radius: 8px; font-size: 12px; cursor: pointer;">🔊</div>
                 </div>
                 
                 <div class="quiz-icon-wrapper" style="background: linear-gradient(to top right, #f59e0b, #ef4444); box-shadow: 0 10px 25px rgba(239, 68, 68, 0.4);">
-                    🗺️
-                    <div class="quiz-badge" style="background: #3b82f6;">GO</div>
+                    📊
+                    <div class="quiz-badge" style="background: #3b82f6;">FIT</div>
                 </div>
                 
                 <h2 class="quiz-main-heading">
-                    새로운 탐색 영역<br>
-                    <span class="quiz-gradient-text" style="background: linear-gradient(to right, #fbbf24, #f87171, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">세 번째 모듈 제목</span>
+                    직업적성 연계<br>
+                    <span class="quiz-gradient-text" style="background: linear-gradient(to right, #fbbf24, #f87171, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">신산업 커리어 탐색</span>
                 </h2>
                 
                 <p class="quiz-desc">
-                    세 번째 활동에 대한 안내 텍스트를 입력합니다.<br>
-                    학생들의 진로 설계를 돕는 새로운 테스트를 진행해보세요!
+                    학생의 직업적성검사 상위 요인을 기반으로 미래 유망 신산업 직업군을 매칭하고, 학생부 창의적 체험활동 연계 탐구를 지원합니다.
                 </p>
                 
                 <div class="quiz-features">
                     <div class="quiz-feature-item">
                         <span class="quiz-feature-icon" style="color:#fbbf24;">✔</span>
-                        <span>세 번째 모듈 핵심 기능 1</span>
+                        <span>11개 직업적성 요인 맞춤형 신산업 매칭</span>
                     </div>
                     <div class="quiz-feature-item">
                         <span class="quiz-feature-icon" style="color:#fbbf24;">✔</span>
-                        <span>세 번째 모듈 핵심 기능 2</span>
+                        <span>가상 현직자 챗봇 멘토링 연계 직무 심층 인터뷰</span>
                     </div>
                     <div class="quiz-feature-item">
                         <span class="quiz-feature-icon" style="color:#fbbf24;">✔</span>
-                        <span>세 번째 모듈 핵심 기능 3</span>
+                        <span>교과세특 및 창체 연계 탐구 가이드·포트폴리오 기록</span>
                     </div>
                 </div>
                 
-                <button class="quiz-btn" style="background: linear-gradient(to right, #f59e0b, #ef4444);" onclick="location.href='test03.html'">세 번째 활동 시작하기 ➔</button>
+                <button class="quiz-btn" style="background: linear-gradient(to right, #f59e0b, #ef4444);" onclick="location.href='test03.html'">적성 기반 탐색 시작 ➔</button>
             </div>
 
         </div>
