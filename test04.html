@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>미래 신산업 연계 진로 탐색 시스템 - 신산업 학업 설계</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans KR"', 'sans-serif'],
+                        mono: ['Orbitron', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        @media print {
+            body, main, div, p, h1, h2, h3, h4, h5, h6, span {
+                background: white !important;
+                color: black !important;
+                text-shadow: none !important;
+                box-shadow: none !important;
+                border-color: #cbd5e1 !important;
+            }
+            .print-hidden, header, footer, button { display: none !important; }
+            .print-block { display: block !important; }
+        }
+    </style>
+</head>
+<body class="bg-[#070a13] text-slate-200 min-h-screen flex flex-col font-sans overflow-x-hidden relative">
+
+    <div class="fixed top-20 left-10 w-96 h-96 bg-pink-600/5 rounded-full blur-3xl pointer-events-none -z-10"></div>
+    <div class="fixed top-1/2 right-10 w-96 h-96 bg-yellow-600/5 rounded-full blur-3xl pointer-events-none -z-10"></div>
+    
+    <header id="app-header" class="hidden w-full px-4 py-3 flex items-center justify-between border-b border-slate-800/80 sticky top-0 bg-[#070a13]/90 backdrop-blur-md z-40 print-hidden max-w-4xl mx-auto">
+        <button onclick="goToHome()" class="flex items-center gap-2 group transition">
+            <div class="p-2 bg-slate-900/80 rounded-xl shadow-md border border-slate-800"><i class="fas fa-compass text-pink-400 text-lg"></i></div>
+            <span class="text-white font-extrabold text-sm sm:text-base tracking-tight">신산업 학업 설계 네비게이터</span>
+        </button>
+        <button onclick="changeScreen('saved')" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition bg-slate-900/60 text-slate-400 hover:text-white border border-slate-800">
+            <i class="fas fa-bookmark text-sm"></i><span id="saved-count-badge">관심 학과 (0)</span>
+        </button>
+    </header>
+
+    <main class="w-full max-w-4xl mx-auto flex-1 p-4 sm:p-6 md:p-8 z-10 flex flex-col items-center">
+        
+        <div id="screen-home" class="w-full max-w-xl py-6 animate-fade-in flex flex-col items-center">
+            <div class="w-full bg-[#0a0f1d] border border-slate-800 rounded-[32px] p-6 shadow-2xl relative overflow-hidden transition duration-300 hover:border-pink-500/30">
+                <div class="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-yellow-500/50 to-transparent"></div>
+                
+                <div class="flex items-center justify-between pb-5 border-b border-slate-900/60">
+                    <div class="flex items-center gap-2">
+                        <span class="text-lg">🏫</span>
+                        <span class="text-[10px] sm:text-xs font-black tracking-widest text-yellow-400 uppercase font-mono">MAJOR EXPLORER</span>
+                    </div>
+                    <button onclick="toggleMute()" class="w-8 h-8 rounded-lg bg-slate-900/80 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white transition">
+                        <i id="mute-icon" class="fas fa-volume-up text-yellow-400 text-lg"></i>
+                    </button>
+                </div>
+
+                <div class="flex flex-col items-center py-6">
+                    <div class="relative w-24 h-24 sm:w-28 sm:h-28 rounded-[28px] bg-gradient-to-tr from-[#1E293B] to-yellow-500/20 flex items-center justify-center border border-slate-800 shadow-[0_0_30px_rgba(234,179,8,0.15)]">
+                        <span class="text-5xl sm:text-6xl select-none">🎓</span>
+                        <span class="absolute -top-1 right-1 bg-pink-500 text-white text-[8px] px-1.5 py-0.5 rounded-full font-black animate-pulse">EDU</span>
+                    </div>
+                </div>
+
+                <div class="text-center space-y-3 px-2 sm:px-4">
+                    <p class="text-sm font-bold text-slate-400">목표를 향한 첫 걸음</p>
+                    <h2 class="text-2xl sm:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-400 to-pink-500 tracking-tight leading-tight">신산업 학업 설계</h2>
+                    <p class="text-slate-400 text-xs leading-relaxed max-w-sm mx-auto">커리어넷과 대입정보포털(어디가)의 정보를 바탕으로, 미래 신산업을 이끌어갈 알짜배기 전공 학과들을 중학생 눈높이에서 쉽게 알아봅니다.</p>
+                </div>
+
+                <div class="mt-6 bg-[#060914] border border-slate-900 rounded-2xl p-4 sm:p-5 space-y-3">
+                    <div class="flex items-start gap-2.5"><i class="fas fa-check-circle text-yellow-400 mt-1"></i><span class="text-xs sm:text-sm text-slate-300 font-semibold leading-relaxed">5대 유망 신산업 분야별 학과 매칭</span></div>
+                    <div class="flex items-start gap-2.5"><i class="fas fa-check-circle text-yellow-400 mt-1"></i><span class="text-xs sm:text-sm text-slate-300 font-semibold leading-relaxed">중학생 눈높이에 맞춘 아주 쉬운 학과 해설</span></div>
+                    <div class="flex items-start gap-2.5"><i class="fas fa-check-circle text-yellow-400 mt-1"></i><span class="text-xs sm:text-sm text-slate-300 font-semibold leading-relaxed">미리 준비하는 중학교 맞춤형 교과 추천</span></div>
+                </div>
+
+                <div class="mt-8">
+                    <button onclick="changeScreen('category')" class="w-full py-4 bg-gradient-to-r from-orange-500 to-pink-600 hover:opacity-95 text-white font-extrabold text-sm sm:text-base rounded-2xl flex items-center justify-center gap-2 shadow-lg transition-transform hover:-translate-y-0.5">
+                        <span>학과 탐색 시작하기 ➔</span>
+                    </button>
+                </div>
+            </div>
+            
+            <button id="home-saved-btn" onclick="changeScreen('saved')" class="hidden mt-4 text-xs font-bold text-slate-500 hover:text-yellow-400 flex items-center gap-1 transition">
+                <span id="home-saved-text">이전 기록한 보관함 가기</span><i class="fas fa-chevron-right text-xs"></i>
+            </button>
+        </div>
+
+        <div id="screen-category" class="hidden w-full animate-fade-in space-y-6">
+            <div class="flex items-center gap-3">
+                <button onclick="goToHome()" class="p-2 bg-slate-900 rounded-xl text-slate-400 hover:bg-slate-800 transition"><i class="fas fa-arrow-left text-lg"></i></button>
+                <div>
+                    <h2 class="text-xl font-bold text-white">신산업 분야 선택</h2>
+                    <p class="text-xs text-slate-400">평소 관심 있었던 미래 기술 분야를 하나 선택해 보세요.</p>
+                </div>
+            </div>
+            <div id="category-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-2"></div>
+        </div>
+
+        <div id="screen-majors" class="hidden w-full animate-fade-in space-y-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <button onclick="changeScreen('category')" class="p-2 bg-slate-900 rounded-xl text-slate-400 hover:bg-slate-800"><i class="fas fa-arrow-left text-lg"></i></button>
+                    <div>
+                        <span id="major-list-subtitle" class="text-[10px] text-pink-400 font-bold px-2 py-0.5 bg-pink-500/10 rounded-md">분야</span>
+                        <h2 class="text-xl font-bold text-white mt-1">관련 유망 학과</h2>
+                    </div>
+                </div>
+            </div>
+            <div id="majors-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+        </div>
+
+        <div id="screen-detail" class="hidden w-full animate-fade-in space-y-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <button onclick="changeScreen('majors')" class="p-2 bg-slate-900 rounded-xl text-slate-400 hover:bg-slate-800"><i class="fas fa-arrow-left text-lg"></i></button>
+                    <h2 class="text-xl font-bold text-white">학과 상세 가이드</h2>
+                </div>
+                <button id="btn-bookmark-detail" onclick="toggleCurrentMajorSave()" class="flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg font-semibold transition border border-slate-800 bg-slate-900 text-slate-400">
+                    <i id="icon-bookmark-detail" class="fas fa-bookmark"></i> <span id="text-bookmark-detail">관심 학과 담기</span>
+                </button>
+            </div>
+            <div id="detail-content" class="bg-[#0a0f1d]/75 border border-slate-800 rounded-3xl p-6 md:p-8 space-y-6 shadow-lg"></div>
+        </div>
+
+        <div id="screen-saved" class="hidden w-full animate-fade-in space-y-6">
+            <div class="flex items-center justify-between print-hidden">
+                <div class="flex items-center gap-3">
+                    <button onclick="goToHome()" class="p-2 bg-slate-900 rounded-xl text-slate-400 hover:bg-slate-800"><i class="fas fa-arrow-left text-lg"></i></button>
+                    <h2 class="text-xl font-bold text-white">관심 학과 보관함</h2>
+                </div>
+                <button id="print-btn" onclick="triggerPrint()" class="hidden flex items-center gap-1 px-4 py-2 bg-pink-600 hover:bg-pink-500 transition text-white rounded-xl text-xs font-bold">
+                    <i class="fas fa-print"></i> PDF 저장
+                </button>
+            </div>
+
+            <div class="hidden print-block border-b-2 border-slate-900 pb-4 mb-4 text-center">
+                <h1 class="text-2xl font-extrabold text-black">나의 신산업 대학 전공 탐색 포트폴리오</h1>
+                <p class="text-sm text-black mt-2">소속: 중학교 &nbsp;&nbsp; 학년 &nbsp;&nbsp; 반 &nbsp;&nbsp; 이름: ____________</p>
+            </div>
+
+            <div id="saved-empty-state" class="hidden bg-[#0a0f1d]/75 border border-slate-800 p-12 text-center rounded-3xl space-y-4 print-hidden">
+                <span class="text-5xl block">🎒</span>
+                <h4 class="font-bold text-white">아직 담아둔 학과가 없어요!</h4>
+                <button onclick="changeScreen('category')" class="px-4 py-2 bg-pink-500/10 text-pink-400 border border-pink-500/20 rounded-xl text-xs hover:bg-pink-500/20 transition">학과 탐색하러 가기</button>
+            </div>
+
+            <div id="saved-list-container" class="space-y-6"></div>
+        </div>
+
+    </main>
+
+    <footer class="w-full max-w-4xl mx-auto border-t border-slate-900 mt-auto py-4 text-center text-[10px] text-slate-500 print-hidden">
+        <p>© 2026 내일(Tomorrow)의 내 일(Job) 탐색 플랫폼. All rights reserved.</p>
+        <p>※ 본 학과 자료는 대입정보포털(어디가) 및 커리어넷 기반으로 중학생 눈높이에 맞게 재구성되었습니다.</p>
+    </footer>
+
+    <div id="toast-message" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 scale-90 opacity-0 bg-slate-900 border border-slate-800 px-5 py-2.5 rounded-xl text-xs font-bold text-white z-50 flex items-center gap-1.5 transition-all duration-300 pointer-events-none">
+        <i class="fas fa-info-circle text-yellow-400"></i><span id="toast-text">알림 메시지</span>
+    </div>
+
+    <script>
+        const INDUSTRY_CATEGORIES = [
+            {
+                id: "ai_sw",
+                name: "인공지능 · 소프트웨어",
+                icon: "💻",
+                desc: "스스로 생각하는 컴퓨터와 방대한 정보를 다루는 기술 분야",
+                color: "from-blue-600 to-cyan-500",
+                majors: [
+                    {
+                        id: "m_ai",
+                        name: "인공지능학과",
+                        tagline: "미래의 자비스(J.A.R.V.I.S)를 내 손으로!",
+                        what: "사람의 뇌처럼 생각하고 스스로 학습하는 컴퓨터 프로그램을 만드는 방법을 배웁니다. 챗GPT, 자율주행차의 두뇌, 얼굴 인식 기술 등이 모두 인공지능의 작품입니다.",
+                        why: "모든 산업에 인공지능이 들어가기 때문에 미래 가장 일자리가 많고 중요한 학과입니다.",
+                        middle_school: "수학(논리적 사고)과 정보(코딩 기초) 과목의 원리를 재미있게 공부해보세요."
+                    },
+                    {
+                        id: "m_data",
+                        name: "데이터사이언스학과",
+                        tagline: "숨겨진 정보 속에서 황금을 찾는 탐정",
+                        what: "인터넷에 떠도는 수억 개의 데이터(유튜브 시청 기록, 날씨, 쇼핑 내역 등)를 모으고 분석해서, 사람들이 다음에 무엇을 유행시킬지, 어떤 질병이 퍼질지 예측하는 마법 같은 통계 기술을 배웁니다.",
+                        why: "데이터는 '미래의 석유'라고 불립니다. 데이터를 분석하는 능력이 곧 기업의 경쟁력이기 때문입니다.",
+                        middle_school: "수학의 확률과 통계 단원, 그리고 사회 과목의 현상 분석에 관심을 가져보세요."
+                    },
+                    {
+                        id: "m_security",
+                        name: "정보보안학과",
+                        tagline: "사이버 세상의 보이지 않는 방패, 화이트 해커",
+                        what: "나쁜 해커들이 은행이나 국가의 컴퓨터에 침입하지 못하도록 방어벽을 튼튼하게 설계하는 기술을 배웁니다. 해킹을 막기 위해 오히려 해킹 기술을 배우는 매력적인 곳입니다.",
+                        why: "인터넷과 스마트폰으로 모든 것이 연결된 시대에 개인 정보 보호는 국가의 안보와 직결됩니다.",
+                        middle_school: "정보(컴퓨터 구조), 그리고 도덕(사이버 윤리) 과목이 기초 체력이 됩니다."
+                    }
+                ]
+            },
+            {
+                id: "bio_health",
+                name: "바이오 · 스마트 헬스케어",
+                icon: "🧬",
+                desc: "유전자 조작과 생명 연장, 최첨단 미래 의료 기술 분야",
+                color: "from-emerald-500 to-green-600",
+                majors: [
+                    {
+                        id: "m_bioeng",
+                        name: "생명공학과",
+                        tagline: "생명의 비밀을 풀어 질병 없는 세상을 만드는 곳",
+                        what: "미생물, 식물, 동물의 유전자를 연구해서 부작용 없는 신약(백신)을 만들거나, 사막에서도 잘 자라는 슈퍼 식량, 환경을 오염시키지 않는 친환경 플라스틱을 발명하는 방법을 배웁니다.",
+                        why: "코로나19 같은 전염병을 막고 인류의 수명을 100세 이상 건강하게 유지하는 핵심 분야입니다.",
+                        middle_school: "과학(생물 단원) 시간에 세포와 유전, 호흡의 원리를 주의 깊게 들어보세요."
+                    },
+                    {
+                        id: "m_medtech",
+                        name: "의공학과",
+                        tagline: "의학과 로봇 기계의 멋진 만남",
+                        what: "의사 선생님들이 수술할 때 쓰는 초정밀 수술 로봇, 엑스레이, 심장 박동을 재는 스마트워치 같은 최첨단 '의료 기계'를 발명하고 설계하는 학과입니다.",
+                        why: "기계공학과 의학이 합쳐진 융합 산업으로, 고령화 시대에 가장 주목받는 기술입니다.",
+                        middle_school: "과학(물리, 생물)의 기초를 탄탄히 하고 기술·가정 과목의 기계 원리를 즐겨보세요."
+                    }
+                ]
+            },
+            {
+                id: "robot_space",
+                name: "로봇 · 차세대 모빌리티",
+                icon: "🚀",
+                desc: "하늘을 나는 자동차와 우주 탐사, 스스로 움직이는 로봇 분야",
+                color: "from-indigo-600 to-purple-600",
+                majors: [
+                    {
+                        id: "m_robotics",
+                        name: "로봇공학과",
+                        tagline: "인간을 돕는 똑똑한 쇳덩어리 조종사",
+                        what: "스스로 걷고 물건을 나르는 휴머노이드 로봇, 공장에서 자동차를 조립하는 로봇 팔, 험한 곳을 탐사하는 무인 로봇 등 '기계의 뼈대'와 '움직임 알고리즘'을 모두 배웁니다.",
+                        why: "공장, 병원, 식당 심지어 집안일까지 미래에는 로봇이 필수적인 파트너가 됩니다.",
+                        middle_school: "수학(각도와 도형), 과학(역학과 힘), 정보(코딩 제어) 세 가지가 찰떡궁합입니다."
+                    },
+                    {
+                        id: "m_aerospace",
+                        name: "항공우주공학과",
+                        tagline: "누리호를 타고 우주로! 지구의 한계를 넘는 곳",
+                        what: "공기의 저항을 이겨내고 하늘을 나는 비행기, 화성으로 날아가는 탐사 로켓, 날씨를 관측하는 인공위성을 설계하고 만드는 엄청난 스케일의 공학을 배웁니다.",
+                        why: "우주 관광과 달 기지 건설 등 인류의 다음 무대는 우주이기 때문입니다.",
+                        middle_school: "과학(물리 단원의 힘과 운동, 지구과학의 우주) 시간에 우주를 향한 상상력을 키워보세요."
+                    },
+                    {
+                        id: "m_mobility",
+                        name: "스마트모빌리티학과",
+                        tagline: "하늘을 나는 드론 택시와 자율주행차의 산실",
+                        what: "기름 대신 전기로 달리는 친환경 자동차, 사람이 운전대를 잡지 않아도 알아서 목적지까지 데려다주는 자율주행 기술, 도심을 날아다니는 UAM(드론 택시)을 연구합니다.",
+                        why: "우리의 이동 방식(교통수단)이 100년 만에 완전히 새롭게 바뀌고 있는 혁명적인 분야입니다.",
+                        middle_school: "과학(전기와 자기) 원리와 기술·가정(수송 기술) 단원을 집중해서 공부하세요."
+                    }
+                ]
+            },
+            {
+                id: "eco_energy",
+                name: "친환경 · 신소재 에너지",
+                icon: "🌿",
+                desc: "지구 온난화를 막는 청정 에너지와 마법의 물질을 만드는 분야",
+                color: "from-teal-500 to-emerald-400",
+                majors: [
+                    {
+                        id: "m_energy",
+                        name: "신재생에너지공학과",
+                        tagline: "지구를 살리는 깨끗하고 무한한 마법의 빛과 바람",
+                        what: "석탄과 석유 대신 햇빛(태양광), 바람(풍력), 바닷물(조력)을 이용해 전기를 만들어내는 방법과, 만들어진 전기를 오래 저장하는 튼튼한 2차 전지(배터리)를 연구합니다.",
+                        why: "지구 온난화로 인한 기후 위기를 막기 위해 전 세계 모든 나라가 사활을 걸고 있는 분야입니다.",
+                        middle_school: "과학(에너지 전환, 화학 반응) 시간의 실험 원리를 일상생활에 연결해보세요."
+                    },
+                    {
+                        id: "m_material",
+                        name: "신소재공학과",
+                        tagline: "종이처럼 휘어지는 스마트폰 액정? 마법의 재료 발명가",
+                        what: "다이아몬드보다 단단하지만 깃털처럼 가벼운 금속, 투명한 디스플레이 등 세상에 없던 새로운 성질의 '재료'를 화학적, 물리적으로 발명해 내는 학과입니다.",
+                        why: "신소재가 개발되어야 더 가벼운 비행기, 더 빠른 반도체, 접히는 전자기기를 만들 수 있습니다.",
+                        middle_school: "과학(물질의 특성, 원자와 분자) 단원의 주기율표와 물질의 변화가 가장 중요합니다."
+                    }
+                ]
+            },
+            {
+                id: "metaverse_media",
+                name: "메타버스 · 디지털 콘텐츠",
+                icon: "🎮",
+                desc: "상상 속의 세계를 진짜 현실처럼 눈앞에 구현하는 기획 분야",
+                color: "from-pink-600 to-rose-400",
+                majors: [
+                    {
+                        id: "m_media",
+                        name: "미디어커뮤니케이션학과",
+                        tagline: "세상의 트렌드를 이끄는 영상과 글의 지휘자",
+                        what: "유튜브, 방송, 넷플릭스와 같은 매체를 통해 대중의 마음을 움직이는 재미있는 콘텐츠를 기획하고, 정확한 소식을 전달하며 소통하는 방법을 깊이 있게 배웁니다.",
+                        why: "기술이 발달할수록 사람들은 더 재미있고 감동적인 스토리(콘텐츠)를 원하기 때문입니다.",
+                        middle_school: "국어(글쓰기와 토론)와 사회(사람들의 심리와 사회 문화 현상)에 깊은 관심을 가져주세요."
+                    },
+                    {
+                        id: "m_gamevr",
+                        name: "가상현실(VR) & 게임공학과",
+                        tagline: "머릿속 상상을 완벽한 가상 세계로 창조하는 마법사",
+                        what: "컴퓨터 그래픽(CG)과 프로그래밍을 활용하여, VR 기기를 썼을 때 정말 현실처럼 느껴지는 게임이나 메타버스 세상을 입체적으로 프로그래밍하는 곳입니다.",
+                        why: "단순한 오락을 넘어 가상 병원 수술 연습, 가상 우주 체험 등 교육과 산업 전반으로 뻗어나가고 있습니다.",
+                        middle_school: "미술(공간 지각력과 색채감)과 정보(코딩 논리)의 아름다운 융합이 필요한 분야입니다."
+                    }
+                ]
+            }
+        ];
+
+        const state = {
+            savedMajors: [],
+            activeCategory: null,
+            activeMajor: null,
+            isMuted: false,
+            screen: 'home' 
+        };
+
+        const screens = {
+            home: document.getElementById('screen-home'),
+            category: document.getElementById('screen-category'),
+            majors: document.getElementById('screen-majors'),
+            detail: document.getElementById('screen-detail'),
+            saved: document.getElementById('screen-saved')
+        };
+        const appHeader = document.getElementById('app-header');
+
+        function initApp() {
+            try {
+                const saved = localStorage.getItem('vanilla_saved_majors');
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    if (Array.isArray(parsed)) state.savedMajors = parsed;
+                }
+            } catch(e) { console.log(e); }
+            updateSavedBadge();
+            renderCategories();
+        }
+
+        function changeScreen(screenId) {
+            state.screen = screenId;
+            Object.values(screens).forEach(el => el.classList.add('hidden'));
+            screens[screenId].classList.remove('hidden');
+            
+            if(screenId === 'home') appHeader.classList.add('hidden');
+            else appHeader.classList.remove('hidden');
+
+            if(screenId === 'saved') renderSavedMajors();
+            
+            window.scrollTo(0,0);
+        }
+
+        function goToHome() {
+            playSound();
+            changeScreen('home');
+        }
+
+        function updateSavedBadge() {
+            const count = state.savedMajors.length;
+            document.getElementById('saved-count-badge').innerText = `관심 학과 (${count})`;
+            
+            const homeBtn = document.getElementById('home-saved-btn');
+            if(count > 0) {
+                homeBtn.classList.remove('hidden');
+                document.getElementById('home-saved-text').innerText = `이전 기록한 보관함 가기 (${count}개 저장됨)`;
+            } else {
+                homeBtn.classList.add('hidden');
+            }
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast-message');
+            document.getElementById('toast-text').innerText = msg;
+            toast.classList.remove('opacity-0', 'scale-90');
+            toast.classList.add('opacity-100', 'scale-100');
+            playSound();
+            setTimeout(() => {
+                toast.classList.remove('opacity-100', 'scale-100');
+                toast.classList.add('opacity-0', 'scale-90');
+            }, 2500);
+        }
+
+        function toggleMute() {
+            state.isMuted = !state.isMuted;
+            document.getElementById('mute-icon').className = state.isMuted ? "fas fa-volume-mute text-rose-500 text-lg" : "fas fa-volume-up text-yellow-400 text-lg";
+            showToast(state.isMuted ? "음소거되었습니다." : "소리가 켜졌습니다.");
+        }
+
+        function playSound() {
+            if(state.isMuted) return;
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(500, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.1);
+                gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.1);
+            } catch(e) {}
+        }
+
+        function renderCategories() {
+            const grid = document.getElementById('category-grid');
+            grid.innerHTML = '';
+            
+            INDUSTRY_CATEGORIES.forEach(cat => {
+                const btn = document.createElement('button');
+                btn.className = "bg-[#0a0f1d]/80 border border-slate-800 rounded-2xl p-6 hover:border-pink-500/50 hover:shadow-[0_0_15px_rgba(236,72,153,0.2)] hover:-translate-y-1 transition-all text-left flex flex-col h-full cursor-pointer";
+                btn.innerHTML = `
+                    <div class="flex items-center gap-3 mb-3 pointer-events-none">
+                        <div class="w-12 h-12 rounded-xl bg-gradient-to-br ${cat.color} flex items-center justify-center text-2xl shadow-lg">${cat.icon}</div>
+                        <h3 class="font-extrabold text-white text-base">${cat.name}</h3>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed pointer-events-none">${cat.desc}</p>
+                    <div class="mt-auto pt-4 flex justify-end text-pink-400 text-xs font-bold items-center gap-1 pointer-events-none">
+                        전공 보기 <i class="fas fa-arrow-right"></i>
+                    </div>
+                `;
+                btn.onclick = () => {
+                    playSound();
+                    state.activeCategory = cat;
+                    renderMajors();
+                    changeScreen('majors');
+                };
+                grid.appendChild(btn);
+            });
+        }
+
+        function renderMajors() {
+            if(!state.activeCategory) return;
+            document.getElementById('major-list-subtitle').innerText = `${state.activeCategory.icon} ${state.activeCategory.name} 분야`;
+            
+            const grid = document.getElementById('majors-grid');
+            grid.innerHTML = '';
+
+            state.activeCategory.majors.forEach(major => {
+                const isSaved = state.savedMajors.includes(major.id);
+                const card = document.createElement('div');
+                card.className = "bg-[#0a0f1d]/80 border border-slate-800 rounded-3xl overflow-hidden hover:border-slate-600 transition flex flex-col cursor-pointer";
+                card.innerHTML = `
+                    <div class="p-5 flex items-center justify-between border-b border-slate-800 bg-slate-900/40 pointer-events-none">
+                        <div>
+                            <span class="text-[10px] text-yellow-400 font-bold px-2 py-0.5 border border-yellow-500/30 bg-yellow-500/10 rounded-md">추천 전공</span>
+                            <h3 class="font-extrabold text-lg text-white mt-1.5">${major.name}</h3>
+                        </div>
+                        <button onclick="toggleBookmark('${major.id}', event)" class="p-2 hover:scale-110 transition pointer-events-auto">
+                            <i id="major-bm-${major.id}" class="${isSaved ? 'fas text-yellow-400' : 'far text-slate-400'} fa-bookmark text-xl"></i>
+                        </button>
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col justify-between space-y-4 pointer-events-none">
+                        <div class="space-y-2">
+                            <p class="text-xs font-bold text-pink-400">“ ${major.tagline} ”</p>
+                            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed line-clamp-3">${major.what}</p>
+                        </div>
+                        <button onclick="openMajorDetail('${major.id}')" class="w-full py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-bold flex justify-center items-center gap-1.5 transition pointer-events-auto">
+                            <i class="fas fa-search"></i> 자세히 알아보기
+                        </button>
+                    </div>
+                `;
+                // 카드 전체를 눌러도 상세화면으로 이동하도록 연결
+                card.onclick = (e) => {
+                    // 북마크 버튼이나 '자세히 알아보기' 버튼을 직접 클릭한 경우는 제외
+                    if(e.target.tagName !== 'BUTTON' && !e.target.closest('button')) {
+                        openMajorDetail(major.id);
+                    }
+                };
+                grid.appendChild(card);
+            });
+        }
+
+        function openMajorDetail(majorId) {
+            playSound();
+            const major = state.activeCategory.majors.find(m => m.id === majorId);
+            state.activeMajor = major;
+
+            const content = document.getElementById('detail-content');
+            content.innerHTML = `
+                <div class="text-center space-y-2 border-b border-slate-800 pb-6">
+                    <div class="inline-block p-4 bg-gradient-to-br ${state.activeCategory.color} rounded-2xl text-4xl shadow-lg mb-2">${state.activeCategory.icon}</div>
+                    <h2 class="text-2xl font-black text-white">${major.name}</h2>
+                    <p class="text-sm font-bold text-yellow-400">“ ${major.tagline} ”</p>
+                </div>
+                
+                <div class="space-y-6 pt-4">
+                    <div class="bg-slate-900/60 p-5 rounded-2xl border border-slate-800 space-y-2">
+                        <h4 class="text-sm font-extrabold text-pink-400 flex items-center gap-2"><i class="fas fa-book-reader"></i> 무엇을 배우는 곳일까요?</h4>
+                        <p class="text-sm text-slate-300 leading-relaxed">${major.what}</p>
+                    </div>
+
+                    <div class="bg-slate-900/60 p-5 rounded-2xl border border-slate-800 space-y-2">
+                        <h4 class="text-sm font-extrabold text-emerald-400 flex items-center gap-2"><i class="fas fa-globe-asia"></i> 왜 신산업의 핵심일까요?</h4>
+                        <p class="text-sm text-slate-300 leading-relaxed">${major.why}</p>
+                    </div>
+
+                    <div class="bg-indigo-950/20 p-5 rounded-2xl border border-indigo-500/20 space-y-2">
+                        <h4 class="text-sm font-extrabold text-indigo-400 flex items-center gap-2"><i class="fas fa-school"></i> 중학교 때 이건 꼭 친해지세요!</h4>
+                        <p class="text-sm text-slate-300 leading-relaxed">${major.middle_school}</p>
+                    </div>
+                </div>
+            `;
+
+            updateDetailBookmarkBtn();
+            changeScreen('detail');
+        }
+
+        function updateDetailBookmarkBtn() {
+            if(!state.activeMajor) return;
+            const isSaved = state.savedMajors.includes(state.activeMajor.id);
+            const btn = document.getElementById('btn-bookmark-detail');
+            const icon = document.getElementById('icon-bookmark-detail');
+            const text = document.getElementById('text-bookmark-detail');
+
+            if(isSaved) {
+                btn.className = "flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg font-semibold transition border border-yellow-500/30 bg-yellow-500/10 text-yellow-400";
+                icon.className = "fas fa-bookmark";
+                text.innerText = "보관함에 저장됨";
+            } else {
+                btn.className = "flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg font-semibold transition border border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700";
+                icon.className = "far fa-bookmark";
+                text.innerText = "관심 학과 담기";
+            }
+        }
+
+        function toggleBookmark(majorId, event) {
+            if(event) event.stopPropagation();
+            playSound();
+            const idx = state.savedMajors.indexOf(majorId);
+            if(idx > -1) {
+                state.savedMajors.splice(idx, 1);
+                showToast("보관함에서 삭제되었습니다.");
+            } else {
+                state.savedMajors.push(majorId);
+                showToast("관심 학과로 쏙! 저장되었습니다. ⭐");
+            }
+            localStorage.setItem('vanilla_saved_majors', JSON.stringify(state.savedMajors));
+            updateSavedBadge();
+            
+            if(state.screen === 'majors') renderMajors();
+            if(state.screen === 'saved') renderSavedMajors();
+        }
+
+        function toggleCurrentMajorSave() {
+            toggleBookmark(state.activeMajor.id);
+            updateDetailBookmarkBtn();
+        }
+
+        function getMajorData(majorId) {
+            for(const cat of INDUSTRY_CATEGORIES) {
+                const found = cat.majors.find(m => m.id === majorId);
+                if(found) return { major: found, category: cat };
+            }
+            return null;
+        }
+
+        function renderSavedMajors() {
+            const emptyState = document.getElementById('saved-empty-state');
+            const listContainer = document.getElementById('saved-list-container');
+            const printBtn = document.getElementById('print-btn');
+
+            if(state.savedMajors.length === 0) {
+                emptyState.classList.remove('hidden');
+                listContainer.classList.add('hidden');
+                printBtn.classList.add('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            listContainer.classList.remove('hidden');
+            printBtn.classList.remove('hidden');
+            listContainer.innerHTML = '';
+
+            state.savedMajors.forEach(majorId => {
+                const data = getMajorData(majorId);
+                if(!data) return;
+
+                const card = document.createElement('div');
+                card.className = "bg-[#0a0f1d]/80 border border-slate-800 rounded-3xl p-6 print-border-none print-block";
+                
+                card.innerHTML = `
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-4">
+                        <div class="flex items-center gap-3">
+                            <span class="text-3xl">${data.category.icon}</span>
+                            <div>
+                                <span class="text-[10px] text-slate-400 border border-slate-700 bg-slate-800 px-2 py-0.5 rounded-md font-bold">${data.category.name} 분야</span>
+                                <h3 class="font-extrabold text-lg text-white mt-1 print-text-black">${data.major.name}</h3>
+                            </div>
+                        </div>
+                        <button onclick="toggleBookmark('${data.major.id}')" class="text-slate-500 text-xs hover:text-red-400 transition print-hidden"><i class="fas fa-trash-alt"></i> 삭제</button>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800 print-border-slate-300">
+                            <h4 class="text-xs font-bold text-pink-400 mb-1">무엇을 배우는 곳일까요?</h4>
+                            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed print-text-black">${data.major.what}</p>
+                        </div>
+                        <div class="bg-indigo-950/20 p-4 rounded-xl border border-indigo-500/20 print-border-slate-300">
+                            <h4 class="text-xs font-bold text-indigo-400 mb-1">중학교 때 이건 꼭 친해지세요!</h4>
+                            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed print-text-black">${data.major.middle_school}</p>
+                        </div>
+                    </div>
+                `;
+                listContainer.appendChild(card);
+            });
+        }
+
+        function triggerPrint() {
+            window.print();
+        }
+
+        // 스크립트가 실행될 때 브라우저에 즉각적으로 화면을 렌더링합니다.
+        initApp();
+    </script>
+</body>
+</html>
