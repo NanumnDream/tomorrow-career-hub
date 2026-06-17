@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>미래를 여는 신산업 직업 탐구 퀴즈</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts Noto Sans KR -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: radial-gradient(circle at 50% 50%, #1e1b4b 0%, #0f172a 100%);
+        }
+        /* Custom Glowing Effects */
+        .glow-indigo {
+            box-shadow: 0 0 20px 2px rgba(99, 102, 241, 0.25);
+        }
+        .glow-emerald {
+            box-shadow: 0 0 20px 2px rgba(16, 185, 129, 0.25);
+        }
+        /* Glassmorphism Classes */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        /* Hide scrollbars but keep functionality */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        /* Micro Animations */
+        @keyframes pulse-slow {
+            0%, 100% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.03); opacity: 1; }
+        }
+        .animate-pulse-slow {
+            animation: pulse-slow 3s infinite ease-in-out;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+        .animate-float {
+            animation: float 4s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-100 flex items-center justify-center p-3 md:p-6 overflow-x-hidden">
+
+    <!-- Canvas for Confetti Effects -->
+    <canvas id="confetti-canvas" class="absolute inset-0 pointer-events-none z-50 w-full h-full"></canvas>
+
+    <!-- App Container -->
+    <div class="w-full max-w-2xl min-h-[700px] rounded-3xl glass-panel glow-indigo flex flex-col justify-between overflow-hidden relative transition-all duration-500 ease-in-out">
+        
+        <!-- Header Controls (Always visible except in start screen for immersive feeling) -->
+        <div class="px-6 pt-5 pb-3 flex justify-between items-center border-b border-white/5 z-10">
+            <div class="flex items-center space-x-2">
+                <span class="text-xl">🚀</span>
+                <span class="font-black text-sm tracking-widest bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-cyan-400">FUTURE TECH QUIZ</span>
+            </div>
+            <!-- Sound & Progress Controls -->
+            <div class="flex items-center space-x-4">
+                <button id="sound-toggle" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 active:scale-95 transition-all text-sm flex items-center justify-center" title="소리 켜기/끄기">
+                    <span id="sound-icon">🔊</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- MAIN SCREENS CONTAINER -->
+        <div class="flex-grow flex flex-col justify-center px-6 py-8 relative">
+            
+            <!-- 1. HOME SCREEN -->
+            <div id="home-screen" class="space-y-8 flex flex-col items-center text-center py-6">
+                <div class="relative w-28 h-28 bg-gradient-to-tr from-indigo-600 to-cyan-500 rounded-3xl flex items-center justify-center text-5xl shadow-2xl glow-indigo animate-float">
+                    🔮
+                    <div class="absolute -top-2 -right-2 bg-emerald-500 text-xs px-2.5 py-1 rounded-full font-black text-slate-900 shadow-md">NEW</div>
+                </div>
+                <div class="space-y-3">
+                    <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-tight">
+                        미래를 여는<br>
+                        <span class="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-indigo-400 to-purple-400">신산업 직업 탐구 퀴즈</span>
+                    </h1>
+                    <p class="text-sm md:text-base text-slate-400 max-w-md mx-auto leading-relaxed">
+                        인공지능, 우주공학, 바이오 등 미래 메가 트렌드 직업 20문제를 풀고, 내 성향에 딱 맞는 찰떡궁합 신산업 리포트를 받아보세요!
+                    </p>
+                </div>
+
+                <div class="w-full max-w-sm bg-white/5 p-4 rounded-2xl border border-white/5 space-y-2 text-left">
+                    <div class="flex items-center space-x-2.5 text-xs text-slate-300">
+                        <span class="text-emerald-400">✔</span>
+                        <span>총 20개 핵심 신산업 직업 탐구</span>
+                    </div>
+                    <div class="flex items-center space-x-2.5 text-xs text-slate-300">
+                        <span class="text-emerald-400">✔</span>
+                        <span>풀이 중 실시간 힌트 제공</span>
+                    </div>
+                    <div class="flex items-center space-x-2.5 text-xs text-slate-300">
+                        <span class="text-emerald-400">✔</span>
+                        <span>종료 후 개인 맞춤형 진로 추천 리포트 제공</span>
+                    </div>
+                </div>
+
+                <button id="start-btn" class="w-full max-w-xs py-4 rounded-2xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white font-extrabold text-lg shadow-xl hover:brightness-110 active:scale-[0.98] transition-all animate-pulse-slow">
+                    퀴즈 탐험 시작하기 ➔
+                </button>
+            </div>
+
+            <!-- 2. QUIZ SCREEN -->
+            <div id="quiz-screen" class="hidden space-y-6">
+                <!-- Top HUD Info -->
+                <div class="flex justify-between items-center">
+                    <div class="space-y-1">
+                        <span id="quiz-progress-text" class="text-xs font-bold text-cyan-400 tracking-wider">QUESTION 01 OF 20</span>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-xs text-slate-400">연속 정답:</span>
+                            <span id="streak-counter" class="text-xs font-black text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded-full">🔥 0</span>
+                        </div>
+                    </div>
+                    <button id="hint-toggle-btn" class="px-3.5 py-1.5 rounded-xl bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-300 text-xs font-bold border border-indigo-500/20 active:scale-95 transition-all">
+                        💡 힌트 보기
+                    </button>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden">
+                    <div id="quiz-progress-fill" class="h-full bg-gradient-to-r from-cyan-400 to-indigo-500 transition-all duration-300 w-[5%]"></div>
+                </div>
+
+                <!-- Question Card -->
+                <div class="space-y-4">
+                    <div class="p-6 rounded-2xl bg-white/[0.03] border border-white/5 shadow-inner">
+                        <h2 id="question-text" class="text-lg md:text-xl font-bold leading-relaxed text-slate-100">
+                            문제가 여기에 노출됩니다.
+                        </h2>
+                    </div>
+                    
+                    <!-- Hint Box (Hidden by default) -->
+                    <div id="hint-box" class="hidden p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs md:text-sm leading-relaxed flex items-start space-x-2">
+                        <span>💡</span>
+                        <span id="hint-text">실시간 힌트 텍스트입니다.</span>
+                    </div>
+                </div>
+
+                <!-- Answer Options Container -->
+                <div id="options-container" class="grid grid-cols-1 gap-3.5 pt-2">
+                    <!-- Option Buttons will be rendered dynamically -->
+                </div>
+            </div>
+
+            <!-- 3. FEEDBACK SCREEN -->
+            <div id="feedback-screen" class="hidden space-y-6 text-center">
+                <div class="space-y-4">
+                    <div id="feedback-icon" class="w-20 h-20 mx-auto rounded-full flex items-center justify-center text-4xl shadow-lg">
+                        ⭕
+                    </div>
+                    <h2 id="feedback-title" class="text-2xl font-black tracking-tight">
+                        정답입니다!
+                    </h2>
+                </div>
+
+                <!-- Detailed Explanation Card -->
+                <div class="text-left p-6 rounded-2xl bg-white/[0.03] border border-white/5 space-y-3">
+                    <div class="flex items-center space-x-2 text-cyan-400">
+                        <span class="text-sm">🔍</span>
+                        <h3 class="text-sm font-black uppercase tracking-wider">직업 탐구 매뉴얼</h3>
+                    </div>
+                    <p id="explanation-text" class="text-sm md:text-base leading-relaxed text-slate-300">
+                        인공지능 전문가는 인간의 학습능력, 추론능력 등을 컴퓨터로 구현하는 일을 수행합니다.
+                    </p>
+                </div>
+
+                <button id="next-btn" class="w-full py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-base shadow-lg hover:shadow-indigo-500/20 active:scale-[0.98] transition-all">
+                    다음 문항 탐험하기 ➔
+                </button>
+            </div>
+
+            <!-- 4. RESULT SCREEN -->
+            <div id="result-screen" class="hidden space-y-6">
+                <div class="text-center space-y-2">
+                    <h2 class="text-3xl font-black bg-clip-text text-transparent bg-gradient-to-r from-amber-400 to-orange-400">우주 진로 탐사 완료!</h2>
+                    <p class="text-xs text-slate-400">미래 신산업의 우주를 탐사하고 멋진 리포트를 얻었습니다.</p>
+                </div>
+
+                <!-- Score Dashboard -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="p-4 rounded-2xl bg-white/[0.03] border border-white/5 text-center space-y-1">
+                        <span class="text-xs text-slate-400 block font-bold">정답률</span>
+                        <span id="final-score" class="text-3xl font-black text-emerald-400">0 / 20</span>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-white/[0.03] border border-white/5 text-center space-y-1">
+                        <span class="text-xs text-slate-400 block font-bold">인재 등급</span>
+                        <span id="final-grade" class="text-lg font-black text-cyan-400">실버 탐험가</span>
+                    </div>
+                </div>
+
+                <!-- Career Recommendation Report -->
+                <div class="p-6 rounded-2xl bg-gradient-to-br from-indigo-950/50 to-slate-900 border border-indigo-500/20 space-y-4">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-xl">🏆</span>
+                        <h3 class="font-extrabold text-indigo-300 text-sm md:text-base">나에게 어울리는 미래 인재 성향</h3>
+                    </div>
+                    
+                    <div id="career-match-box" class="space-y-3">
+                        <h4 id="career-type-title" class="text-xl font-black text-cyan-300">소프트웨어 AI·데이터 혁신가</h4>
+                        <p id="career-type-desc" class="text-xs md:text-sm text-slate-300 leading-relaxed">
+                            당신은 논리적이며 보이지 않는 데이터를 분석하고 조작하는 것에 매력을 느낍니다. 미래의 인공지능 엔지니어, 빅데이터 전문가 등에 뛰어난 적성을 보일 수 있습니다!
+                        </p>
+                    </div>
+
+                    <!-- Radar Graph Placeholder as Clean Progress Bars -->
+                    <div class="space-y-2.5 pt-2 border-t border-white/5">
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-[11px] text-slate-400 font-bold">
+                                <span>AI & 데이터 소프트웨어</span>
+                                <span id="bar-pct-0">0%</span>
+                            </div>
+                            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                                <div id="bar-fill-0" class="h-full bg-cyan-400 transition-all duration-1000" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-[11px] text-slate-400 font-bold">
+                                <span>바이오 & 그린에너지</span>
+                                <span id="bar-pct-1">0%</span>
+                            </div>
+                            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                                <div id="bar-fill-1" class="h-full bg-emerald-400 transition-all duration-1000" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-[11px] text-slate-400 font-bold">
+                                <span>로봇공학 & 우주항공</span>
+                                <span id="bar-pct-2">0%</span>
+                            </div>
+                            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                                <div id="bar-fill-2" class="h-full bg-indigo-400 transition-all duration-1000" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-[11px] text-slate-400 font-bold">
+                                <span>디자인 & 비즈니스 플랫폼</span>
+                                <span id="bar-pct-3">0%</span>
+                            </div>
+                            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                                <div id="bar-fill-3" class="h-full bg-purple-400 transition-all duration-1000" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Control Buttons -->
+                <div class="grid grid-cols-2 gap-3">
+                    <button id="copy-result-btn" class="py-3 rounded-xl bg-white/5 hover:bg-white/10 text-white font-extrabold text-sm border border-white/10 active:scale-95 transition-all">
+                        📋 결과 공유 복사
+                    </button>
+                    <button id="restart-btn" class="py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-500 hover:opacity-95 text-white font-extrabold text-sm active:scale-95 transition-all">
+                        🔄 다시 풀기
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Custom Notification Toast -->
+        <div id="toast-message" class="absolute bottom-6 left-1/2 -translate-x-1/2 transform scale-90 opacity-0 bg-slate-900 border border-indigo-500/30 px-6 py-3 rounded-full text-xs font-bold text-indigo-300 shadow-xl pointer-events-none transition-all duration-300 z-50">
+            결과가 클립보드에 복사되었습니다!
+        </div>
+        
+    </div>
+
+    <!-- Application Script -->
+    <script>
+        // --- QUIZ & CAREER CLUSTER DATA ---
+        const CLUSTERS = {
+            AI_DATA: {
+                id: 0,
+                name: "소프트웨어 AI·데이터 분야",
+                title: "디지털 우주를 설계하는 소프트웨어 AI 마스터",
+                desc: "당신은 기계를 똑똑하게 만들고 방대한 정보의 흐름을 읽는 재능이 뛰어납니다. 새로운 지식의 융합과 효율적인 설계를 좋아하는 사람으로, AI 연구, 알고리즘 분석, 데이터 공학, 보안 강화 분야 등에서 미래를 선도할 인재입니다!"
+            },
+            BIO_GREEN: {
+                id: 1,
+                name: "생명과학 & 그린에너지 분야",
+                title: "지구와 생명을 지키는 에코·바이오 구원자",
+                desc: "당신은 환경, 자연, 인간의 생명 유지와 안전에 커다란 애정을 지니고 있습니다. 지구 온난화를 늦추는 혁신적인 청정에너지를 설계하거나 첨단 유전 생명공학 기술을 통해 아픈 사람들을 보살펴 주는 따뜻한 미래 리더입니다!"
+            },
+            ROBOT_SPACE: {
+                id: 2,
+                name: "기계제어 & 항공우주 분야",
+                title: "새로운 한계를 극복하는 로봇·우주 공학 마스터",
+                desc: "당신은 기계의 작동 원리, 움직임, 하늘과 넓은 우주로의 비행 및 탐구에 열정을 품고 있습니다. 지구 한계를 넘어서는 드론 비행망, 로봇 인터랙션 설계, 우주 추진 장치를 다루는 물리적 시스템 혁신의 핵심 인재입니다!"
+            },
+            CREATIVE_PLATFORM: {
+                id: 3,
+                name: "디자인 & 서비스 플랫폼 분야",
+                title: "사용자 중심의 미래형 크리에이티브 시너지 리더",
+                desc: "당신은 사람들이 가상의 세계를 어떻게 더 실감 나고 편안하게 경험하는지에 깊은 관심이 있습니다. 새로운 가상현실 콘텐츠 디렉터, 사용자 친화적 UI/UX 설계, 효율적인 구독 공유 플랫폼 비즈니스를 꽃피울 트렌드 세터입니다!"
+            }
+        };
+
+        const QUIZ_ITEMS = [
+            {
+                q: "사람처럼 스스로 학습하고 판단하는 똑똑한 인공지능(AI)을 설계하거나 가르쳐서 성능을 높여주는 핵심 전문가는 누구일까요?",
+                opts: ["인공지능(AI) 전문가", "컴퓨터 조립 기사", "소프트웨어 서점 점원", "네트워크 검침 관리자"],
+                ans: 0,
+                hint: "기계에게 학습 능력을 훈련시켜서 스마트하게 동작하게 하는 알고리즘 핵심 연구원입니다.",
+                exp: "인공지능 전문가는 딥러닝과 머신러닝 알고리즘을 사용해 인간의 지적 기능을 컴퓨터로 구현하는 설계를 수행합니다.",
+                cluster: CLUSTERS.AI_DATA
+            },
+            {
+                q: "생물체나 세포 속 유전자 분석을 통하여 새로운 고기능 의약품이나 무해한 치료용 백신을 발굴하고 연구하는 미래 직업은 무엇일까요?",
+                opts: ["병원 수납 행정사", "식품 포장 기획가", "바이오 의약품 개발자", "심리학 전문 상담가"],
+                ans: 2,
+                hint: "생체(Bio)의 메커니즘을 적용하여 현대인의 불치병을 연구하고 치료제를 제조합니다.",
+                exp: "바이오 의약품 개발자는 미생물이나 유전자 조작 기술 등을 이용해서 암세포나 바이러스에 작용하는 고안전성 의약품을 만듭니다.",
+                cluster: CLUSTERS.BIO_GREEN
+            },
+            {
+                q: "운전자가 조종하지 않아도 차량 내부 컴퓨터가 센서로 실시간 상황을 읽고 목적지까지 무인으로 달릴 수 있게 연구하는 사람은?",
+                opts: ["지정 주차장 주차 요원", "자율주행차 개발자", "클래식카 도색 정비사", "택시 미터기 정밀 검사원"],
+                ans: 1,
+                hint: "스스로 알아서 안전하게 주변 장애물을 피하고 도로 표지판을 인식해 운행하는 스마트카 기술을 연구합니다.",
+                exp: "자율주행차 개발자는 인공지능, 레이더 센서, GPS 등 복합 기술을 자동차에 통합하여 차가 스스로 최적의 판단을 내리게 합니다.",
+                cluster: CLUSTERS.ROBOT_SPACE
+            },
+            {
+                q: "컴퓨터 그래픽 기법을 적용하여 가상의 세계나 물체를 스마트 글라스 화면을 통하여 현실처럼 합성하여 볼 수 있게 개발하는 전문가는?",
+                opts: ["가상/증강현실(VR/AR) 콘텐츠 개발자", "광고 카탈로그 인쇄 전문가", "야외 풍경 전문 사진작가", "연극 무대 음향 감독"],
+                ans: 0,
+                hint: "가상공간(VR)과 증강현실(AR)을 아우르는 차세대 혼합현실 입체 체험을 개발합니다.",
+                exp: "VR/AR 개발자는 현실에 3차원 가상정보를 합성하여 모바일 게임이나 메타버스, 의료 수술 시뮬레이션용 콘텐츠를 제작합니다.",
+                cluster: CLUSTERS.CREATIVE_PLATFORM
+            },
+            {
+                q: "사람이 직접 타지 않은 무인 비행체인 드론을 기계적으로 정밀 설계하거나 공중에서 안전하게 비행하도록 조종·제어하는 직업은?",
+                opts: ["민간 대형 여객기 조종사", "드론 전문가", "공항 여객 수하물 인도원", "우주 왕복선 유도 관제사"],
+                ans: 1,
+                hint: "작은 프로펠러를 달고 하늘을 날며 소방, 택배 배달, 방송 촬영 등에 응용되는 기기를 다룹니다.",
+                exp: "드론 전문가는 드론의 비행 제어 알고리즘 설계부터 안전한 비행 조종 및 현장 활용 프로세스를 설계합니다.",
+                cluster: CLUSTERS.ROBOT_SPACE
+            },
+            {
+                q: "인터넷과 대형 플랫폼 등에 무수히 쏟아지는 거대한 데이터 속에서 보석 같은 소비 트렌드나 유용한 사회 현상을 찾아내는 전문가는?",
+                opts: ["도서관 도서 정리 사서", "가전 마트 계산원", "빅데이터 분석가", "금융 전산 문서 파쇄원"],
+                ans: 2,
+                hint: "수조 개의 데이터를 가공하여 기업과 기관에 유용한 통계 및 행동 양식 지표를 도출합니다.",
+                exp: "빅데이터 분석가는 무작위 데이터 속 유의미한 패턴을 정교한 통계 패키지 및 컴퓨터 모델로 도출하는 탐정 같은 직업입니다.",
+                cluster: CLUSTERS.AI_DATA
+            },
+            {
+                q: "챗GPT 등 인공지능이 최적의 문장, 사진, 음악을 만들어 내도록 최상의 명령어(프롬프트)를 효율적으로 설계하고 튜닝하는 직업은?",
+                opts: ["프롬프트 엔지니어", "광고용 카피라이터", "공식 회의 기록 속기사", "도서 출판 소설 작가"],
+                ans: 0,
+                hint: "AI와 협업하는 똑똑한 질문과 작업 지시 프레임을 찾아내는 최신 유망 소프트웨어 직무입니다.",
+                exp: "프롬프트 엔지니어는 초거대 인공지능이 왜곡 없이 정확하고 탁월한 성과를 출랙하도록 맞춤 질문 시스템을 전문 설계합니다.",
+                cluster: CLUSTERS.AI_DATA
+            },
+            {
+                q: "가정이나 스마트 팩토리, 병원에서 사람이 할 수 없는 위험하거나 정교한 일과 노동을 정밀 기계 센서 기술로 대신할 기기를 만드는 직업은?",
+                opts: ["실내 건축 구조 디자이너", "로봇 공학자", "전문 바둑 프로기사", "자동차 전시장 영업 사원"],
+                ans: 1,
+                hint: "인간형 휴머노이드나 협동용 기계 팔, 웨어러블 슈트 등을 기획하고 알고리즘을 넣는 공학자입니다.",
+                exp: "로봇 공학자는 센서, 모터 제어 회로, 기계 메카트로닉스 및 AI 기술을 융합하여 인류 삶을 돕는 로봇을 구현합니다.",
+                cluster: CLUSTERS.ROBOT_SPACE
+            },
+            {
+                q: "화석 연료의 고갈과 오염을 극복하기 위하여 물 속 수소, 바람, 태양광, 조력 등을 효율적으로 활용하는 안전한 대체 에너지 전문가를 뜻하는 것은?",
+                opts: ["신재생 에너지 전문가", "탄광 석탄 채굴 반장", "석유 유조선 선장", "대형 디젤 보일러 검사관"],
+                ans: 0,
+                hint: "햇빛, 바람, 물 등을 이용해 온실가스를 발생시키지 않는 청정 전력 자원을 개발합니다.",
+                exp: "신재생 에너지 전문가는 탄소 배출이 없는 청정 자연 자원으로부터 전력 수급 효율을 극대화하는 발전 설계 연구를 이끕니다.",
+                cluster: CLUSTERS.BIO_GREEN
+            },
+            {
+                q: "가로등이 자동으로 주변 어둠과 움직임을 읽거나 가정 내 전자제품이 인터넷망으로 연계되어 편리하게 오가는 인프라를 개발하는 전문가는?",
+                opts: ["기업 유선망 전화 개설원", "사물인터넷(IoT) 개발자", "중고 가전제품 가치 평가원", "인테리어 조명 조립업자"],
+                ans: 1,
+                hint: "모든 물리 사물(Internet of Things)에 통신 센서를 내장시켜 인체 개입 없이 원격 상호작용하게 만듭니다.",
+                exp: "사물인터넷 개발자는 기기 간 통신 네트워크 프로토콜, 통신 모듈 하드웨어, 스마트홈 클라우드 제어 프로그램을 기획합니다.",
+                cluster: CLUSTERS.ROBOT_SPACE
+            },
+            {
+                q: "도면이나 입체 파일 설계를 토대로 각종 재료를 연속적으로 층층이 인쇄하듯 적층하여 플라스틱, 금속 등의 실제 고체 모형을 만드는 전문가?",
+                opts: ["3D 프린팅 전문가", "정밀 조각 조소 미술가", "인쇄소 출판 수동 제본공", "대형 플라스틱 사출 공장 기술원"],
+                ans: 0,
+                hint: "의료용 맞춤 지지대, 기계 시제품, 예술 조형물 등을 평면 인쇄가 아닌 3차원 입체 입체로 찍어냅니다.",
+                exp: "3D 프린팅 전문가는 적층용 신소재 배합 연구, 3차원 기하학 분석 설계, 그리고 특수 정밀 프린터 장비를 전문 운용합니다.",
+                cluster: CLUSTERS.ROBOT_SPACE
+            },
+            {
+                q: "인터넷 가상 네트워크 공간에서 악성 해커의 해킹 침투와 무차별 기밀 갈취를 방어하여 안전한 사이버 철벽을 설치하는 선의의 화이트 해커는?",
+                opts: ["사이버 보안 전문가(화이트 해커)", "스마트폰 카메라 부품 기획원", "웹 플랫폼 소설 연재 작가", "3D 온라인 게임 레벨 기획자"],
+                ans: 0,
+                hint: "나쁜 목적의 블랙 해커에 대항해 국가망이나 대형 금융 인프라 보안 시스템의 약점을 직접 분석하고 방어합니다.",
+                exp: "정보보안 전문가는 최신 악성코드 패턴을 연구하고 차단 알고리즘과 침입 탐지 프레임워크를 개발하는 핵심 인력입니다.",
+                cluster: CLUSTERS.AI_DATA
+            },
+            {
+                q: "날씨와 계절에 영향 받지 않고 실내 수직타워 안에서 LED 광원과 영양 용액 조절로 먹거리를 키우고 배양육 등의 세포 고기를 다루는 직업은?",
+                opts: ["아날로그 논밭 경작인", "스마트팜 및 바이오 농업 전문가", "전통 한식 조리사", "대형 도축장 정육 소분업자"],
+                ans: 1,
+                hint: "기존 농업 환경을 뛰어넘어 첨단 유전공학과 IoT 모니터링 원격 자동 제어를 통한 식량 구원 투수입니다.",
+                exp: "스마트팜 및 바이오 전문가는 온도, 인공 햇빛, 영양 배합을 컴퓨터 데이터로 분석·설계하여 최소 면적으로 친환경 식량을 얻습니다.",
+                cluster: CLUSTERS.BIO_GREEN
+            },
+            {
+                q: "웹사이트, 모바일 앱, 가상현실을 이용하는 사람들이 디자인 구조를 가장 편리하고 아름다우며 편안한 순서로 활용하게 화면 흐름을 돕는 사람은?",
+                opts: ["의상 원단 직조 패션 디자이너", "실내 주거 가구 배치 인테리어 디자이너", "UI/UX 디자이너", "디지털 애니메이션 웹툰 작가"],
+                ans: 2,
+                hint: "유저 인터페이스(User Interface)의 앞 글자와 경험(User Experience)의 앞 글자를 합친 시각 디자이너입니다.",
+                exp: "UI/UX 디자이너는 시각 디자인 요소를 조화롭게 결합하고, 고객이 실제 제품을 작동할 때 느끼는 정서와 이동 경로를 세심하게 기획합니다.",
+                cluster: CLUSTERS.CREATIVE_PLATFORM
+            },
+            {
+                q: "대기권 밖을 도는 차세대 소형 인공위성을 정밀 조립하거나 저궤도 및 우주 깊은 곳으로 추진력을 받아 비행하는 발사체 로켓을 연구하는 직업은?",
+                opts: ["중학교 지구과학 강사", "우주항공 공학자", "기상 일기예보 방송 기상캐스터", "실감형 SF 우주영화 세트 감독"],
+                ans: 1,
+                hint: "우리나라의 누리호, 다누리호 등 행성간 탐사 기술과 초고속 궤도 비행 설계를 진두지휘하는 핵심 두뇌들입니다.",
+                exp: "우주항공 공학자는 진공에 가깝고 극한의 기후 차이를 보이는 열악한 우주에서 최적의 안정성을 내도록 비행 동역학 및 추진 공학을 다룹니다.",
+                cluster: CLUSTERS.ROBOT_SPACE
+            },
+            {
+                q: "고객이 물건을 완전 구매하지 않고도 일정 주기로 비용을 내어 대여해 쓰거나, 정기 음악·식료품 배송처럼 라이프 스타일에 맞춘 공유 서비스를 기획하는 사람은?",
+                opts: ["공유/구독 서비스 기획자", "쇼핑몰 의류 판매원", "대형 가공 물류 분류원", "벼룩시장 소형 잡화 판매 상인"],
+                ans: 0,
+                hint: "제품을 소유하기보다 다채롭게 직접 사용하고 정기 구독하려는 젊은 현대인들의 취향을 사로잡는 신산업 기획자입니다.",
+                exp: "구독 경제 서비스 개발자는 소비 흐름을 면밀히 예측해 물품 리스, 디지털 라이선스 공급, 맞춤 정기 배달 패키지 사업 모델을 연구합니다.",
+                cluster: CLUSTERS.CREATIVE_PLATFORM
+            },
+            {
+                q: "인간 뇌세포의 작동 방식을 본떠 고성능 뉴럴 연산을 아주 빠르고 뜨겁지 않게 저전력으로 가동하도록 AI 연산용 특화 반도체를 그리는 전문가?",
+                opts: ["지능형 반도체 설계원", "가정용 전기 사용량 계침 검침원", "모바일 리튬이온 배터리 단순 실러", "음악 라디오 방송 장비 수동 세팅공"],
+                ans: 0,
+                hint: "인프라와 디바이스의 두뇌가 되는 초미세 트랜지스터 연산 회로(NPU 등)의 고도화된 집적 설계를 주도합니다.",
+                exp: "지능형 반도체 설계원은 인공지능 학습 및 온디바이스 AI를 완벽 구현하기 위해 효율적인 특화 반도체 하드웨어를 연구 설계합니다.",
+                cluster: CLUSTERS.AI_DATA
+            },
+            {
+                q: "데이터를 여러 네트워크 참가자에게 고루 분산 기록하여 조작이나 침투를 불가능하게 만드는 블록체인 프로토콜 및 가상 인증 체계를 구축하는 전문가는?",
+                opts: ["블록체인 전문가", "국립 현대 미술 전시 큐레이터", "대형 증권가 주식 중개 전담인", "활자 인쇄 서적 조판 기사"],
+                ans: 0,
+                hint: "해킹 불가능한 분산 장부 기술인 블록체인(Blockchain) 암호화 기술을 다룹니다.",
+                exp: "블록체인 전문가는 데이터 신뢰성을 100% 보증하는 스마트 계약, 암호 네트워크, 토큰 증명 등 고신뢰 금융·보안 비즈니스를 개발합니다.",
+                cluster: CLUSTERS.AI_DATA
+            },
+            {
+                q: "전기자동차나 미래 모빌리티의 주행 성능과 수명을 좌우하며, 한 번 쓰고 버리지 않고 충전해서 무한히 재사용 가능한 전지의 핵심 배터리 전문가는?",
+                opts: ["이차전지(배터리) 연구원", "일반 도심 셀프 주유소 소장", "고압 수력 화력 발전소 모니터링 요원", "건축용 철강 골조 특수 연구원"],
+                ans: 0,
+                hint: "전기 에너지를 화학 에너지로 변환하여 저장했다가 필요할 때 꺼내 쓰는 최첨단 배터리를 설계합니다.",
+                exp: "이차전지 전문가는 배터리 음극·양극 활물질 최적 배합, 고안전성 분리막 공학, 초고용량 초고속 충전 전지 메커니즘을 심화 설계합니다.",
+                cluster: CLUSTERS.BIO_GREEN
+            },
+            {
+                q: "미시적인 물리학 세계의 성질인 양자 얽힘과 중첩을 통해 슈퍼컴퓨터로도 10만 년 걸리는 암호 수수께끼를 단 몇 초 만에 처리하는 미래 컴퓨터 개발자는?",
+                opts: ["양자컴퓨팅 전문가", "구형 기계 수동 타자기 수리 기사", "도심 프랜차이즈 PC방 자산 관리인", "일반 사무 서류 워드 가공 정원"],
+                ans: 0,
+                hint: "비트(Bit) 단위를 넘어서는 큐비트(Qubit) 병렬 연산 장치로 우주 예측과 차세대 신약 개발 연산에 패러다임을 바꿉니다.",
+                exp: "양자 컴퓨터 전문가는 고전 컴퓨터 연산 속도의 기술 한계를 파괴하고 신개념 고속 분자 계산을 여는 하이테크 미래 리더입니다.",
+                cluster: CLUSTERS.AI_DATA
+            }
+        ];
+
+        // --- APP STATE ---
+        let appState = {
+            screen: 'home', // 'home' | 'quiz' | 'feedback' | 'result'
+            currentIdx: 0,
+            score: 0,
+            streak: 0,
+            soundEnabled: true,
+            selectedOptionIdx: null,
+            answersRecord: [], // Tracks user chosen indices
+            clusterPoints: [0, 0, 0, 0] // AI_DATA, BIO_GREEN, ROBOT_SPACE, CREATIVE_PLATFORM
+        };
+
+        // --- SOUND GENERATOR (WEB AUDIO API - Clay click / Retro arcade style sounds) ---
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            if (!appState.soundEnabled) return;
+            
+            // Resume context if suspended by browser security policy
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            if (type === 'click') {
+                // Short organic pop sound
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.08);
+                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.08);
+                osc.start(audioCtx.currentTime);
+                osc.stop(audioCtx.currentTime + 0.08);
+            } else if (type === 'correct') {
+                // Happy retro double beeps
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+                osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.08); // E5
+                osc.frequency.setValueAtTime(783.99, audioCtx.currentTime + 0.16); // G5
+                gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                osc.start(audioCtx.currentTime);
+                osc.stop(audioCtx.currentTime + 0.3);
+            } else if (type === 'incorrect') {
+                // Cyber buzzing fall down sound
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(220, audioCtx.currentTime); // A3
+                osc.frequency.linearRampToValueAtTime(110, audioCtx.currentTime + 0.35); // A2
+                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+                osc.start(audioCtx.currentTime);
+                osc.stop(audioCtx.currentTime + 0.4);
+            } else if (type === 'victory') {
+                // Rising arpeggio for final screen
+                const now = audioCtx.currentTime;
+                const notes = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99, 1046.50];
+                notes.forEach((freq, index) => {
+                    const singleOsc = audioCtx.createOscillator();
+                    const singleGain = audioCtx.createGain();
+                    singleOsc.connect(singleGain);
+                    singleGain.connect(audioCtx.destination);
+                    
+                    singleOsc.type = 'sine';
+                    singleOsc.frequency.setValueAtTime(freq, now + index * 0.08);
+                    singleGain.gain.setValueAtTime(0.1, now + index * 0.08);
+                    singleGain.gain.exponentialRampToValueAtTime(0.01, now + index * 0.08 + 0.25);
+                    
+                    singleOsc.start(now + index * 0.08);
+                    singleOsc.stop(now + index * 0.08 + 0.3);
+                });
+            }
+        }
+
+        // --- CONFETTI PARTICLE SYSTEM (Pure HTML5 Canvas) ---
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        let confettiActive = false;
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class ConfettiParticle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * -canvas.height - 20;
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = Math.random() * 8 - 4;
+                this.color = `hsl(${Math.random() * 360}, 90%, 65%)`;
+                this.size = Math.random() * 8 + 6;
+                this.speedY = Math.random() * 4 + 3;
+                this.speedX = Math.random() * 2 - 1;
+            }
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX;
+                this.rotation += this.rotationSpeed;
+                if (this.y > canvas.height) {
+                    this.y = -20;
+                    this.x = Math.random() * canvas.width;
+                }
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate((this.rotation * Math.PI) / 180);
+                ctx.fillStyle = this.color;
+                ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
+                ctx.restore();
+            }
+        }
+
+        function triggerConfetti() {
+            particles = [];
+            for (let i = 0; i < 80; i++) {
+                particles.push(new ConfettiParticle());
+            }
+            confettiActive = true;
+            animateConfetti();
+            setTimeout(() => {
+                confettiActive = false;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }, 5000);
+        }
+
+        function animateConfetti() {
+            if (!confettiActive) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach((p) => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateConfetti);
+        }
+
+        // --- DOM ELEMENTS ---
+        const screens = {
+            home: document.getElementById('home-screen'),
+            quiz: document.getElementById('quiz-screen'),
+            feedback: document.getElementById('feedback-screen'),
+            result: document.getElementById('result-screen')
+        };
+
+        const startBtn = document.getElementById('start-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const restartBtn = document.getElementById('restart-btn');
+        const copyResultBtn = document.getElementById('copy-result-btn');
+        const soundToggle = document.getElementById('sound-toggle');
+        const soundIcon = document.getElementById('sound-icon');
+        const hintToggleBtn = document.getElementById('hint-toggle-btn');
+        const hintBox = document.getElementById('hint-box');
+        const hintText = document.getElementById('hint-text');
+
+        const quizProgressText = document.getElementById('quiz-progress-text');
+        const quizProgressFill = document.getElementById('quiz-progress-fill');
+        const streakCounter = document.getElementById('streak-counter');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+
+        const feedbackIcon = document.getElementById('feedback-icon');
+        const feedbackTitle = document.getElementById('feedback-title');
+        const explanationText = document.getElementById('explanation-text');
+
+        const finalScore = document.getElementById('final-score');
+        const finalGrade = document.getElementById('final-grade');
+        const careerTypeTitle = document.getElementById('career-type-title');
+        const careerTypeDesc = document.getElementById('career-type-desc');
+        const toastMessage = document.getElementById('toast-message');
+
+        // --- NAVIGATION & ENGINE ---
+        function changeScreen(targetScreen) {
+            Object.keys(screens).forEach(key => {
+                if (key === targetScreen) {
+                    screens[key].classList.remove('hidden');
+                } else {
+                    screens[key].classList.add('hidden');
+                }
+            });
+            appState.screen = targetScreen;
+        }
+
+        // Initialize / Restart Quiz
+        function initQuiz() {
+            appState.currentIdx = 0;
+            appState.score = 0;
+            appState.streak = 0;
+            appState.answersRecord = [];
+            appState.clusterPoints = [0, 0, 0, 0];
+            streakCounter.innerText = `🔥 0`;
+            hintBox.classList.add('hidden');
+            changeScreen('quiz');
+            renderQuestion();
+        }
+
+        // Render Current Question
+        function renderQuestion() {
+            const currentItem = QUIZ_ITEMS[appState.currentIdx];
+            
+            // Set HUD
+            quizProgressText.innerText = `QUESTION ${String(appState.currentIdx + 1).padStart(2, '0')} OF ${QUIZ_ITEMS.length}`;
+            const progressPercent = ((appState.currentIdx + 1) / QUIZ_ITEMS.length) * 100;
+            quizProgressFill.style.width = `${progressPercent}%`;
+
+            // Question
+            questionText.innerText = currentItem.q;
+
+            // Set Hint Content
+            hintText.innerText = currentItem.hint;
+            hintBox.classList.add('hidden');
+
+            // Render Choice Buttons
+            optionsContainer.innerHTML = '';
+            currentItem.opts.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "option-btn w-full px-5 py-4 bg-white/[0.03] hover:bg-white/[0.08] border border-white/5 hover:border-indigo-500/40 rounded-2xl text-left text-slate-200 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 active:scale-[0.99] flex items-center justify-between group";
+                
+                // Content of button
+                btn.innerHTML = `
+                    <div class="flex items-center space-x-3.5 pr-4">
+                        <span class="w-7 h-7 flex items-center justify-center rounded-full bg-slate-800 text-xs font-black text-slate-400 group-hover:bg-indigo-500 group-hover:text-white transition-all">${idx + 1}</span>
+                        <span class="leading-relaxed">${opt}</span>
+                    </div>
+                    <span class="opacity-0 group-hover:opacity-100 text-indigo-400 transition-all text-sm">➔</span>
+                `;
+
+                btn.addEventListener('click', () => {
+                    handleSelection(idx);
+                });
+
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        // Select an Option
+        function handleSelection(selectedIdx) {
+            const currentItem = QUIZ_ITEMS[appState.currentIdx];
+            const isCorrect = (selectedIdx === currentItem.ans);
+            appState.answersRecord.push(selectedIdx);
+
+            if (isCorrect) {
+                appState.score++;
+                appState.streak++;
+                // Accumulate career cluster profile weight
+                appState.clusterPoints[currentItem.cluster.id] += 3; // Correct answers earn higher affinity weight
+                
+                feedbackIcon.innerText = "⭕";
+                feedbackIcon.className = "w-20 h-20 mx-auto rounded-full bg-emerald-500/10 border-2 border-emerald-500 text-emerald-400 flex items-center justify-center text-4xl shadow-lg glow-emerald";
+                feedbackTitle.innerText = "탁월한 안목입니다! 정답이에요.";
+                feedbackTitle.className = "text-2xl font-black tracking-tight text-emerald-400";
+                playSound('correct');
+            } else {
+                appState.streak = 0;
+                // Wrong answer also shows mild interest weight
+                appState.clusterPoints[currentItem.cluster.id] += 1;
+                
+                feedbackIcon.innerText = "❌";
+                feedbackIcon.className = "w-20 h-20 mx-auto rounded-full bg-rose-500/10 border-2 border-rose-500 text-rose-400 flex items-center justify-center text-4xl shadow-lg";
+                feedbackTitle.innerText = `아쉽습니다. 정답은 [${currentItem.opts[currentItem.ans]}] 입니다.`;
+                feedbackTitle.className = "text-xl font-black tracking-tight text-rose-400";
+                playSound('incorrect');
+            }
+
+            // Streak Counter Hud Update
+            streakCounter.innerText = `🔥 ${appState.streak}`;
+
+            // Setup explanation
+            explanationText.innerText = currentItem.exp;
+
+            // Shift Screen
+            changeScreen('feedback');
+        }
+
+        // Next Action
+        function handleNext() {
+            appState.currentIdx++;
+            if (appState.currentIdx < QUIZ_ITEMS.length) {
+                changeScreen('quiz');
+                renderQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        // Compute Dominant Career Cluster & Render Report
+        function showResult() {
+            playSound('victory');
+            triggerConfetti();
+
+            // Set final scores
+            finalScore.innerText = `${appState.score} / ${QUIZ_ITEMS.length}`;
+            
+            // Assign Grade Name
+            let grade = "견습 탐사 대원";
+            if (appState.score === QUIZ_ITEMS.length) grade = "신산업 대마스터";
+            else if (appState.score >= 16) grade = "엘리트 직업 과학자";
+            else if (appState.score >= 11) grade = "수석 항해 요원";
+            else if (appState.score >= 6) grade = "미래 테크 탐험가";
+            finalGrade.innerText = grade;
+
+            // Find Dominant Cluster (Max Score)
+            let maxScore = -1;
+            let dominantCluster = CLUSTERS.AI_DATA;
+            
+            appState.clusterPoints.forEach((pts, idx) => {
+                if (pts > maxScore) {
+                    maxScore = pts;
+                    // Find matching cluster object
+                    const key = Object.keys(CLUSTERS).find(k => CLUSTERS[k].id === idx);
+                    dominantCluster = CLUSTERS[key];
+                }
+            });
+
+            // Fill text details of Dominant career Cluster
+            careerTypeTitle.innerText = dominantCluster.title;
+            careerTypeDesc.innerText = dominantCluster.desc;
+
+            // Render Radar Bar chart values
+            const sumPoints = appState.clusterPoints.reduce((a, b) => a + b, 0) || 1;
+            appState.clusterPoints.forEach((pts, idx) => {
+                const percent = Math.round((pts / sumPoints) * 100);
+                const fillBar = document.getElementById(`bar-fill-${idx}`);
+                const textPct = document.getElementById(`bar-pct-${idx}`);
+                
+                // Animate bars smoothly
+                setTimeout(() => {
+                    fillBar.style.width = `${Math.max(percent, 8)}%`;
+                }, 100);
+                textPct.innerText = `${percent}%`;
+            });
+
+            changeScreen('result');
+        }
+
+        // Copy Career Report to Clipboard
+        function handleCopy() {
+            const currentYear = new Date().getFullYear();
+            const reportText = `[🚀 미래 신산업 직업 탐구 결과 리포트]
+------------------------------------
+인재 등급: ${finalGrade.innerText} (${finalScore.innerText} 정답)
+나의 매칭 진로 유형: ${careerTypeTitle.innerText}
+
+📌 진로 적성 안내:
+${careerTypeDesc.innerText}
+
+* 본 리포트는 ${currentYear}년 신산업 탐사 트렌드를 바탕으로 중학생을 위해 시뮬레이션 되었습니다.`;
+
+            // Compat Copy method
+            const tempTextArea = document.createElement("textarea");
+            tempTextArea.value = reportText;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showToast();
+                }
+            } catch (err) {
+                console.error("복사 실패:", err);
+            }
+            
+            document.body.removeChild(tempTextArea);
+        }
+
+        // Show Toast Pop
+        function showToast() {
+            toastMessage.classList.remove('opacity-0', 'scale-90');
+            toastMessage.classList.add('opacity-100', 'scale-100');
+            setTimeout(() => {
+                toastMessage.classList.remove('opacity-100', 'scale-100');
+                toastMessage.classList.add('opacity-0', 'scale-90');
+            }, 2500);
+        }
+
+        // --- EVENT LISTENERS ---
+        startBtn.addEventListener('click', () => {
+            playSound('click');
+            initQuiz();
+        });
+
+        nextBtn.addEventListener('click', () => {
+            playSound('click');
+            handleNext();
+        });
+
+        restartBtn.addEventListener('click', () => {
+            playSound('click');
+            initQuiz();
+        });
+
+        copyResultBtn.addEventListener('click', () => {
+            playSound('click');
+            handleCopy();
+        });
+
+        hintToggleBtn.addEventListener('click', () => {
+            playSound('click');
+            hintBox.classList.toggle('hidden');
+        });
+
+        soundToggle.addEventListener('click', () => {
+            appState.soundEnabled = !appState.soundEnabled;
+            if (appState.soundEnabled) {
+                soundIcon.innerText = "🔊";
+                // Test tone to show sound is active
+                playSound('click');
+            } else {
+                soundIcon.innerText = "🔇";
+            }
+        });
+    </script>
+</body>
+</html>
