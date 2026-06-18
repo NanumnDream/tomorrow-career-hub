@@ -285,11 +285,53 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
             transition: all 0.2s;
             animation: pulse-slow 3s infinite ease-in-out;
+            text-decoration: none;
+            display: inline-block;
         }
 
         .quiz-btn:hover {
             filter: brightness(1.1);
             transform: scale(1.02);
+        }
+
+        /* 5번째 박스 링크 다운로드 버튼 스타일 고유 정의 */
+        .download-btn-group {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 4px;
+        }
+
+        .download-link {
+            width: 100%;
+            padding: 11px 16px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            transition: all 0.2s ease;
+        }
+
+        .download-link:hover {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: rgba(16, 185, 129, 0.4);
+            color: #ffffff;
+            transform: translateX(2px);
+        }
+
+        .download-link i.fa-arrow-down-border-line {
+            color: #94a3b8;
+            transition: color 0.2s ease;
+        }
+        .download-link:hover i.fa-arrow-down-border-line {
+            color: #34d399;
         }
 
         @keyframes float {
@@ -488,7 +530,49 @@
                 
                 <button class="quiz-btn" style="background: linear-gradient(to right, #db2777, #f59e0b);" onclick="location.href='test04.html'">학업 설계 시작하기 ➔</button>
             </div>
+
+            <div class="quiz-card">
+                <div class="quiz-card-header">
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <span style="font-size: 16px;">📚</span>
+                        <span class="quiz-card-title" style="background: linear-gradient(to right, #34d399, #059669); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">EDUCATIONAL RESOURCES</span>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); padding: 5px 8px; border-radius: 8px; font-size: 12px; cursor: pointer;">🔊</div>
+                </div>
+                
+                <div class="quiz-icon-wrapper" style="background: linear-gradient(to top right, #059669, #34d399); box-shadow: 0 10px 25px rgba(5, 150, 105, 0.4);">
+                    🗂️
+                    <div class="quiz-badge" style="background: #10b981; color: #fff;">PDF</div>
+                </div>
+                
+                <h2 class="quiz-main-heading">
+                    수업 적용을 위한<br>
+                    <span class="quiz-gradient-text" style="background: linear-gradient(to right, #34d399, #2dd4bf); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">신산업 교육 자료실</span>
+                </h2>
+                
+                <p class="quiz-desc">
+                    교육과정 설계 및 학생·교사용 수업 워크북 원본 자료를 다운로드할 수 있습니다.
+                </p>
+                
+                <div class="quiz-features download-btn-group">
+                    <a href="여기에_구글드라이브_공유링크_붙여넣기" target="_blank" rel="noopener noreferrer" class="download-link">
+                        <span><i class="fas fa-file-pdf" style="color: #34d399; margin-right: 6px;"></i> 신산업 연계 교육과정</span>
+                        <i class="fa-solid fa-arrow-down-border-line"></i>
+                    </a>
+                    <a href="여기에_구글드라이브_공유링크_붙여넣기" target="_blank" rel="noopener noreferrer" class="download-link">
+                        <span><i class="fas fa-book" style="color: #34d399; margin-right: 6px;"></i> 학생 탐구용 워크북</span>
+                        <i class="fa-solid fa-arrow-down-border-line"></i>
+                    </a>
+                    <a href="여기에_구글드라이브_공유링크_붙여넣기" target="_blank" rel="noopener noreferrer" class="download-link">
+                        <span><i class="fas fa-chalkboard-teacher" style="color: #34d399; margin-right: 6px;"></i> 교사용 지도 워크북</span>
+                        <i class="fa-solid fa-arrow-down-border-line"></i>
+                    </a>
+                </div>
+                
+                <button class="quiz-btn" style="background: linear-gradient(to right, #059669, #10b981);" onclick="window.open('여기에_통합_구글드라이브_폴더링크_등_넣기', '_blank')">자료실 바로가기 ➔</button>
             </div>
+
+        </div>
     </div>
 </div>
     
@@ -628,7 +712,6 @@
         animateStars();
         drawSpaceship();
     }, 100);
-    
 </script>
 </body>
 </html>
