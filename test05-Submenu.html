@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>내일탐색 - 학생 탐구용 워크북 자료실</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts (Pretendard) -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+
+  <style>
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      background-color: #030712;
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(17, 24, 39, 0.9) 0px, transparent 50%),
+        radial-gradient(at 50% 0%, rgba(8, 13, 36, 0.95) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(15, 23, 42, 0.9) 0px, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(30, 41, 59, 0.3) 0%, transparent 60%);
+      background-attachment: fixed;
+    }
+    .neon-border-cyan {
+      box-shadow: 0 0 15px rgba(6, 182, 212, 0.1);
+      border: 1px solid rgba(6, 182, 212, 0.25);
+    }
+    .neon-border-magenta {
+      box-shadow: 0 0 15px rgba(217, 70, 239, 0.1);
+      border: 1px solid rgba(217, 70, 239, 0.25);
+    }
+    .download-glow {
+      transition: all 0.2s ease-in-out;
+    }
+    .download-glow:hover {
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+    }
+    /* Star Background Effect */
+    .star {
+      position: absolute;
+      background-color: white;
+      border-radius: 50%;
+      animation: twinkle 3s infinite ease-in-out;
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 0.7; }
+    }
+    /* Scrollbar Design */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #080d24;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="text-slate-100 min-h-screen relative overflow-x-hidden pt-10 pb-20">
+
+  <!-- Background Stars Grid -->
+  <div id="stars-container" class="absolute inset-0 pointer-events-none z-0 overflow-hidden"></div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-3"></div>
+
+  <!-- Main Container -->
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- TOP MINI HEADER (Sleek replacing the left card with key info) -->
+    <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-800/80 pb-6 mb-8 gap-4">
+      <div>
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+            <i class="fa-solid fa-folder-open text-sm"></i>
+          </div>
+          <h1 class="text-xl sm:text-2xl font-black text-white tracking-tight">학생 탐구용 워크북 자료실</h1>
+        </div>
+        <p class="text-xs text-slate-400 mt-1.5 pl-0.5">
+          15개 주제의 신산업 한글(HWP) 탐구 활동지 원본 자료를 바로 다운로드할 수 있습니다.
+        </p>
+      </div>
+
+      <!-- Compact Progress Tracker Widget -->
+      <div class="bg-[#090f26]/80 border border-emerald-500/30 rounded-2xl px-4 py-2.5 flex items-center gap-3.5 shadow-lg">
+        <div class="text-right">
+          <p class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">나의 다운로드 현황</p>
+          <p class="text-sm font-black text-emerald-400" id="progress-text">0 / 15 완료</p>
+        </div>
+        <button onclick="speakIntro()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white p-2 rounded-xl transition-all" title="자료실 안내 듣기">
+          <i class="fa-solid fa-volume-high text-xs"></i>
+        </button>
+      </div>
+    </header>
+
+    <main class="flex flex-col gap-6">
+      
+      <!-- Search & Category Filters -->
+      <div class="bg-[#090f26]/40 border border-slate-800 rounded-2xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <!-- Quick Tabs -->
+        <div class="flex gap-1.5">
+          <button onclick="setCategory('all')" id="tab-all" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-white transition-all">전체보기</button>
+          <button onclick="setCategory('tech')" id="tab-tech" class="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-950 text-slate-400 hover:bg-slate-900 hover:text-cyan-400 transition-all">
+            기술편 (9)
+          </button>
+          <button onclick="setCategory('ethics')" id="tab-ethics" class="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-950 text-slate-400 hover:bg-slate-900 hover:text-fuchsia-400 transition-all">
+            윤리편 (6)
+          </button>
+        </div>
+
+        <!-- Dynamic Live Search -->
+        <div class="relative w-full md:w-64">
+          <input type="text" id="search-input" oninput="handleSearch()" placeholder="주제명 및 키워드로 검색..." class="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 rounded-xl py-2 pl-9 pr-4 text-xs text-slate-200 outline-none transition-all">
+          <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-600 text-xs"></i>
+        </div>
+      </div>
+
+      <!-- Expanded 15 Topics Grid (Direct Full-Width Presentation) -->
+      <div id="topics-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <!-- Injected Dynamically by JS -->
+      </div>
+
+      <!-- Empty State -->
+      <div id="no-results" class="hidden text-center py-24 bg-[#090f26]/20 border border-dashed border-slate-800 rounded-3xl">
+        <i class="fa-solid fa-folder-open text-slate-700 text-4xl mb-4 animate-pulse"></i>
+        <p class="text-slate-400 text-sm font-medium">검색어와 일치하는 주제가 없습니다.</p>
+        <button onclick="clearSearch()" class="mt-3 text-xs text-emerald-400 hover:underline">검색 조건 초기화</button>
+      </div>
+
+    </main>
+  </div>
+
+<script>
+    // 15 Topics Configuration (실제 HWP 파일명 연동 완료)
+    const topics = [
+      // <기술편> (9개)
+      { id: "tech-mobility1", category: "tech", categoryName: "기술편", title: "모빌리티 1", icon: "fa-car-side", colorClass: "text-cyan-400 bg-cyan-500/10 border-cyan-500/20", fileName: "S WB_Tec_Mobility01.hwp" },
+      { id: "tech-mobility2", category: "tech", categoryName: "기술편", title: "모빌리티 2", icon: "fa-robot", colorClass: "text-cyan-400 bg-cyan-500/10 border-cyan-500/20", fileName: "S WB_Tec_Mobility02.hwp" },
+      { id: "tech-farm1", category: "tech", categoryName: "기술편", title: "미래농업 1", icon: "fa-seedling", colorClass: "text-emerald-400 bg-emerald-500/10 border-emerald-500/20", fileName: "S WB_Tec_Future agr01.hwp" },
+      { id: "tech-farm2", category: "tech", categoryName: "기술편", title: "미래농업 2", icon: "fa-building-wheat", colorClass: "text-emerald-400 bg-emerald-500/10 border-emerald-500/20", fileName: "S WB_Tec_Future agr02.hwp" },
+      { id: "tech-ai1", category: "tech", categoryName: "기술편", title: "인공지능 1", icon: "fa-brain", colorClass: "text-violet-400 bg-violet-500/10 border-violet-500/20", fileName: "S WB_Tec_AI01.hwp" },
+      { id: "tech-ai2", category: "tech", categoryName: "기술편", title: "인공지능 2", icon: "fa-comment-dots", colorClass: "text-violet-400 bg-violet-500/10 border-violet-500/20", fileName: "S WB_Tec_AI02.hwp" },
+      { id: "tech-medical1", category: "tech", categoryName: "기술편", title: "첨단 의약학 1", icon: "fa-dna", colorClass: "text-rose-400 bg-rose-500/10 border-rose-500/20", fileName: "S WB_Tec_Medicine01.hwp" },
+      { id: "tech-medical2", category: "tech", categoryName: "기술편", title: "첨단 의약학 2", icon: "fa-heart-pulse", colorClass: "text-rose-400 bg-rose-500/10 border-rose-500/20", fileName: "S WB_Tec_Medicine02.hwp" },
+      { id: "tech-drug", category: "tech", categoryName: "기술편", title: "신약 개발", icon: "fa-capsules", colorClass: "text-amber-400 bg-amber-500/10 border-amber-500/20", fileName: "S WB_Tec_New drug01.hwp" },
+
+      // <윤리편> (6개)
+      { id: "ethics-ai", category: "ethics", categoryName: "윤리편", title: "인공지능 윤리", icon: "fa-shield-halved", colorClass: "text-fuchsia-400 bg-fuchsia-500/10 border-fuchsia-500/20", fileName: "S WB_Eth_AI.hwp" },
+      { id: "ethics-algorithm", category: "ethics", categoryName: "윤리편", title: "알고리즘 윤리", icon: "fa-scale-balanced", colorClass: "text-fuchsia-400 bg-fuchsia-500/10 border-fuchsia-500/20", fileName: "S WB_Eth_Algorithms.hwp" },
+      { id: "ethics-bio1", category: "ethics", categoryName: "윤리편", title: "생명공학 윤리 1", icon: "fa-baby", colorClass: "text-pink-400 bg-pink-500/10 border-pink-500/20", fileName: "S WB_Eth_Biotechnology01.hwp" },
+      { id: "ethics-bio2", category: "ethics", categoryName: "윤리편", title: "생명공학 윤리 2", icon: "fa-heart", colorClass: "text-pink-400 bg-pink-500/10 border-pink-500/20", fileName: "S WB_Eth_Biotechnology02.hwp" },
+      { id: "ethics-bio3", category: "ethics", categoryName: "윤리편", title: "바이오 테크놀로지 1", icon: "fa-flask-vial", colorClass: "text-purple-400 bg-purple-500/10 border-purple-500/20", fileName: "S WB_Eth_Lifetechnology01.hwp" },
+      { id: "ethics-bio4", category: "ethics", categoryName: "윤리편", title: "바이오 테크놀로지 2", icon: "fa-user-lock", colorClass: "text-purple-400 bg-purple-500/10 border-purple-500/20", fileName: "S WB_Eth_Lifetechnology02.hwp" }
+    ];
+
+    let currentCategory = "all";
+    let searchQuery = "";
+    let downloadedTopics = JSON.parse(localStorage.getItem('tomorrow_downloaded_topics') || '[]');
+
+    // Setup Background Stars (Pure UI Deco)
+    function buildStars() {
+      const container = document.getElementById('stars-container');
+      container.innerHTML = '';
+      const count = window.innerWidth < 768 ? 30 : 80;
+      for (let i = 0; i < count; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.width = `${Math.random() * 2 + 1}px`;
+        star.style.height = star.style.width;
+        star.style.top = `${Math.random() * 100}%`;
+        star.style.left = `${Math.random() * 100}%`;
+        star.style.animationDelay = `${Math.random() * 5}s`;
+        container.appendChild(star);
+      }
+    }
+
+    // TTS Speech Assistant
+    function speakIntro() {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const text = "학생 탐구용 워크북 자료실입니다. 총 15개의 미래 기술 및 윤리 탐구 한글 워크북 파일을 즉시 내려받으실 수 있습니다.";
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'ko-KR';
+        window.speechSynthesis.speak(utterance);
+        showToast("📢 음성 안내가 시작되었습니다.");
+      } else {
+        showToast("❌ 음성 지원이 불가능한 브라우저입니다.");
+      }
+    }
+
+    // Render Clean Grid View
+    function renderTopics() {
+      const grid = document.getElementById('topics-grid');
+      const noResults = document.getElementById('no-results');
+      grid.innerHTML = '';
+
+      const filtered = topics.filter(t => {
+        const matchesCategory = (currentCategory === "all") || (t.category === currentCategory);
+        const matchesSearch = t.title.toLowerCase().includes(searchQuery.toLowerCase());
+        return matchesCategory && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        noResults.classList.remove('hidden');
+        grid.classList.add('hidden');
+        return;
+      }
+
+      noResults.classList.add('hidden');
+      grid.classList.remove('hidden');
+
+      filtered.forEach(topic => {
+        const isDownloaded = downloadedTopics.includes(topic.id);
+        const card = document.createElement('div');
+        
+        // Glow styling for specific category
+        const borderGlow = topic.category === "tech" ? "neon-border-cyan" : "neon-border-magenta";
+
+        card.className = `rounded-2xl bg-[#0a0f29]/50 p-5 border backdrop-blur-md transition-all duration-300 relative overflow-hidden flex flex-col justify-between ${borderGlow}`;
+
+        card.innerHTML = `
+          <div>
+            <div class="flex justify-between items-center mb-4">
+              <span class="text-[9px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider ${topic.category === 'tech' ? 'bg-cyan-500/15 text-cyan-300' : 'bg-fuchsia-500/15 text-fuchsia-300'}">
+                ${topic.categoryName}
+              </span>
+              <div id="check-status-${topic.id}">
+                ${isDownloaded ? `
+                  <span class="text-[10px] text-emerald-400 font-bold flex items-center gap-1">
+                    <i class="fa-solid fa-circle-check text-xs"></i> 완료됨
+                  </span>
+                ` : `
+                  <span class="text-[10px] text-slate-600">미다운로드</span>
+                `}
+              </div>
+            </div>
+
+            <div class="flex items-center gap-3.5 mt-2 mb-6">
+              <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl ${topic.colorClass} border">
+                <i class="fa-solid ${topic.icon}"></i>
+              </div>
+              <div class="flex-1 min-w-0">
+                <h4 class="text-base font-black text-slate-100 truncate">${topic.title}</h4>
+                <p class="text-[10px] text-slate-500">학생 탐구 워크북</p>
+              </div>
+            </div>
+          </div>
+
+          <button onclick="downloadHWP('${topic.id}', '${topic.title}', '${topic.fileName}')" class="w-full bg-[#10b981] hover:bg-[#059669] text-slate-950 font-black py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 download-glow transition-all">
+            <i class="fa-solid fa-file-word text-sm text-slate-950"></i> HWP 다운로드 받기
+          </button>
+        `;
+
+        grid.appendChild(card);
+      });
+
+      updateProgress();
+    }
+
+    // 실제 파일 다운로드 트리거
+    function downloadHWP(id, title, fileName) {
+      // 진행 현황 카운트 저장
+      if (!downloadedTopics.includes(id)) {
+        downloadedTopics.push(id);
+        localStorage.setItem('tomorrow_downloaded_topics', JSON.stringify(downloadedTopics));
+      }
+
+      // 숨겨진 링크(a)를 만들어 실제 폴더의 파일을 다운로드하도록 유도
+      const link = document.createElement('a');
+      link.href = `downloads/${fileName}`;
+      link.download = `[내일탐색]학생탐구용워크북_${title}.hwp`; // 깔끔한 이름으로 저장되도록 설정
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // UI Reaction
+      showToast(`📥 [${title}] HWP 다운로드를 성공적으로 마쳤습니다!`, "success");
+      
+      // Update elements instantly
+      renderTopics();
+    }
+
+    // Tab Switch Filter
+    function setCategory(cat) {
+      currentCategory = cat;
+      const tabs = {
+        all: document.getElementById('tab-all'),
+        tech: document.getElementById('tab-tech'),
+        ethics: document.getElementById('tab-ethics')
+      };
+
+      Object.keys(tabs).forEach(k => {
+        tabs[k].className = "px-4 py-2 rounded-xl text-xs font-semibold bg-slate-950 text-slate-400 hover:bg-slate-900 transition-all";
+      });
+
+      if (cat === "all") {
+        tabs.all.className = "px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-white transition-all";
+      } else if (cat === "tech") {
+        tabs.tech.className = "px-4 py-2 rounded-xl text-xs font-bold bg-cyan-950 text-cyan-400 border border-cyan-500/20 shadow-[0_0_10px_rgba(6,182,212,0.15)] transition-all";
+      } else if (cat === "ethics") {
+        tabs.ethics.className = "px-4 py-2 rounded-xl text-xs font-bold bg-fuchsia-950 text-fuchsia-400 border border-fuchsia-500/20 shadow-[0_0_10px_rgba(217,70,239,0.15)] transition-all";
+      }
+
+      renderTopics();
+    }
+
+    // Input Search control
+    function handleSearch() {
+      searchQuery = document.getElementById('search-input').value;
+      renderTopics();
+    }
+
+    // Clear Search Input
+    function clearSearch() {
+      document.getElementById('search-input').value = "";
+      searchQuery = "";
+      renderTopics();
+    }
+
+    // Update progress numbers
+    function updateProgress() {
+      const total = 15;
+      const current = downloadedTopics.length;
+      document.getElementById('progress-text').innerText = `${current} / ${total} 완료`;
+    }
+
+    // Toast Popup Creator
+    function showToast(message, type = "info") {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      
+      const themeClass = type === "success" 
+        ? "bg-slate-900 border-emerald-500 text-emerald-300" 
+        : "bg-slate-900 border-cyan-500 text-cyan-300";
+
+      toast.className = `px-4 py-3 rounded-xl border ${themeClass} shadow-xl flex items-center gap-2.5 text-xs font-semibold animate-fade-in transition-all duration-300 transform translate-x-5 opacity-0 max-w-sm`;
+      toast.innerHTML = `
+        <i class="fa-solid ${type === 'success' ? 'fa-circle-check text-emerald-400' : 'fa-circle-info text-cyan-400'} text-sm"></i>
+        <span>${message}</span>
+      `;
+
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.classList.remove('translate-x-5', 'opacity-0');
+      }, 50);
+
+      setTimeout(() => {
+        toast.classList.add('translate-x-5', 'opacity-0');
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    window.onload = function() {
+      buildStars();
+      renderTopics();
+      window.addEventListener('resize', buildStars);
+    };
+  </script>
+
+  <style>
+    @keyframes fadeIn {
+      from { transform: translateX(20px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.3s forwards cubic-bezier(0.16, 1, 0.3, 1);
+    }
+  </style>
+
+</body>
+</html>
