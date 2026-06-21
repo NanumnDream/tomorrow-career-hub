@@ -295,44 +295,46 @@
         }
 
         /* 5번째 박스 링크 다운로드 버튼 스타일 고유 정의 */
-        .download-btn-group {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 4px;
-        }
+    /* 5번째 박스 다운로드 버튼 전용 스타일 */
+       .download-btn-group {
+           width: 100%;
+           display: flex;
+           flex-direction: column;
+           gap: 12px;
+           margin-top: auto;
+       }
 
-        .download-link {
-            width: 100%;
-            padding: 11px 16px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            color: #cbd5e1;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 700;
-            transition: all 0.2s ease;
-        }
+       .download-link {
+           width: 100%;
+           padding: 12px 16px;
+           background: rgba(255, 255, 255, 0.04);
+           border: 1px solid rgba(255, 255, 255, 0.08);
+           border-radius: 12px;
+           display: flex;
+           align-items: center;
+           justify-content: space-between;
+           color: #cbd5e1;
+           text-decoration: none;
+           font-size: 13px;
+           font-weight: 700;
+           transition: all 0.2s ease;
+       }
 
-        .download-link:hover {
-            background: rgba(16, 185, 129, 0.1);
-            border-color: rgba(16, 185, 129, 0.4);
-            color: #ffffff;
-            transform: translateX(2px);
-        }
+       .download-link:hover {
+           background: rgba(16, 185, 129, 0.1);
+           border-color: rgba(16, 185, 129, 0.4);
+           color: #ffffff;
+           transform: translateX(3px);
+       }
 
-        .download-link i.fa-arrow-down-border-line {
-            color: #94a3b8;
-            transition: color 0.2s ease;
-        }
-        .download-link:hover i.fa-arrow-down-border-line {
-            color: #34d399;
-        }
+       .download-link i.action-icon {
+           color: #94a3b8;
+           transition: color 0.2s ease;
+       }
+
+       .download-link:hover i.action-icon {
+           color: #34d399;
+       }
 
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
@@ -554,23 +556,22 @@
                     교육과정 설계 및 학생·교사용 수업 워크북 원본 자료를 다운로드할 수 있습니다.
                 </p>
                 
-               <div class="quiz-features download-btn-group">
-                    <a href="downloads/curriculum.pdf" download="신산업_연계_교육과정.pdf" class="download-link">
-                       <span><i class="fas fa-file-pdf" style="color: #34d399; margin-right: 6px;"></i> 신산업 연계 교육과정</span>
-                       <i class="fa-solid fa-arrow-down-border-line"></i>
-                   </a>
-    
-                   <a href="test05-Submenu.html" class="download-link">
-                       <span><i class="fas fa-book" style="color: #34d399; margin-right: 6px;"></i> 학생 탐구용 워크북</span>
-                       <i class="fa-solid fa-arrow-right"></i>
-                   </a>
-    
-                   <a href="downloads/T Guidance WB.hwp" download="교사용_지도_워크북.hwp" class="download-link">
-                       <span><i class="fas fa-chalkboard-teacher" style="color: #34d399; margin-right: 6px;"></i> 교사용 지도 워크북</span>
-                       <i class="fa-solid fa-arrow-down-border-line"></i>
-                   </a>
-             </div>
-                
+            <div class="download-btn-group">
+            <a href="downloads/curriculum.pdf" download="신산업_연계_교육과정.pdf" class="download-link">  
+        <span><i class="fas fa-file-pdf" style="color: #34d399; margin-right: 8px;"></i> 신산업 연계 교육과정</span>
+        <i class="fa-solid fa-download action-icon"></i>
+               </a>
+
+               <a href="test05-Submenu.html" class="download-link">
+                   <span><i class="fas fa-book" style="color: #34d399; margin-right: 8px;"></i> 학생 탐구용 워크북</span>
+                  <i class="fa-solid fa-arrow-right action-icon"></i>
+               </a>
+
+            <a href="downloads/T Guidance WB.hwp" download="교사용_지도_워크북.hwp" class="download-link">
+                  <span><i class="fas fa-chalkboard-teacher" style="color: #34d399; margin-right: 8px;"></i> 교사용 지도 워크북</span>
+                  <i class="fa-solid fa-download action-icon"></i>
+               </a>
+           </div>   
               
         </div>
     </div>
