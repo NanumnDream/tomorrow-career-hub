@@ -22,7 +22,6 @@
             margin: 0;
             padding: 20px 0;
         }
-
         .slide-container {
             width: 100%;
             max-width: 1360px;
@@ -39,7 +38,6 @@
             flex-direction: column;
             padding: 40px 60px 80px 60px;
         }
-
         /* 귀여운 우주선 캔버스 - offset-path 제거, JS로 직접 제어 */
         .spaceship-canvas {
             position: absolute;
@@ -50,7 +48,6 @@
             z-index: 15;
             pointer-events: none;
         }
-
         .stars-canvas {
             position: absolute;
             top: 0;
@@ -60,7 +57,6 @@
             z-index: 1;
             pointer-events: none;
         }
-
         .neon-header {
             display: flex;
             justify-content: center;
@@ -70,7 +66,6 @@
             z-index: 10;
             flex-wrap: wrap;
         }
-
         .neon-box {
             display: inline-flex;
             align-items: center;
@@ -86,35 +81,27 @@
             transition: background 0.22s, transform 0.18s;
             font-family: 'Noto Sans KR', sans-serif;
         }
-
         .neon-box:hover { transform: translateY(-2px); }
-
         .neon-box .nb-dot {
             width: 7px; height: 7px;
             border-radius: 50%;
             flex-shrink: 0;
         }
-
         .neon-box.cyan    { color: #7DD3FC; border-color: rgba(125,211,252,0.5); }
         .neon-box.cyan:hover { background: rgba(125,211,252,0.13); }
         .neon-box.cyan .nb-dot { background: #7DD3FC; }
-
         .neon-box.green   { color: #86EFAC; border-color: rgba(134,239,172,0.5); }
         .neon-box.green:hover { background: rgba(134,239,172,0.13); }
         .neon-box.green .nb-dot { background: #86EFAC; }
-
         .neon-box.magenta { color: #F0ABFC; border-color: rgba(240,171,252,0.5); }
         .neon-box.magenta:hover { background: rgba(240,171,252,0.13); }
         .neon-box.magenta .nb-dot { background: #F0ABFC; }
-
         .neon-box.yellow  { color: #FDE68A; border-color: rgba(253,230,138,0.5); }
         .neon-box.yellow:hover { background: rgba(253,230,138,0.13); }
         .neon-box.yellow .nb-dot { background: #FDE68A; }
-
         .neon-box.orange  { color: #FCA5A5; border-color: rgba(252,165,165,0.5); }
         .neon-box.orange:hover { background: rgba(252,165,165,0.13); }
         .neon-box.orange .nb-dot { background: #FCA5A5; }
-
         .content-area {
             flex-grow: 1;
             display: flex;
@@ -123,7 +110,6 @@
             width: 100%;
             z-index: 10;
         }
-
         .slide-title {
             font-family: 'Orbitron', sans-serif;
             font-size: 38px;
@@ -134,7 +120,6 @@
             letter-spacing: 2px;
             width: 100%;
         }
-
         .subtitle {
             font-size: 15px;
             color: #a0aec0;
@@ -142,7 +127,6 @@
             line-height: 1.5;
             margin-bottom: 30px;
         }
-
         .card-grid {
             display: flex;
             gap: 25px;
@@ -151,7 +135,6 @@
             width: 100%;
             max-width: 1250px;
         }
-
         .quiz-card {
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
@@ -169,7 +152,6 @@
             transition: transform 0.3s ease;
             overflow: hidden;
         }
-
         .quiz-card::before {
             content: '';
             position: absolute;
@@ -177,9 +159,7 @@
             height: 3px;
             border-radius: 24px 24px 0 0;
         }
-
         .quiz-card:hover { transform: translateY(-6px); }
-
         /* 카드 1 — 인디고/바이올렛 */
         .quiz-card:nth-child(1) {
             background: rgba(79,46,180,0.18);
@@ -195,7 +175,6 @@
         .quiz-card:nth-child(1) .quiz-icon-wrapper { background: linear-gradient(to top right,#7C3AED,#6366F1); box-shadow: 0 10px 25px rgba(124,58,237,0.45); }
         .quiz-card:nth-child(1) .quiz-badge { background: #a78bfa; color: #1e1b4b; }
         .quiz-card:nth-child(1) .quiz-gradient-text { background: linear-gradient(to right,#a78bfa,#818cf8,#c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-
         /* 카드 2 — 스카이블루/시안 */
         .quiz-card:nth-child(2) {
             background: rgba(14,116,144,0.18);
@@ -211,7 +190,6 @@
         .quiz-card:nth-child(2) .quiz-icon-wrapper { background: linear-gradient(to top right,#0891B2,#22D3EE); box-shadow: 0 10px 25px rgba(8,145,178,0.45); }
         .quiz-card:nth-child(2) .quiz-badge { background: #22d3ee; color: #083344; }
         .quiz-card:nth-child(2) .quiz-gradient-text { background: linear-gradient(to right,#22d3ee,#67e8f9,#a5f3fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-
         /* 카드 3 — 앰버/오렌지 */
         .quiz-card:nth-child(3) {
             background: rgba(120,53,15,0.2);
@@ -227,7 +205,6 @@
         .quiz-card:nth-child(3) .quiz-icon-wrapper { background: linear-gradient(to top right,#C2410C,#FB923C); box-shadow: 0 10px 25px rgba(194,65,12,0.45); }
         .quiz-card:nth-child(3) .quiz-badge { background: #fb923c; color: #431407; }
         .quiz-card:nth-child(3) .quiz-gradient-text { background: linear-gradient(to right,#fbbf24,#fb923c,#f87171); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-
         /* 카드 4 — 로즈/핑크 */
         .quiz-card:nth-child(4) {
             background: rgba(136,19,55,0.18);
@@ -243,7 +220,6 @@
         .quiz-card:nth-child(4) .quiz-icon-wrapper { background: linear-gradient(to top right,#BE185D,#FB7185); box-shadow: 0 10px 25px rgba(190,24,93,0.45); }
         .quiz-card:nth-child(4) .quiz-badge { background: #fb7185; color: #4c0519; }
         .quiz-card:nth-child(4) .quiz-gradient-text { background: linear-gradient(to right,#fbbf24,#fb7185); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-
         /* 카드 5 — 에메랄드/그린 */
         .quiz-card:nth-child(5) {
             background: rgba(6,78,59,0.2);
@@ -258,7 +234,6 @@
         .quiz-card:nth-child(5) .quiz-feature-icon { color: #34d399; }
         .quiz-card:nth-child(5) .quiz-icon-wrapper { background: linear-gradient(to top right,#065F46,#34D399); box-shadow: 0 10px 25px rgba(6,95,70,0.45); }
         .quiz-card:nth-child(5) .quiz-badge { background: #34d399; color: #022c22; }
-
         .quiz-card-header {
             width: 100%;
             display: flex;
@@ -268,7 +243,6 @@
             padding-bottom: 12px;
             margin-bottom: 20px;
         }
-
         .quiz-card-title {
             font-size: 12px;
             font-weight: 900;
@@ -277,7 +251,6 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
         .quiz-icon-wrapper {
             width: 80px;
             height: 80px;
@@ -292,12 +265,10 @@
             animation: float 4s infinite ease-in-out;
             margin-bottom: 20px;
         }
-
         .quiz-icon-wrapper.alt-color {
             background: linear-gradient(to top right, #4338ca, #3b82f6);
             box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
         }
-
         .quiz-badge {
             position: absolute;
             top: -6px;
@@ -310,7 +281,6 @@
             border-radius: 999px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
         }
-
         .quiz-main-heading {
             font-size: 24px;
             font-weight: 800;
@@ -318,13 +288,11 @@
             margin-bottom: 10px;
             color: #ffffff;
         }
-
         .quiz-gradient-text {
             background: linear-gradient(to right, #22d3ee, #818cf8, #c084fc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
         .quiz-desc {
             font-size: 13px;
             color: #94a3b8;
@@ -332,7 +300,6 @@
             margin-bottom: 20px;
             word-break: keep-all;
         }
-
         .quiz-features {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -346,7 +313,6 @@
             gap: 8px;
             flex-grow: 1;
         }
-
         .quiz-feature-item {
             display: flex;
             align-items: center;
@@ -354,9 +320,7 @@
             font-size: 12px;
             color: #cbd5e1;
         }
-
         .quiz-feature-icon { color: #34d399; font-size: 11px; }
-
         .quiz-btn {
             width: 100%;
             padding: 14px;
@@ -373,9 +337,7 @@
             text-decoration: none;
             display: inline-block;
         }
-
         .quiz-btn:hover { filter: brightness(1.1); transform: scale(1.02); }
-
         .download-btn-group {
             width: 100%;
             display: flex;
@@ -383,7 +345,6 @@
             gap: 12px;
             margin-top: auto;
         }
-
         .download-link {
             width: 100%;
             padding: 12px 16px;
@@ -399,17 +360,14 @@
             font-weight: 700;
             transition: all 0.2s ease;
         }
-
         .download-link:hover {
             background: rgba(16, 185, 129, 0.1);
             border-color: rgba(16, 185, 129, 0.4);
             color: #ffffff;
             transform: translateX(3px);
         }
-
         .download-link i.action-icon { color: #94a3b8; transition: color 0.2s ease; }
         .download-link:hover i.action-icon { color: #34d399; }
-
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-8px); }
@@ -423,10 +381,8 @@
 <body>
     
 <div class="slide-container" id="slide1">
-
     <!-- 별 배경 캔버스 -->
     <canvas class="stars-canvas" id="starsCanvas"></canvas>
-
     <!-- 귀여운 우주선 캔버스 (전체 슬라이드 크기) -->
     <canvas class="spaceship-canvas" id="shipCanvas"></canvas>
     
@@ -510,7 +466,6 @@
                 </div>
                 <button class="quiz-btn" onclick="location.href='test03.html'">적성 기반 탐색 시작 ➔</button>
             </div>
-
             <div class="quiz-card">
                 <div class="quiz-card-header">
                     <div style="display:flex;align-items:center;gap:6px;">
@@ -532,7 +487,6 @@
                 </div>
                 <button class="quiz-btn" style="background:linear-gradient(to right,#db2777,#f59e0b);" onclick="location.href='test04.html'">학업 설계 시작하기 ➔</button>
             </div>
-
             <div class="quiz-card">
                 <div class="quiz-card-header">
                     <div style="display:flex;align-items:center;gap:6px;">
@@ -542,7 +496,7 @@
                     <div style="background:rgba(255,255,255,0.05);padding:5px 8px;border-radius:8px;font-size:12px;cursor:pointer;">🔊</div>
                 </div>
                 <div class="quiz-icon-wrapper" style="background:linear-gradient(to top right,#059669,#34d399);box-shadow:0 10px 25px rgba(5,150,105,0.4);">
-                    🗂️
+                    🗂
                     <div class="quiz-badge" style="background:#10b981;color:#fff;">PDF</div>
                 </div>
                 <h2 class="quiz-main-heading">수업 적용을 위한<br><span class="quiz-gradient-text" style="background:linear-gradient(to right,#34d399,#2dd4bf);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">신산업 교육 자료실</span></h2>
@@ -562,11 +516,9 @@
                     </a>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
-
 <footer class="w-full relative z-20 pb-12 flex flex-col items-center justify-center" style="clear:both;margin-top:30px;">
     <div class="border-t border-slate-800 w-full max-w-6xl mx-auto pt-6 flex flex-col items-center justify-center text-center">
         <p style="color:#22d3ee;font-size:13px;text-align:center;width:100%;margin-bottom:6px;" class="font-medium tracking-wider">
@@ -577,7 +529,6 @@
         </p>
     </div>
 </footer>
-
 <script>
 /* =============================================
    1. 별 배경 애니메이션
@@ -585,7 +536,6 @@
 const starsCanvas = document.getElementById('starsCanvas');
 const starsCtx    = starsCanvas.getContext('2d');
 const stars = [];
-
 function initStars() {
     const container = document.getElementById('slide1');
     starsCanvas.width  = container.offsetWidth;
@@ -600,9 +550,7 @@ function initStars() {
             spd: Math.random() * 0.012 + 0.004
         });
     }
-}
-window.addEventListener('resize', initStars);
-
+}window.addEventListener('resize', initStars);
 function animateStars() {
     starsCtx.clearRect(0, 0, starsCanvas.width, starsCanvas.height);
     for (const s of stars) {
@@ -614,31 +562,24 @@ function animateStars() {
         starsCtx.fill();
     }
     requestAnimationFrame(animateStars);
-}
-
-/* =============================================
+}/* =============================================
    2. 귀여운 우주선 애니메이션
    ============================================= */
 const shipCanvas = document.getElementById('shipCanvas');
 const shipCtx    = shipCanvas.getContext('2d');
-
 let blinkPhase = 0;
 let bobPhase   = 0;
 let tailParticles = [];
 let sparkles      = [];
-
 function initShipCanvas() {
     const container = document.getElementById('slide1');
     shipCanvas.width  = container.offsetWidth;
     shipCanvas.height = container.offsetHeight;
-}
-window.addEventListener('resize', () => { initShipCanvas(); genWaypoints(); });
-
+}window.addEventListener('resize', () => { initShipCanvas(); genWaypoints(); });
 /* 웨이포인트 */
 let waypoints = [];
 let wpIdx = 0;
 let shipX, shipY, shipAngle = 0, spinBoost = 0;
-
 function genWaypoints() {
     const W = shipCanvas.width, H = shipCanvas.height;
     waypoints = Array.from({length: 8}, () => ({
@@ -647,32 +588,24 @@ function genWaypoints() {
     }));
     wpIdx = 0;
     if (!shipX) { shipX = waypoints[0].x; shipY = waypoints[0].y; }
-}
-
-/* 각도 최단 경로 */
+}/* 각도 최단 경로 */
 function angleDiff(a, b) {
     let d = b - a;
     while (d >  Math.PI) d -= Math.PI * 2;
     while (d < -Math.PI) d += Math.PI * 2;
     return d;
-}
-
-/* 귀여운 우주선 그리기 */
+}/* 귀여운 우주선 그리기 */
 function drawCuteShip(x, y, angle) {
     shipCtx.save();
     shipCtx.translate(x, y);
     shipCtx.rotate(angle);
-
     const S   = 1.0;
     const bob = Math.sin(bobPhase) * 1.8;
-
     shipCtx.save();
     shipCtx.translate(0, bob);
-
     /* --- 엔진 불꽃 --- */
     const fg   = Math.pow(Math.abs(Math.sin(blinkPhase * 2.5)), 1.5) * 0.75 + 0.25;
     const flen = 28 + Math.random() * 10;
-
     shipCtx.shadowBlur  = 20 * fg;
     shipCtx.shadowColor = '#FF6B35';
     shipCtx.fillStyle   = `rgba(255,107,53,${fg})`;
@@ -683,7 +616,6 @@ function drawCuteShip(x, y, angle) {
     shipCtx.lineTo(-24*S,  8*S);
     shipCtx.closePath();
     shipCtx.fill();
-
     shipCtx.shadowBlur  = 10;
     shipCtx.shadowColor = '#FFE066';
     shipCtx.fillStyle   = `rgba(255,224,102,${fg + 0.1})`;
@@ -695,7 +627,6 @@ function drawCuteShip(x, y, angle) {
     shipCtx.closePath();
     shipCtx.fill();
     shipCtx.shadowBlur = 0;
-
     /* --- 몸체 (통통한 타원형) --- */
     shipCtx.fillStyle   = '#A78BFA';
     shipCtx.strokeStyle = '#C4B5FD';
@@ -710,7 +641,6 @@ function drawCuteShip(x, y, angle) {
     shipCtx.closePath();
     shipCtx.fill();
     shipCtx.stroke();
-
     /* --- 엔진 뒷부분 --- */
     shipCtx.fillStyle = '#7C3AED';
     shipCtx.beginPath();
@@ -720,7 +650,6 @@ function drawCuteShip(x, y, angle) {
     shipCtx.lineTo(-20*S,-10*S);
     shipCtx.closePath();
     shipCtx.fill();
-
     /* --- 위쪽 날개 핀 --- */
     shipCtx.fillStyle   = '#FF9CEE';
     shipCtx.strokeStyle = '#F9A8D4';
@@ -733,7 +662,6 @@ function drawCuteShip(x, y, angle) {
     shipCtx.closePath();
     shipCtx.fill();
     shipCtx.stroke();
-
     /* --- 아래쪽 날개 핀 --- */
     shipCtx.beginPath();
     shipCtx.moveTo(16*S, 16*S);
@@ -743,7 +671,6 @@ function drawCuteShip(x, y, angle) {
     shipCtx.closePath();
     shipCtx.fill();
     shipCtx.stroke();
-
     /* --- 창문 (파란 눈처럼) --- */
     const winGlow = Math.abs(Math.sin(blinkPhase)) * 0.3 + 0.5;
     shipCtx.shadowBlur  = 12;
@@ -756,17 +683,14 @@ function drawCuteShip(x, y, angle) {
     shipCtx.strokeStyle = '#A5F3FC';
     shipCtx.lineWidth   = 1.2;
     shipCtx.stroke();
-
     /* 창문 하이라이트 */
     shipCtx.fillStyle = 'rgba(255,255,255,0.55)';
     shipCtx.beginPath();
     shipCtx.ellipse(10*S, -2.5*S, 3*S, 2.2*S, -0.4, 0, Math.PI * 2);
     shipCtx.fill();
-
     /* --- 눈 (깜빡임) --- */
     const eyeBlink = Math.abs(Math.sin(blinkPhase * 0.38));
     const eyeH     = eyeBlink > 0.08 ? 4.5*S : 0.7*S;
-
     shipCtx.fillStyle = '#1E1B4B';
     shipCtx.beginPath();
     shipCtx.ellipse(14*S, -3.2*S, 3.2*S, eyeH, 0, 0, Math.PI * 2);
@@ -774,7 +698,6 @@ function drawCuteShip(x, y, angle) {
     shipCtx.beginPath();
     shipCtx.ellipse(14*S,  3.2*S, 3.2*S, eyeH, 0, 0, Math.PI * 2);
     shipCtx.fill();
-
     if (eyeBlink > 0.08) {
         /* 눈 반짝이 */
         shipCtx.fillStyle = 'white';
@@ -785,7 +708,6 @@ function drawCuteShip(x, y, angle) {
         shipCtx.ellipse(15.2*S,  2.2*S, 1.1*S, 1.1*S, 0, 0, Math.PI * 2);
         shipCtx.fill();
     }
-
     /* --- 볼 홍조 --- */
     shipCtx.fillStyle = 'rgba(255,182,210,0.65)';
     shipCtx.beginPath();
@@ -794,7 +716,6 @@ function drawCuteShip(x, y, angle) {
     shipCtx.beginPath();
     shipCtx.ellipse(10*S,  7.5*S, 3.2*S, 1.8*S, -0.2, 0, Math.PI * 2);
     shipCtx.fill();
-
     /* --- 미소 --- */
     if (eyeBlink > 0.08) {
         shipCtx.strokeStyle = '#FDA4AF';
@@ -803,16 +724,12 @@ function drawCuteShip(x, y, angle) {
         shipCtx.arc(12*S, 5.5*S, 2.5*S, 0.1, Math.PI - 0.1);
         shipCtx.stroke();
     }
-
     shipCtx.restore();
     shipCtx.restore();
-}
-
-/* 메인 루프 */
+}/* 메인 루프 */
 function shipLoop() {
     const W = shipCanvas.width, H = shipCanvas.height;
     shipCtx.clearRect(0, 0, W, H);
-
     /* 파티클 꼬리 */
     for (let i = tailParticles.length - 1; i >= 0; i--) {
         const p = tailParticles[i];
@@ -826,7 +743,6 @@ function shipLoop() {
         shipCtx.fill();
         shipCtx.globalAlpha = 1;
     }
-
     /* 반짝이 이펙트 */
     for (let i = sparkles.length - 1; i >= 0; i--) {
         const sp = sparkles[i];
@@ -838,7 +754,6 @@ function shipLoop() {
         shipCtx.fillText(sp.ch, sp.x, sp.y);
         shipCtx.globalAlpha = 1;
     }
-
     /* 이동 계산 */
     const target = waypoints[wpIdx];
     const dx = target.x - shipX, dy = target.y - shipY;
@@ -846,7 +761,6 @@ function shipLoop() {
     const targetAngle = Math.atan2(dy, dx);
     let diff = angleDiff(shipAngle, targetAngle);
     const turnRate = 0.048 + Math.abs(diff) * 0.04 + spinBoost;
-
     if (Math.abs(diff) > 0.01) {
         shipAngle += Math.sign(diff) * Math.min(turnRate, Math.abs(diff));
         spinBoost  = Math.min(spinBoost + 0.002, 0.038);
@@ -854,11 +768,9 @@ function shipLoop() {
         shipAngle = targetAngle;
         spinBoost = Math.max(0, spinBoost - 0.005);
     }
-
     const spd = dist < 60 ? 1.6 * (dist / 60) + 0.4 : 2.2;
     shipX += Math.cos(shipAngle) * spd;
     shipY += Math.sin(shipAngle) * spd;
-
     /* 꼬리 파티클 생성 */
     const tx = shipX - Math.cos(shipAngle) * 22;
     const ty = shipY - Math.sin(shipAngle) * 22;
@@ -874,7 +786,6 @@ function shipLoop() {
             color: cols[Math.floor(Math.random() * cols.length)]
         });
     }
-
     /* 랜덤 반짝이 */
     if (Math.random() < 0.04) {
         const chars = ['★','✦','·','♡','✿'];
@@ -887,27 +798,21 @@ function shipLoop() {
             life: 1
         });
     }
-
     /* 웨이포인트 도달 */
     if (dist < 20) {
         wpIdx = (wpIdx + 1) % waypoints.length;
         if (wpIdx === 0) genWaypoints();
     }
-
     drawCuteShip(shipX, shipY, shipAngle);
-
     blinkPhase += 0.08;
     bobPhase   += 0.06;
     requestAnimationFrame(shipLoop);
-}
-
-/* =============================================
+}/* =============================================
    3. 초기화
    ============================================= */
 setTimeout(() => {
     initStars();
     animateStars();
-
     initShipCanvas();
     genWaypoints();
     shipLoop();
