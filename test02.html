@@ -9,205 +9,430 @@
     <style>
         body {
             font-family: 'Noto Sans KR', sans-serif;
-            background: radial-gradient(circle at 50% 50%, #1e1b4b 0%, #0f172a 100%);
+            background: radial-gradient(circle at 50% 50%, #0c1a2e 0%, #070a13 100%);
+            min-height: 100vh;
         }
-        .glow-indigo { box-shadow: 0 0 25px 2px rgba(99, 102, 241, 0.3); }
-        .glow-emerald { box-shadow: 0 0 25px 2px rgba(16, 185, 129, 0.3); }
-        .glow-amber { box-shadow: 0 0 25px 2px rgba(245, 158, 11, 0.3); }
-        .glass-panel {
-            background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+
+        /* ── 메인 카드: index 2번 박스와 동일 ── */
+        .main-card {
+            background: rgba(14, 116, 144, 0.18);
+            border: 1px solid rgba(34, 211, 238, 0.35);
+            box-shadow: 0 0 40px rgba(34, 211, 238, 0.22);
+            border-radius: 1.875rem;  /* rounded-3xl = 1.875rem */
+            position: relative;
+            overflow: hidden;
         }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        @keyframes pulse-slow {
-            0%, 100% { transform: scale(1); opacity: 0.95; }
-            50% { transform: scale(1.02); opacity: 1; }
+        /* 상단 3px 그라디언트 라인 */
+        .main-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #0891B2, #22D3EE);
+            border-radius: 24px 24px 0 0;
         }
-        .animate-pulse-slow { animation: pulse-slow 3.5s infinite ease-in-out; }
+
+        /* 아이콘 래퍼 */
+        .icon-wrapper {
+            width: 96px;
+            height: 96px;
+            background: linear-gradient(to top right, #0891B2, #22D3EE);
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 46px;
+            box-shadow: 0 10px 30px rgba(8, 145, 178, 0.5);
+            position: relative;
+            animation: float 4.5s infinite ease-in-out;
+            margin: 0 auto 20px auto;
+        }
+        .icon-badge {
+            position: absolute;
+            top: -7px;
+            right: -7px;
+            background: #22d3ee;
+            color: #083344;
+            font-size: 10px;
+            font-weight: 900;
+            padding: 3px 8px;
+            border-radius: 999px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.35);
+        }
+
+        /* 카드 헤더 */
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 14px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            margin-bottom: 24px;
+        }
+        .header-title {
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            background: linear-gradient(to right, #22d3ee, #67e8f9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .sound-btn {
+            width: 32px; height: 32px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            border: none;
+            font-size: 13px;
+            transition: background 0.2s;
+        }
+        .sound-btn:hover { background: rgba(255,255,255,0.10); }
+
+        /* 제목 */
+        .main-heading {
+            font-size: 26px;
+            font-weight: 800;
+            color: #ffffff;
+            text-align: center;
+            line-height: 1.35;
+            margin-bottom: 10px;
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #22d3ee, #67e8f9, #a5f3fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* 설명 */
+        .desc-text {
+            font-size: 13px;
+            color: #94a3b8;
+            text-align: center;
+            line-height: 1.6;
+            margin-bottom: 22px;
+            word-break: keep-all;
+        }
+
+        /* 피쳐 리스트 박스 */
+        .features-box {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin-bottom: 26px;
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-size: 12px;
+            color: #cbd5e1;
+        }
+        .feature-check { color: #818cf8; font-size: 11px; }
+
+        /* 시작 버튼 */
+        .start-btn {
+            width: 100%;
+            padding: 15px;
+            border-radius: 16px;
+            background: linear-gradient(to right, #6366f1, #a855f7, #ec4899);
+            color: white;
+            font-weight: 800;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+            transition: all 0.2s;
+            animation: pulse-slow 3s infinite ease-in-out;
+        }
+        .start-btn:hover { filter: brightness(1.1); transform: scale(1.02); }
+
+        /* 퀴즈 진행 화면 스타일 */
+        .progress-bar-track {
+            width: 100%;
+            height: 10px;
+            background: rgba(30,41,59,1);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(to right, #22d3ee, #6366f1);
+            border-radius: 999px;
+            transition: width 0.35s ease;
+        }
+
+        .option-btn {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #cbd5e1;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+        }
+        .option-btn:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(34,211,238,0.4);
+        }
+        .option-emoji {
+            width: 34px; height: 34px;
+            background: rgba(30,41,59,1);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+            transition: background 0.2s;
+        }
+        .option-btn:hover .option-emoji { background: #6366f1; }
+        .option-score-badge {
+            font-size: 11px;
+            background: rgba(255,255,255,0.05);
+            padding: 3px 10px;
+            border-radius: 6px;
+            color: #94a3b8;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+        .option-btn:hover .option-score-badge {
+            background: rgba(34,211,238,0.15);
+            color: #22d3ee;
+        }
+
+        /* 결과 화면 */
+        .result-grade-badge {
+            font-size: 20px;
+            font-weight: 900;
+            padding: 6px 20px;
+            border-radius: 999px;
+            border: 2px solid;
+        }
+
+        /* 프로그래스 바 (결과) */
+        .domain-bar-track {
+            width: 100%;
+            height: 6px;
+            background: rgba(30,41,59,1);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        /* 토스트 */
+        #toast-message {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.9);
+            opacity: 0;
+            background: rgba(15,23,42,0.97);
+            border: 1px solid rgba(34,211,238,0.3);
+            padding: 10px 24px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #22d3ee;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+            pointer-events: none;
+            transition: all 0.3s;
+            z-index: 100;
+            white-space: nowrap;
+        }
+        #toast-message.show {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-10px); }
         }
-        .animate-float { animation: float 4.5s infinite ease-in-out; }
+        @keyframes pulse-slow {
+            0%, 100% { transform: scale(1); opacity: 0.95; }
+            50% { transform: scale(1.02); opacity: 1; }
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-up { animation: fadeUp 0.35s ease-out both; }
+
+        /* confetti canvas */
+        #confetti-canvas {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 50;
+            width: 100%;
+            height: 100%;
+        }
     </style>
 </head>
-<body class="min-h-screen text-slate-100 flex items-center justify-center p-3 md:p-6 overflow-x-hidden">
+<body class="flex items-center justify-center p-4 md:p-8 overflow-x-hidden">
 
-    <canvas id="confetti-canvas" class="absolute inset-0 pointer-events-none z-50 w-full h-full"></canvas>
+    <canvas id="confetti-canvas"></canvas>
 
-    <div class="w-full max-w-2xl min-h-[720px] rounded-3xl glass-panel glow-indigo flex flex-col justify-between overflow-hidden relative transition-all duration-500 ease-in-out">
-        
-        <div class="px-6 pt-5 pb-3 flex justify-between items-center border-b border-white/5 z-10">
-            <div class="flex items-center space-x-2">
-                <span class="text-xl">📡</span>
-                <span class="font-black text-sm tracking-widest bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-cyan-400">TREND DETECTOR</span>
+    <!-- 메인 카드 -->
+    <div class="main-card w-full max-w-2xl min-h-[700px] rounded-3xl flex flex-col fade-up" style="padding: 40px 60px 80px 60px;">
+
+        <!-- 카드 헤더 (항상 표시) -->
+        <div class="card-header">
+            <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-size:18px;">📡</span>
+                <span class="header-title">TREND DETECTOR</span>
             </div>
-            <div class="flex items-center space-x-4">
-                <button id="sound-toggle" class="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 active:scale-95 transition-all text-sm flex items-center justify-center" title="효과음 켜기/끄기">
-                    <span id="sound-icon">🔊</span>
-                </button>
+            <button class="sound-btn" id="sound-toggle" title="효과음 켜기/끄기">
+                <span id="sound-icon">🔊</span>
+            </button>
+        </div>
+
+        <!-- ① 홈 화면 -->
+        <div id="home-screen">
+            <div class="icon-wrapper">
+                🔍
+                <div class="icon-badge">TQ</div>
+            </div>
+
+            <h2 class="main-heading">
+                미래 트렌드 감지기<br>
+                <span class="gradient-text">신산업 친화도 테스트</span>
+            </h2>
+            <p class="desc-text">
+                나는 다가올 미래 세상의 혁신 키워드들과 얼마나 가까운 사이일까?<br>
+                15가지의 친화도 체크리스트를 통과하고 내 안의 미래 테크 온도를 분석해 보세요!
+            </p>
+
+            <div class="features-box">
+                <div class="feature-item">
+                    <span class="feature-check">✔</span>
+                    <span>미래 신산업 핵심 트렌드 15문항 정밀 체크</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-check">✔</span>
+                    <span>지식 인지도, 활용도, 진로 선호도 통합 평가</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-check">✔</span>
+                    <span>최종 점수별 상/중/하 성향 보고서 및 영역 차트 분석</span>
+                </div>
+            </div>
+
+            <button class="start-btn" id="start-btn">친화도 감지 측정 시작 ➔</button>
+        </div>
+
+        <!-- ② 퀴즈 화면 -->
+        <div id="quiz-screen" class="hidden" style="display:none;">
+            <!-- HUD 상단 -->
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;">
+                <div>
+                    <div id="quiz-progress-text" style="font-size:11px;font-weight:900;color:#22d3ee;letter-spacing:1.5px;margin-bottom:6px;">CHECKLIST 01 OF 15</div>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <span style="font-size:11px;color:#94a3b8;">누적 신산업 스코어:</span>
+                        <span id="score-counter" style="font-size:11px;font-weight:900;color:#fbbf24;background:rgba(251,191,36,0.10);padding:2px 10px;border-radius:999px;">⭐ 0점</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 진행 바 -->
+            <div class="progress-bar-track" style="margin-bottom:20px;">
+                <div class="progress-bar-fill" id="quiz-progress-fill" style="width:6%;"></div>
+            </div>
+
+            <!-- 문제 박스 -->
+            <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);border-radius:16px;padding:20px 18px;margin-bottom:16px;">
+                <p id="question-text" style="font-size:15px;font-weight:700;color:#f1f5f9;line-height:1.65;word-break:keep-all;">문항 내용을 로드하고 있습니다...</p>
+            </div>
+
+            <!-- 선택지 -->
+            <div id="options-container" style="display:flex;flex-direction:column;gap:10px;"></div>
+        </div>
+
+        <!-- ③ 결과 화면 -->
+        <div id="result-screen" class="hidden" style="display:none;">
+            <!-- 제목 -->
+            <div style="text-align:center;margin-bottom:20px;">
+                <div id="result-icon-badge" style="font-size:36px;margin-bottom:8px;">🏆</div>
+                <h2 style="font-size:26px;font-weight:900;background:linear-gradient(to right,#fbbf24,#fb923c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px;">나의 신산업 친화도</h2>
+                <p style="font-size:11px;color:#94a3b8;">나의 미래 경쟁력 지수(TQ) 분석 리포트</p>
+            </div>
+
+            <!-- 점수 / 등급 -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;">
+                <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);border-radius:16px;padding:16px;text-align:center;">
+                    <span style="font-size:11px;font-weight:700;color:#94a3b8;display:block;margin-bottom:6px;">미래 트렌드 스코어</span>
+                    <span id="final-score" style="font-size:30px;font-weight:900;color:#34d399;">0점</span>
+                    <span style="font-size:10px;color:#64748b;display:block;margin-top:2px;">(총점 45점 만점)</span>
+                </div>
+                <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);border-radius:16px;padding:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+                    <span style="font-size:11px;font-weight:700;color:#94a3b8;display:block;margin-bottom:8px;">나의 친화 수준</span>
+                    <span id="final-grade" class="result-grade-badge">상</span>
+                </div>
+            </div>
+
+            <!-- 피드백 박스 -->
+            <div style="background:linear-gradient(to bottom right,rgba(30,27,75,0.5),rgba(15,23,42,0.9));border:1px solid rgba(99,102,241,0.2);border-radius:18px;padding:20px;margin-bottom:18px;">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+                    <span style="font-size:18px;">💡</span>
+                    <span style="font-size:13px;font-weight:800;color:#a5b4fc;">나의 미래 경쟁력 판정</span>
+                </div>
+                <h4 id="career-type-title" style="font-size:19px;font-weight:900;color:#22d3ee;margin-bottom:10px;">트렌드 친화도를 지닌 미래 인재</h4>
+                <p id="career-type-desc" style="font-size:12px;color:#cbd5e1;line-height:1.65;word-break:keep-all;">결과 설명이 여기 표시됩니다.</p>
+
+                <!-- 도메인 바 -->
+                <div style="margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.05);display:flex;flex-direction:column;gap:10px;">
+                    <div>
+                        <div style="display:flex;justify-content:space-between;font-size:10px;font-weight:700;color:#94a3b8;margin-bottom:4px;">
+                            <span>AI & 데이터 분야 친밀도</span><span id="bar-pct-0">0%</span>
+                        </div>
+                        <div class="domain-bar-track"><div id="bar-fill-0" style="height:100%;background:#22d3ee;border-radius:999px;transition:width 1s ease;width:0%;"></div></div>
+                    </div>
+                    <div>
+                        <div style="display:flex;justify-content:space-between;font-size:10px;font-weight:700;color:#94a3b8;margin-bottom:4px;">
+                            <span>바이오 & 친환경 에너지 친밀도</span><span id="bar-pct-1">0%</span>
+                        </div>
+                        <div class="domain-bar-track"><div id="bar-fill-1" style="height:100%;background:#34d399;border-radius:999px;transition:width 1s ease;width:0%;"></div></div>
+                    </div>
+                    <div>
+                        <div style="display:flex;justify-content:space-between;font-size:10px;font-weight:700;color:#94a3b8;margin-bottom:4px;">
+                            <span>로봇공학 & 항공우주 친밀도</span><span id="bar-pct-2">0%</span>
+                        </div>
+                        <div class="domain-bar-track"><div id="bar-fill-2" style="height:100%;background:#818cf8;border-radius:999px;transition:width 1s ease;width:0%;"></div></div>
+                    </div>
+                    <div>
+                        <div style="display:flex;justify-content:space-between;font-size:10px;font-weight:700;color:#94a3b8;margin-bottom:4px;">
+                            <span>크리에이티브 플랫폼 친밀도</span><span id="bar-pct-3">0%</span>
+                        </div>
+                        <div class="domain-bar-track"><div id="bar-fill-3" style="height:100%;background:#c084fc;border-radius:999px;transition:width 1s ease;width:0%;"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 버튼 -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                <button id="copy-result-btn" style="padding:12px;border-radius:14px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.10);color:#fff;font-weight:800;font-size:13px;cursor:pointer;transition:all 0.2s;">📋 진단 결과표 복사하기</button>
+                <button id="restart-btn" style="padding:12px;border-radius:14px;background:linear-gradient(to right,#6366f1,#22d3ee);border:none;color:#fff;font-weight:800;font-size:13px;cursor:pointer;transition:all 0.2s;">🔄 다시 측정해보기</button>
             </div>
         </div>
 
-        <div class="flex-grow flex flex-col justify-center px-6 py-8 relative">
-            
-            <div id="home-screen" class="space-y-8 flex flex-col items-center text-center py-6">
-                <div class="relative w-28 h-28 bg-gradient-to-tr from-indigo-600 to-cyan-500 rounded-3xl flex items-center justify-center text-5xl shadow-2xl glow-indigo animate-float">
-                    🔮
-                    <div class="absolute -top-2 -right-2 bg-emerald-500 text-xs px-2.5 py-1 rounded-full font-black text-slate-900 shadow-md">TQ</div>
-                </div>
-                <div class="space-y-3">
-                    <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-tight">
-                        미래 트렌드 감지기<br>
-                        <span class="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-indigo-400 to-purple-400">나의 신산업 친화도 테스트</span>
-                    </h1>
-                    <p class="text-sm md:text-base text-slate-400 max-w-md mx-auto leading-relaxed">
-                        나는 다가올 미래 세상의 혁신 키워드들과 얼마나 가까운 사이일까?<br>
-                        15가지의 친화도 체크리스트를 통과하고 내 안의 미래 테크 온도를 분석해 보세요!
-                    </p>
-                </div>
+    </div><!-- /main-card -->
 
-                <div class="w-full max-w-sm bg-white/5 p-4 rounded-2xl border border-white/5 space-y-2 text-left">
-                    <div class="flex items-center space-x-2.5 text-xs text-slate-300">
-                        <span class="text-indigo-400">✔</span>
-                        <span>미래 신산업 핵심 트렌드 15문항 정밀 체크</span>
-                    </div>
-                    <div class="flex items-center space-x-2.5 text-xs text-slate-300">
-                        <span class="text-indigo-400">✔</span>
-                        <span>지식 인지도, 활용도, 진로 선호도 통합 평가</span>
-                    </div>
-                    <div class="flex items-center space-x-2.5 text-xs text-slate-300">
-                        <span class="text-indigo-400">✔</span>
-                        <span>최종 점수별 상/중/하 성향 보고서 및 영역 차트 분석</span>
-                    </div>
-                </div>
-
-                <button id="start-btn" class="w-full max-w-xs py-4 rounded-2xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white font-extrabold text-lg shadow-xl hover:brightness-110 active:scale-[0.98] transition-all animate-pulse-slow">
-                    친화도 감지 측정 시작 ➔
-                </button>
-            </div>
-
-            <div id="quiz-screen" class="hidden space-y-6">
-                <div class="flex justify-between items-center">
-                    <div class="space-y-1">
-                        <span id="quiz-progress-text" class="text-xs font-bold text-cyan-400 tracking-wider">CHECKLIST 01 OF 15</span>
-                        <div class="flex items-center space-x-2">
-                            <span class="text-xs text-slate-400">누적 신산업 스코어:</span>
-                            <span id="score-counter" class="text-xs font-black text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded-full">⭐ 0점</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden">
-                    <div id="quiz-progress-fill" class="h-full bg-gradient-to-r from-cyan-400 to-indigo-500 transition-all duration-300 w-[6%]"></div>
-                </div>
-
-                <div class="space-y-4">
-                    <div class="p-6 rounded-2xl bg-white/[0.03] border border-white/5 shadow-inner">
-                        <h2 id="question-text" class="text-lg md:text-xl font-bold leading-relaxed text-slate-100">
-                            문항 내용을 로드하고 있습니다...
-                        </h2>
-                    </div>
-                </div>
-
-                <div id="options-container" class="grid grid-cols-1 gap-3.5 pt-2">
-                </div>
-            </div>
-
-            <div id="result-screen" class="hidden space-y-6">
-                <div class="text-center space-y-2">
-                    <div id="result-icon-badge" class="w-16 h-16 mx-auto rounded-full flex items-center justify-center text-3xl shadow-lg">🏆</div>
-                    <h2 class="text-3xl font-black bg-clip-text text-transparent bg-gradient-to-r from-amber-400 to-orange-400">나의 신산업 친화도</h2>
-                    <p class="text-xs text-slate-400">나의 미래 경쟁력 지수(TQ) 분석 리포트</p>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="p-4 rounded-2xl bg-white/[0.03] border border-white/5 text-center space-y-1">
-                        <span class="text-xs text-slate-400 block font-bold">미래 트렌드 스코어</span>
-                        <span id="final-score" class="text-3xl font-black text-emerald-400">0점</span>
-                        <span class="text-[10px] text-slate-500 block">(총점 45점 만점)</span>
-                    </div>
-                    <div class="p-4 rounded-2xl bg-white/[0.03] border border-white/5 text-center space-y-1 flex flex-col justify-center items-center">
-                        <span class="text-xs text-slate-400 block font-bold mb-1">나의 친화 수준</span>
-                        <span id="final-grade" class="text-xl font-black px-4 py-1.5 rounded-full border">상</span>
-                    </div>
-                </div>
-
-                <div id="grade-feedback-box" class="p-6 rounded-2xl bg-gradient-to-br from-indigo-950/50 to-slate-900 border border-indigo-500/20 space-y-4">
-                    <div class="flex items-center space-x-2">
-                        <span class="text-xl">💡</span>
-                        <h3 class="font-extrabold text-indigo-300 text-sm md:text-base">나의 미래 경쟁력 판정</h3>
-                    </div>
-                    
-                    <div class="space-y-3">
-                        <h4 id="career-type-title" class="text-xl font-black text-cyan-300">트렌드 친화도를 지닌 미래 인재</h4>
-                        <p id="career-type-desc" class="text-xs md:text-sm text-slate-300 leading-relaxed">
-                            나오는 멘트가 세부 판정 등급에 따라 여기에 표기됩니다.
-                        </p>
-                    </div>
-
-                    <div class="space-y-2.5 pt-2 border-t border-white/5">
-                        <div class="space-y-1">
-                            <div class="flex justify-between text-[11px] text-slate-400 font-bold">
-                                <span>AI & 데이터 분야 친밀도</span>
-                                <span id="bar-pct-0">0%</span>
-                            </div>
-                            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
-                                <div id="bar-fill-0" class="h-full bg-cyan-400 transition-all duration-1000" style="width: 0%"></div>
-                            </div>
-                        </div>
-                        <div class="space-y-1">
-                            <div class="flex justify-between text-[11px] text-slate-400 font-bold">
-                                <span>바이오 & 친환경 에너지 친밀도</span>
-                                <span id="bar-pct-1">0%</span>
-                            </div>
-                            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
-                                <div id="bar-fill-1" class="h-full bg-emerald-400 transition-all duration-1000" style="width: 0%"></div>
-                            </div>
-                        </div>
-                        <div class="space-y-1">
-                            <div class="flex justify-between text-[11px] text-slate-400 font-bold">
-                                <span>로봇공학 & 항공우주 친밀도</span>
-                                <span id="bar-pct-2">0%</span>
-                            </div>
-                            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
-                                <div id="bar-fill-2" class="h-full bg-indigo-400 transition-all duration-1000" style="width: 0%"></div>
-                            </div>
-                        </div>
-                        <div class="space-y-1">
-                            <div class="flex justify-between text-[11px] text-slate-400 font-bold">
-                                <span>크리에이티브 플랫폼 친밀도</span>
-                                <span id="bar-pct-3">0%</span>
-                            </div>
-                            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
-                                <div id="bar-fill-3" class="h-full bg-purple-400 transition-all duration-1000" style="width: 0%"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-3">
-                    <button id="copy-result-btn" class="py-3 rounded-xl bg-white/5 hover:bg-white/10 text-white font-extrabold text-sm border border-white/10 active:scale-95 transition-all">
-                        📋 진단 결과표 복사하기
-                    </button>
-                    <button id="restart-btn" class="py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-500 hover:opacity-95 text-white font-extrabold text-sm active:scale-95 transition-all">
-                        🔄 다시 측정해보기
-                    </button>
-                </div>
-            </div>
-
-        </div>
-
-        <div id="toast-message" class="absolute bottom-6 left-1/2 -translate-x-1/2 transform scale-90 opacity-0 bg-slate-900 border border-indigo-500/30 px-6 py-3 rounded-full text-xs font-bold text-indigo-300 shadow-xl pointer-events-none transition-all duration-300 z-50">
-            진단 보고서가 클립보드에 복사되었습니다!
-        </div>
-        
-    </div>
+    <!-- 토스트 -->
+    <div id="toast-message">진단 보고서가 클립보드에 복사되었습니다!</div>
 
     <script>
+        /* ──────────────────────────────────────────
+           데이터
+        ────────────────────────────────────────── */
         const DOMAINS = { AI_DATA: 0, BIO_GREEN: 1, ROBOT_SPACE: 2, CREATIVE_PLAT: 3 };
 
         const ITEMS = [
@@ -228,8 +453,20 @@
             { q: "15. 환경 정화, 미래 신재생 배터리, 화이트 해커 보안 분야 등 미래 신산업 영역 중 내가 가보고 싶은 진로 직업이 하나 이상 있다.", domain: DOMAINS.CREATIVE_PLAT }
         ];
 
-        let state = { currentIdx: 0, score: 0, soundEnabled: true, selectedScores: [], domainScores: [0, 0, 0, 0] };
+        /* ──────────────────────────────────────────
+           앱 상태
+        ────────────────────────────────────────── */
+        let state = {
+            currentIdx: 0,
+            score: 0,
+            soundEnabled: true,
+            selectedScores: [],
+            domainScores: [0, 0, 0, 0]
+        };
 
+        /* ──────────────────────────────────────────
+           오디오
+        ────────────────────────────────────────── */
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
         function playSound(type) {
@@ -278,9 +515,13 @@
             }
         }
 
+        /* ──────────────────────────────────────────
+           컨페티
+        ────────────────────────────────────────── */
         const canvas = document.getElementById('confetti-canvas');
         const ctx = canvas.getContext('2d');
-        let confettiActive = false; let particles = [];
+        let confettiActive = false;
+        let particles = [];
 
         function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.addEventListener('resize', resizeCanvas); resizeCanvas();
@@ -304,7 +545,8 @@
         }
 
         function triggerConfetti() {
-            particles = []; for (let i = 0; i < 70; i++) particles.push(new Confetti());
+            particles = [];
+            for (let i = 0; i < 70; i++) particles.push(new Confetti());
             confettiActive = true; animateConfetti();
             setTimeout(() => { confettiActive = false; ctx.clearRect(0, 0, canvas.width, canvas.height); }, 4500);
         }
@@ -312,107 +554,170 @@
         function animateConfetti() {
             if (!confettiActive) return;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach((p) => { p.update(); p.draw(); });
+            particles.forEach(p => { p.update(); p.draw(); });
             requestAnimationFrame(animateConfetti);
         }
 
-        const screens = { home: document.getElementById('home-screen'), quiz: document.getElementById('quiz-screen'), result: document.getElementById('result-screen') };
-        const startBtn = document.getElementById('start-btn'), restartBtn = document.getElementById('restart-btn'), copyResultBtn = document.getElementById('copy-result-btn'), soundToggle = document.getElementById('sound-toggle'), soundIcon = document.getElementById('sound-icon');
-        const quizProgressText = document.getElementById('quiz-progress-text'), quizProgressFill = document.getElementById('quiz-progress-fill'), scoreCounter = document.getElementById('score-counter'), questionText = document.getElementById('question-text'), optionsContainer = document.getElementById('options-container');
-        const finalScore = document.getElementById('final-score'), finalGrade = document.getElementById('final-grade'), resultIconBadge = document.getElementById('result-icon-badge'), careerTypeTitle = document.getElementById('career-type-title'), careerTypeDesc = document.getElementById('career-type-desc'), toastMessage = document.getElementById('toast-message');
-
-        function navigateTo(targetScreen) {
-            Object.keys(screens).forEach(key => {
-                if (key === targetScreen) screens[key].classList.remove('hidden');
-                else screens[key].classList.add('hidden');
+        /* ──────────────────────────────────────────
+           화면 전환
+        ────────────────────────────────────────── */
+        function showScreen(id) {
+            ['home-screen','quiz-screen','result-screen'].forEach(s => {
+                const el = document.getElementById(s);
+                if (s === id) { el.style.display = ''; el.classList.remove('hidden'); }
+                else { el.style.display = 'none'; el.classList.add('hidden'); }
             });
-            state.screen = targetScreen;
         }
 
+        /* ──────────────────────────────────────────
+           테스트 시작
+        ────────────────────────────────────────── */
         function startTest() {
-            state.currentIdx = 0; state.score = 0; state.selectedScores = []; state.domainScores = [0, 0, 0, 0];
-            scoreCounter.innerText = `⭐ 0점`; navigateTo('quiz'); loadNextItem();
+            state.currentIdx = 0; state.score = 0;
+            state.selectedScores = []; state.domainScores = [0, 0, 0, 0];
+            document.getElementById('score-counter').innerText = '⭐ 0점';
+            showScreen('quiz-screen');
+            loadNextItem();
         }
 
+        /* ──────────────────────────────────────────
+           문항 렌더링
+        ────────────────────────────────────────── */
         function loadNextItem() {
-            const currentItem = ITEMS[state.currentIdx];
-            quizProgressText.innerText = `CHECKLIST ${String(state.currentIdx + 1).padStart(2, '0')} OF ${ITEMS.length}`;
-            quizProgressFill.style.width = `${((state.currentIdx + 1) / ITEMS.length) * 100}%`;
-            questionText.innerText = currentItem.q;
-            optionsContainer.innerHTML = '';
-            
-            const options = [
+            const item = ITEMS[state.currentIdx];
+            const pct = ((state.currentIdx + 1) / ITEMS.length) * 100;
+
+            document.getElementById('quiz-progress-text').innerText =
+                `CHECKLIST ${String(state.currentIdx + 1).padStart(2,'0')} OF ${ITEMS.length}`;
+            document.getElementById('quiz-progress-fill').style.width = pct + '%';
+            document.getElementById('question-text').innerText = item.q;
+
+            const opts = [
                 { label: "실제 체험/적극 활용하며 아주 잘 알아요", score: 3, emoji: "🔥" },
                 { label: "들어봤고 대략 어떤 개념인지 알고 있어요", score: 2, emoji: "💡" },
-                { label: "잘 들어본 적이 없거나 전혀 몰라요", score: 1, emoji: "❔" }
+                { label: "잘 들어본 적이 없거나 전혀 몰라요",        score: 1, emoji: "❔" }
             ];
 
-            options.forEach((opt) => {
-                const button = document.createElement('button');
-                button.className = "option-btn w-full px-5 py-4 bg-white/[0.03] hover:bg-white/[0.08] border border-white/5 hover:border-indigo-500/40 rounded-2xl text-left text-slate-200 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/40 active:scale-[0.99] flex items-center justify-between group";
-                button.innerHTML = `
-                    <div class="flex items-center space-x-3.5 pr-4">
-                        <span class="w-8 h-8 flex items-center justify-center rounded-xl bg-slate-800 text-lg group-hover:bg-indigo-500 transition-all">${opt.emoji}</span>
-                        <span class="leading-relaxed font-semibold">${opt.label}</span>
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+            opts.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerHTML = `
+                    <div style="display:flex;align-items:center;gap:12px;flex:1;padding-right:12px;">
+                        <span class="option-emoji">${opt.emoji}</span>
+                        <span style="font-size:13px;font-weight:600;color:#cbd5e1;line-height:1.45;word-break:keep-all;">${opt.label}</span>
                     </div>
-                    <span class="text-xs bg-white/5 group-hover:bg-indigo-500/20 px-2.5 py-1 rounded text-slate-400 group-hover:text-indigo-300 transition-all">+${opt.score}점</span>
+                    <span class="option-score-badge">+${opt.score}점</span>
                 `;
-                button.addEventListener('click', () => submitChoice(opt.score));
-                optionsContainer.appendChild(button);
+                btn.addEventListener('click', () => submitChoice(opt.score));
+                container.appendChild(btn);
             });
         }
 
+        /* ──────────────────────────────────────────
+           선택 처리
+        ────────────────────────────────────────── */
         function submitChoice(point) {
             playSound('click');
-            const currentItem = ITEMS[state.currentIdx];
-            state.selectedScores.push(point); state.score += point; state.domainScores[currentItem.domain] += point;
-            scoreCounter.innerText = `⭐ ${state.score}점`;
+            const item = ITEMS[state.currentIdx];
+            state.selectedScores.push(point);
+            state.score += point;
+            state.domainScores[item.domain] += point;
+            document.getElementById('score-counter').innerText = `⭐ ${state.score}점`;
             state.currentIdx++;
             if (state.currentIdx < ITEMS.length) loadNextItem();
             else renderResultReport();
         }
 
+        /* ──────────────────────────────────────────
+           결과 렌더링
+        ────────────────────────────────────────── */
         function renderResultReport() {
-            let report = { grade: "하", title: "새싹 테크 스타터 🌱", desc: "아직은 신산업 기술들이 조금 낯설고 어렵게 느껴지는군요! 괜찮아요. 세상은 엄청 빠르게 변화하고 있으니 지금부터 하나씩 알아가면 된답니다. 우리 함께 흥미진진한 미래 신산업을 더 알아 가 볼까요? 🚀", style: "text-amber-400 bg-amber-400/10 border-amber-400/20 glow-amber", soundType: "low", badge: "🌱" };
+            let report = {
+                grade: "하",
+                title: "새싹 테크 스타터 🌱",
+                desc: "아직은 신산업 기술들이 조금 낯설고 어렵게 느껴지는군요! 괜찮아요. 세상은 엄청 빠르게 변화하고 있으니 지금부터 하나씩 알아가면 된답니다. 우리 함께 흥미진진한 미래 신산업을 더 알아 가 볼까요? 🚀",
+                style: "color:#fbbf24;background:rgba(245,158,11,0.12);border-color:rgba(245,158,11,0.4);",
+                soundType: "low",
+                badge: "🌱"
+            };
             if (state.score >= 40) {
-                report = { grade: "상", title: "얼리어답터 미래 테크 리더 👑", desc: "미래를 화려하게 앞서가는 완벽한 신산업 리더이시군요! 이미 첨단 산업과 디지털 트렌드에 대해 매우 잘 인지하고 폭넓게 활용하고 있네요. 앞으로 신산업의 중심에서 활약할 핵심 주역이 될 준비가 끝났습니다! 멋진 날개를 마음껏 펼쳐 보세요! 🌟", style: "text-emerald-400 bg-emerald-400/10 border-emerald-500/20 glow-emerald", soundType: "high", badge: "🏆" };
+                report = {
+                    grade: "상",
+                    title: "얼리어답터 미래 테크 리더 👑",
+                    desc: "미래를 화려하게 앞서가는 완벽한 신산업 리더이시군요! 이미 첨단 산업과 디지털 트렌드에 대해 매우 잘 인지하고 폭넓게 활용하고 있네요. 앞으로 신산업의 중심에서 활약할 핵심 주역이 될 준비가 끝났습니다! 멋진 날개를 마음껏 펼쳐 보세요! 🌟",
+                    style: "color:#34d399;background:rgba(16,185,129,0.12);border-color:rgba(16,185,129,0.4);",
+                    soundType: "high",
+                    badge: "🏆"
+                };
                 triggerConfetti();
             } else if (state.score >= 26) {
-                report = { grade: "중", title: "미래를 달리는 성장 크루 🧭", desc: "이미 멋진 출발점에 서 있군요! 평소 관심사만큼 신산업 트렌드에 늘 귀를 기울이고 유심히 살펴보고 있는 모습이 아주 훌륭합니다. 우리 함께 조금만 더 알아 가 볼까요? 세상을 깜짝 놀라게 할 트렌드 마스터가 될 날이 머지않았습니다! ✨", style: "text-cyan-400 bg-cyan-400/10 border-indigo-500/20 glow-indigo", soundType: "medium", badge: "⭐" };
+                report = {
+                    grade: "중",
+                    title: "미래를 달리는 성장 크루 🧭",
+                    desc: "이미 멋진 출발점에 서 있군요! 평소 관심사만큼 신산업 트렌드에 늘 귀를 기울이고 유심히 살펴보고 있는 모습이 아주 훌륭합니다. 우리 함께 조금만 더 알아 가 볼까요? 세상을 깜짝 놀라게 할 트렌드 마스터가 될 날이 머지않았습니다! ✨",
+                    style: "color:#22d3ee;background:rgba(34,211,238,0.12);border-color:rgba(34,211,238,0.4);",
+                    soundType: "medium",
+                    badge: "⭐"
+                };
             }
 
             playSound(report.soundType);
-            finalScore.innerText = `${state.score}점`; finalGrade.innerText = report.grade; finalGrade.className = `text-xl font-black px-4 py-1.5 rounded-full border ${report.style}`;
-            resultIconBadge.innerText = report.badge; careerTypeTitle.innerText = report.title; careerTypeDesc.innerText = report.desc;
+            document.getElementById('final-score').innerText = `${state.score}점`;
+            const gradeEl = document.getElementById('final-grade');
+            gradeEl.innerText = report.grade;
+            gradeEl.setAttribute('style', report.style + 'font-size:20px;font-weight:900;padding:6px 20px;border-radius:999px;border:2px solid;');
+            document.getElementById('result-icon-badge').innerText = report.badge;
+            document.getElementById('career-type-title').innerText = report.title;
+            document.getElementById('career-type-desc').innerText = report.desc;
 
             const domainMaxPoints = [12, 9, 12, 12];
             state.domainScores.forEach((pts, idx) => {
                 const percent = Math.round((pts / domainMaxPoints[idx]) * 100);
                 document.getElementById(`bar-pct-${idx}`).innerText = `${percent}%`;
-                setTimeout(() => { document.getElementById(`bar-fill-${idx}`).style.width = `${Math.min(percent, 100)}%`; }, 150);
+                setTimeout(() => {
+                    document.getElementById(`bar-fill-${idx}`).style.width = `${Math.min(percent, 100)}%`;
+                }, 150);
             });
-            navigateTo('result');
+
+            showScreen('result-screen');
         }
 
+        /* ──────────────────────────────────────────
+           결과 복사
+        ────────────────────────────────────────── */
         function copyResult() {
-            const tempArea = document.createElement("textarea");
-            tempArea.value = `[🚀 미래 트렌드 감지기: 신산업 친화도 테스트 결과]\n------------------------------------\n나의 종합 테크 스코어: ${finalScore.innerText} / 45점\n친화력 판정 수준: [ ${finalGrade.innerText} ] 등급\n나의 성향 타입: ${careerTypeTitle.innerText}\n\n📌 트렌드 감지기 어드바이스:\n"${careerTypeDesc.innerText}"\n\n* 본 진단은 ${new Date().getFullYear()}년 신산업 핵심 트렌드 15문항 체크리스트를 바탕으로 측정된 중학생 전용 신산업 인지도 진단서입니다.`;
-            document.body.appendChild(tempArea); tempArea.select();
-            try { if (document.execCommand('copy')) showToast(); } catch (err) { console.error(err); }
-            document.body.removeChild(tempArea);
+            const titleEl = document.getElementById('career-type-title');
+            const descEl  = document.getElementById('career-type-desc');
+            const scoreEl = document.getElementById('final-score');
+            const gradeEl = document.getElementById('final-grade');
+
+            const text = `[🚀 미래 트렌드 감지기: 신산업 친화도 테스트 결과]\n------------------------------------\n나의 종합 테크 스코어: ${scoreEl.innerText} / 45점\n친화력 판정 수준: [ ${gradeEl.innerText} ] 등급\n나의 성향 타입: ${titleEl.innerText}\n\n📌 트렌드 감지기 어드바이스:\n"${descEl.innerText}"\n\n* 본 진단은 ${new Date().getFullYear()}년 신산업 핵심 트렌드 15문항 체크리스트를 바탕으로 측정된 중학생 전용 신산업 인지도 진단서입니다.`;
+            const area = document.createElement('textarea');
+            area.value = text;
+            document.body.appendChild(area);
+            area.select();
+            try { document.execCommand('copy'); showToast(); } catch(e) {}
+            document.body.removeChild(area);
         }
 
         function showToast() {
-            toastMessage.classList.remove('opacity-0', 'scale-90'); toastMessage.classList.add('opacity-100', 'scale-100');
-            setTimeout(() => { toastMessage.classList.remove('opacity-100', 'scale-100'); toastMessage.classList.add('opacity-0', 'scale-90'); }, 2400);
+            const t = document.getElementById('toast-message');
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2400);
         }
 
-        startBtn.addEventListener('click', () => { playSound('click'); startTest(); });
-        restartBtn.addEventListener('click', () => { playSound('click'); startTest(); });
-        copyResultBtn.addEventListener('click', () => { playSound('click'); copyResult(); });
-        soundToggle.addEventListener('click', () => {
+        /* ──────────────────────────────────────────
+           이벤트 바인딩
+        ────────────────────────────────────────── */
+        document.getElementById('start-btn').addEventListener('click', () => { playSound('click'); startTest(); });
+        document.getElementById('restart-btn').addEventListener('click', () => { playSound('click'); startTest(); });
+        document.getElementById('copy-result-btn').addEventListener('click', () => { playSound('click'); copyResult(); });
+        document.getElementById('sound-toggle').addEventListener('click', () => {
             state.soundEnabled = !state.soundEnabled;
-            if (state.soundEnabled) { soundIcon.innerText = "🔊"; playSound('click'); } else { soundIcon.innerText = "🔇"; }
+            document.getElementById('sound-icon').innerText = state.soundEnabled ? '🔊' : '🔇';
+            if (state.soundEnabled) playSound('click');
         });
     </script>
 </body>
