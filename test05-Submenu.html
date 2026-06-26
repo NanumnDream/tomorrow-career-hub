@@ -4,11 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>내일탐색 - 학생 탐구용 워크북 자료실</title>
-  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- FontAwesome for Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Google Fonts (Pretendard) -->
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
 
   <style>
@@ -62,16 +59,12 @@
 </head>
 <body class="text-slate-100 min-h-screen relative overflow-x-hidden pt-10 pb-20">
 
-  <!-- Background Stars Grid -->
   <div id="stars-container" class="absolute inset-0 pointer-events-none z-0 overflow-hidden"></div>
 
-  <!-- Toast Notification Container -->
   <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-3"></div>
 
-  <!-- Main Container -->
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     
-    <!-- TOP MINI HEADER (Sleek replacing the left card with key info) -->
     <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-800/80 pb-6 mb-8 gap-4">
       <div>
         <div class="flex items-center gap-2.5">
@@ -85,7 +78,6 @@
         </p>
       </div>
 
-      <!-- Compact Progress Tracker Widget -->
       <div class="bg-[#090f26]/80 border border-emerald-500/30 rounded-2xl px-4 py-2.5 flex items-center gap-3.5 shadow-lg">
         <div class="text-right">
           <p class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">나의 다운로드 현황</p>
@@ -99,32 +91,28 @@
 
     <main class="flex flex-col gap-6">
       
-      <!-- Search & Category Filters -->
       <div class="bg-[#090f26]/40 border border-slate-800 rounded-2xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <!-- Quick Tabs -->
-        <div class="flex gap-1.5">
-          <button onclick="setCategory('all')" id="tab-all" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-white transition-all">전체보기</button>
-          <button onclick="setCategory('tech')" id="tab-tech" class="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-950 text-slate-400 hover:bg-slate-900 hover:text-cyan-400 transition-all">
+        <div class="flex gap-2">
+          <button onclick="setCategory('all')" id="tab-all" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-900 shadow-md transition-all">전체보기</button>
+          
+          <button onclick="setCategory('tech')" id="tab-tech" class="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-900 text-cyan-400 border border-cyan-500/30 hover:bg-cyan-950 transition-all">
             기술편 (9)
           </button>
-          <button onclick="setCategory('ethics')" id="tab-ethics" class="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-950 text-slate-400 hover:bg-slate-900 hover:text-fuchsia-400 transition-all">
+          
+          <button onclick="setCategory('ethics')" id="tab-ethics" class="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-900 text-fuchsia-400 border border-fuchsia-500/30 hover:bg-fuchsia-950 transition-all">
             윤리편 (6)
           </button>
         </div>
 
-        <!-- Dynamic Live Search -->
         <div class="relative w-full md:w-64">
           <input type="text" id="search-input" oninput="handleSearch()" placeholder="주제명 및 키워드로 검색..." class="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 rounded-xl py-2 pl-9 pr-4 text-xs text-slate-200 outline-none transition-all">
           <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-600 text-xs"></i>
         </div>
       </div>
 
-      <!-- Expanded 15 Topics Grid (Direct Full-Width Presentation) -->
       <div id="topics-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        <!-- Injected Dynamically by JS -->
-      </div>
+        </div>
 
-      <!-- Empty State -->
       <div id="no-results" class="hidden text-center py-24 bg-[#090f26]/20 border border-dashed border-slate-800 rounded-3xl">
         <i class="fa-solid fa-folder-open text-slate-700 text-4xl mb-4 animate-pulse"></i>
         <p class="text-slate-400 text-sm font-medium">검색어와 일치하는 주제가 없습니다.</p>
@@ -249,8 +237,8 @@
             </div>
           </div>
 
-          <button onclick="downloadHWP('${topic.id}', '${topic.title}', '${topic.fileName}')" class="w-full bg-[#10b981] hover:bg-[#059669] text-slate-950 font-black py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 download-glow transition-all">
-            <i class="fa-solid fa-file-word text-sm text-slate-950"></i> HWP 다운로드 받기
+          <button onclick="downloadHWP('${topic.id}', '${topic.title}', '${topic.fileName}')" class="w-full ${topic.category === 'tech' ? 'bg-cyan-500 hover:bg-cyan-600' : 'bg-fuchsia-500 hover:bg-fuchsia-600'} text-white font-black py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 download-glow transition-all">
+            <i class="fa-solid fa-file-word text-sm text-white"></i> HWP 다운로드 받기
           </button>
         `;
 
@@ -262,28 +250,23 @@
 
     // 실제 파일 다운로드 트리거
     function downloadHWP(id, title, fileName) {
-      // 진행 현황 카운트 저장
       if (!downloadedTopics.includes(id)) {
         downloadedTopics.push(id);
         localStorage.setItem('tomorrow_downloaded_topics', JSON.stringify(downloadedTopics));
       }
 
-      // 숨겨진 링크(a)를 만들어 실제 폴더의 파일을 다운로드하도록 유도
       const link = document.createElement('a');
       link.href = `downloads/${fileName}`;
-      link.download = `[내일탐색]학생탐구용워크북_${title}.hwp`; // 깔끔한 이름으로 저장되도록 설정
+      link.download = `[내일탐색]학생탐구용워크북_${title}.hwp`; 
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
 
-      // UI Reaction
       showToast(`📥 [${title}] HWP 다운로드를 성공적으로 마쳤습니다!`, "success");
-      
-      // Update elements instantly
       renderTopics();
     }
 
-    // Tab Switch Filter
+    // Tab Switch Filter (버튼 색상 변경 핵심 로직)
     function setCategory(cat) {
       currentCategory = cat;
       const tabs = {
@@ -292,16 +275,24 @@
         ethics: document.getElementById('tab-ethics')
       };
 
+      // 1. 모든 버튼을 기본(비활성화) 상태로 초기화합니다.
       Object.keys(tabs).forEach(k => {
-        tabs[k].className = "px-4 py-2 rounded-xl text-xs font-semibold bg-slate-950 text-slate-400 hover:bg-slate-900 transition-all";
+        if (k === 'tech') {
+          tabs[k].className = "px-4 py-2 rounded-xl text-xs font-semibold bg-slate-900 text-cyan-400 border border-cyan-500/30 hover:bg-cyan-950 transition-all";
+        } else if (k === 'ethics') {
+          tabs[k].className = "px-4 py-2 rounded-xl text-xs font-semibold bg-slate-900 text-fuchsia-400 border border-fuchsia-500/30 hover:bg-fuchsia-950 transition-all";
+        } else {
+          tabs[k].className = "px-4 py-2 rounded-xl text-xs font-semibold bg-slate-900 text-slate-300 border border-slate-700 hover:bg-slate-800 transition-all"; 
+        }
       });
 
+      // 2. 선택된 버튼만 강렬한 색상(활성화 상태)으로 변경합니다.
       if (cat === "all") {
-        tabs.all.className = "px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-white transition-all";
+        tabs.all.className = "px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-900 shadow-md transition-all";
       } else if (cat === "tech") {
-        tabs.tech.className = "px-4 py-2 rounded-xl text-xs font-bold bg-cyan-950 text-cyan-400 border border-cyan-500/20 shadow-[0_0_10px_rgba(6,182,212,0.15)] transition-all";
+        tabs.tech.className = "px-4 py-2 rounded-xl text-xs font-bold bg-cyan-500 text-slate-950 shadow-[0_0_15px_rgba(6,182,212,0.5)] transition-all";
       } else if (cat === "ethics") {
-        tabs.ethics.className = "px-4 py-2 rounded-xl text-xs font-bold bg-fuchsia-950 text-fuchsia-400 border border-fuchsia-500/20 shadow-[0_0_10px_rgba(217,70,239,0.15)] transition-all";
+        tabs.ethics.className = "px-4 py-2 rounded-xl text-xs font-bold bg-fuchsia-500 text-white shadow-[0_0_15px_rgba(217,70,239,0.5)] transition-all";
       }
 
       renderTopics();
