@@ -6,6 +6,7 @@
     <title>미래 트렌드 감지기: 나의 신산업 친화도 테스트</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
     <style>
         body {
             font-family: 'Noto Sans KR', sans-serif;
@@ -15,22 +16,22 @@
 
         /* ── 메인 카드: index 2번 박스와 동일 ── */
         .main-card {
-            background: rgba(14, 116, 144, 0.18);
-            border: 1px solid rgba(34, 211, 238, 0.35);
-            box-shadow: 0 0 40px rgba(34, 211, 238, 0.22);
+            background-color: #111111;
+            border: none;
+            box-shadow: 0 0 30px 0 rgba(255, 255, 255, 0.2);
             border-radius: 1.875rem;  /* rounded-3xl = 1.875rem */
             position: relative;
             overflow: hidden;
+
+            /* 1. 박스 안쪽 여백을 주어 글자가 벽에 붙지 않게 합니다 */
+            padding: 30px; 
+            
+            /* 2. 내용물을 수직으로 중앙 정렬하고 싶을 경우 아래 세 줄을 추가합니다 */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
-        /* 상단 3px 그라디언트 라인 */
-        .main-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #0891B2, #22D3EE);
-            border-radius: 24px 24px 0 0;
-        }
+    
 
         /* 아이콘 래퍼 */
         .icon-wrapper {

@@ -41,6 +41,22 @@
             .print-hidden, header, footer, button { display: none !important; }
             .print-block { display: block !important; }
         }
+
+        /* --- 추가된 test03 스타일 --- */
+        .main-card {
+            background-color: #111111 !important;
+            border: none !important;
+            box-shadow: 0 0 20px rgba(251, 146, 60, 0.4), 
+            0 0 60px rgba(234, 88, 12, 0.6) !important;
+            border-radius: 1.875rem !important;
+            position: relative;
+            overflow: hidden;
+            min-height: 600px;
+            padding: 50px 40px !important;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
     </style>
 </head>
 <body class="bg-[#070a13] text-slate-200 min-h-screen flex flex-col font-sans overflow-x-hidden relative">
@@ -58,13 +74,13 @@
         </button>
     </header>
 
-    <main class="w-full max-w-4xl mx-auto flex-1 p-4 sm:p-6 md:p-8 z-10 flex flex-col items-center">
+   <main class="w-full max-w-4xl mx-auto flex-1 p-4 sm:p-6 md:p-8 z-10 flex flex-col items-center justify-center">
         
-        <div id="screen-home" class="w-full max-w-xl py-6 animate-fade-in flex flex-col items-center">
-            <div class="w-full bg-[#0a0f1d] border border-slate-800 rounded-[32px] p-6 shadow-2xl relative overflow-hidden transition duration-300 hover:border-pink-500/30">
+        <div id="screen-home" class="w-full max-w-2xl py-6 animate-fade-in flex flex-col items-center">
+            <div class="w-full main-card transition duration-300 hover:border-pink-500/30">
                 <div class="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-yellow-500/50 to-transparent"></div>
                 
-                <div class="flex items-center justify-between pb-5 border-b border-slate-900/60">
+                <div class="flex items-center justify-between pb-5 border-b border-slate-900/60 w-full">
                     <div class="flex items-center gap-2">
                         <span class="text-lg">🏫</span>
                         <span class="text-[10px] sm:text-xs font-black tracking-widest text-yellow-400 uppercase font-mono">MAJOR EXPLORER</span>
@@ -74,26 +90,26 @@
                     </button>
                 </div>
 
-                <div class="flex flex-col items-center py-6">
+                <div class="flex flex-col items-center py-6 w-full">
                     <div class="relative w-24 h-24 sm:w-28 sm:h-28 rounded-[28px] bg-gradient-to-tr from-[#1E293B] to-yellow-500/20 flex items-center justify-center border border-slate-800 shadow-[0_0_30px_rgba(234,179,8,0.15)]">
                         <span class="text-5xl sm:text-6xl select-none">🎓</span>
                         <span class="absolute -top-1 right-1 bg-pink-500 text-white text-[8px] px-1.5 py-0.5 rounded-full font-black animate-pulse">EDU</span>
                     </div>
                 </div>
 
-                <div class="text-center space-y-3 px-2 sm:px-4">
+                <div class="text-center space-y-3 px-2 sm:px-4 w-full">
                     <p class="text-sm font-bold text-slate-400">목표를 향한 첫 걸음</p>
                     <h2 class="text-2xl sm:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-orange-400 to-pink-500 tracking-tight leading-tight">신산업 학업 설계</h2>
                     <p class="text-slate-400 text-xs leading-relaxed max-w-sm mx-auto">커리어넷과 대입정보포털(어디가)의 정보를 바탕으로, 미래 신산업을 이끌어갈 알짜배기 전공 학과들을 중학생 눈높이에서 쉽게 알아봅니다.</p>
                 </div>
 
-                <div class="mt-6 bg-[#060914] border border-slate-900 rounded-2xl p-4 sm:p-5 space-y-3">
+                <div class="mt-6 bg-[#060914] border border-slate-900 rounded-2xl p-4 sm:p-5 space-y-3 w-full">
                     <div class="flex items-start gap-2.5"><i class="fas fa-check-circle text-yellow-400 mt-1"></i><span class="text-xs sm:text-sm text-slate-300 font-semibold leading-relaxed">5대 유망 신산업 분야별 학과 매칭</span></div>
                     <div class="flex items-start gap-2.5"><i class="fas fa-check-circle text-yellow-400 mt-1"></i><span class="text-xs sm:text-sm text-slate-300 font-semibold leading-relaxed">중학생 눈높이에 맞춘 아주 쉬운 학과 해설</span></div>
                     <div class="flex items-start gap-2.5"><i class="fas fa-check-circle text-yellow-400 mt-1"></i><span class="text-xs sm:text-sm text-slate-300 font-semibold leading-relaxed">미리 준비하는 중학교 맞춤형 교과 추천</span></div>
                 </div>
 
-                <div class="mt-8">
+                <div class="mt-8 w-full">
                     <button onclick="changeScreen('category')" class="w-full py-4 bg-gradient-to-r from-orange-500 to-pink-600 hover:opacity-95 text-white font-extrabold text-sm sm:text-base rounded-2xl flex items-center justify-center gap-2 shadow-lg transition-transform hover:-translate-y-0.5">
                         <span>학과 탐색 시작하기 ➔</span>
                     </button>
@@ -169,10 +185,6 @@
 
     </main>
 
-    <footer class="w-full max-w-4xl mx-auto border-t border-slate-900 mt-auto py-4 text-center text-[10px] text-slate-500 print-hidden">
-        <p>© 2026 내일(Tomorrow)의 내 일(Job) 탐색 플랫폼. All rights reserved.</p>
-        <p>※ 본 학과 자료는 대입정보포털(어디가) 및 커리어넷 기반으로 중학생 눈높이에 맞게 재구성되었습니다.</p>
-    </footer>
 
     <div id="toast-message" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 scale-90 opacity-0 bg-slate-900 border border-slate-800 px-5 py-2.5 rounded-xl text-xs font-bold text-white z-50 flex items-center gap-1.5 transition-all duration-300 pointer-events-none">
         <i class="fas fa-info-circle text-yellow-400"></i><span id="toast-text">알림 메시지</span>
